@@ -116,7 +116,6 @@ export class CalendarService {
 
 
 
-
     /**
      * Return an array of days for the passed in month
      *
