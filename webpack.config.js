@@ -3,13 +3,13 @@ var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var env = process.env.WEBPACK_ENV;
 var path = require('path');
 
-var libraryName = 'LIBRARY_NAME';
+var libraryName = 'angular-json-calendar';
 
 
 var config = {
     entry: {
-        'LIBRARY_NAME': './src/index.js',
-        'LIBRARY_NAME.min': './src/index.js',
+        'angular-json-calendar': './src/index.js',
+        'angular-json-calendar.min': './src/index.js',
     },
     devtool: 'source-map',
     output: {
