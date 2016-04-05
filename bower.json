@@ -5,26 +5,26 @@
   "homepage": "https://github.com/benjamincharity/angular-json-calendar",
   "authors": [
     "Benjamin Charity <ben@benjamincharity.com>"
-    ],
-    "license": "MIT",
-    "main": "dist/angular-json-calendar.js",
-    "keywords": [
-      "angular",
-      "calendar",
-      "json",
-      "date",
-      "dates",
-      "schedule"
-    ],
-    "dependencies": {
-      "angular": "~1.4.0"
-    },
-    "ignore": [
-      "**/.*",
-      "src",
-      "node_modules",
-      "package.json",
-      "webpack.config.js"
-    ]
+  ],
+  "license": "MIT",
+  "main": "dist/angular-json-calendar.js",
+  "keywords": [
+    "angular",
+    "calendar",
+    "json",
+    "date",
+    "dates",
+    "schedule"
+  ],
+  "dependencies": {
+    "angular": "~1.4.0",
+    "moment": "^2.12.0"
+  },
+  "ignore": [
+    "**/.*",
+    "src",
+    "node_modules",
+    "package.json",
+    "webpack.config.js"
+  ]
 }
-
