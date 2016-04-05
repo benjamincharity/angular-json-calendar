@@ -1,0 +1,34 @@
+<section class="calendar">
+
+  <header class="calendar__header">
+    <span class="calendar__day" data-ng-repeat="day in days track by $index">
+      <strong class="calendar__time">
+        {{ day | weekdays:'letter' }}
+      </strong>
+    </span>
+  </header>
+
+  <div class="calendar__week" data-ng-repeat="week in weeks track by $index">
+
+    <span
+      class="calendar__day"
+      data-ng-click="selectDate(day)"
+      data-ng-repeat="day in week track by $index"
+      data-ng-class="{ 'is--disabled': isBeforeToday(day),
+                       'is--today': isToday(day)
+                     }"
+    >
+      <time
+        class="calendar__time"
+        datetime="{{ day | amDateFormat:'MMMM Do, YYYY' }}"
+        data-ng-class="{ 'is--selected': isSelectedDay(day) }"
+        title="{{ day }}"
+      >
+        {{ day | amDateFormat:'D' }}
+      </time>
+    </span>
+
+  </div>
+
+</section>
+
