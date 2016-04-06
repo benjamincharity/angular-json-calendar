@@ -4,7 +4,7 @@ export class bcCalendarConfig {
     constructor() {
 
         // The calendar will begin with today
-        this.startDate = new Date().toISOString();
+        this.startDate = moment(new Date().toISOString()).startOf('day');
 
         // The default interval type [days|weeks|months]
         this.interval = 'days';
