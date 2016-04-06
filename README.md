@@ -1,5 +1,6 @@
 # angular-json-calendar
 
+This is pre pre alpha so don't even think about it.
 
 
 _[Comments and Pull Requests welcome!][issues]_

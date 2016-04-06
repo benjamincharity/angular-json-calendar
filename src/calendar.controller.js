@@ -26,15 +26,19 @@ export class CalendarController {
         this.startDate = this.startDate || this.bcCalendarConfig.startDate;
         this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
         this.interval = this.bcInterval || this.bcCalendarConfig.interval;
-
-
-        // Define the calendar duration (or length)
-        this.duration =
-            moment.duration(this.count, this.bcCalendarConfig.interval);
-
-        // Define the style for weekday words (M vs Mon vs Monday)
         this.weekdays = this.bcWordType ?  this.bcCalendarConfig.weekdayStyle[this.bcWordType] :
                 this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
+
+        console.log('count: ', this.count);
+        console.log('interval: ', this.interval);
+
+        // Define the calendar duration (or length)
+        this.calendarDuration =
+            moment.duration(this.count, this.bcCalendarConfig.interval);
+
+        // Get the full count of days
+        this.calendarDays = this.calendarDuration.asDays();
+        console.log('calendarDays: ', this.calendarDays);
 
 
         // Get the current day of the month
@@ -56,7 +60,7 @@ export class CalendarController {
         };
 
         /*
-         *this.getDaysInMonth(DEV_DATE.year, DEV_DATE.month);
+         *this._getDaysInMonth(DEV_DATE.year, DEV_DATE.month);
          *this.isDayToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day))
          *this.isBeforeToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day));
          */
@@ -103,20 +107,47 @@ export class CalendarController {
         //
 
 
+        const fakeArray = [''];
+
+        this.build(this.startDate, this.interval);
+    }
+
+
+    build(start, duration) {
+        const startYear = moment(start).year();
+        const startMonth = moment(start).month();
+
+        console.warn('in build: ', startYear, startMonth);
+
+        let monthsBuilt = 0;
+
+        // loop to create months
+        while (monthsBuilt < duration) {
+            console.log('building another month', monthsBuilt);
+
+            const days = this._getDaysInMonth(startYear, startMonth + monthsBuilt);
+            console.log('days: ', days);
+
+
+            // increment counter
+            monthsBuilt = monthsBuilt + 1;
+        }
+
+
 
     }
 
 
-    buildMonths(year, month) {
-    }
+    /*
+     *buildWeeks() {
+     *}
+     */
 
 
-    buildWeeks() {
-    }
-
-
-    buildDays() {
-    }
+    /*
+     *buildDays() {
+     *}
+     */
 
 
     /**
@@ -157,7 +188,7 @@ export class CalendarController {
      * @param {Integer} month
      * @return {Array} days
      */
-    getDaysInMonth(year, month) {
+    _getDaysInMonth(year, month) {
         const date = new Date(year, month, 1);
         const days = [];
 
@@ -167,6 +198,52 @@ export class CalendarController {
         }
 
         return days;
+    }
+
+
+    // TODO: move to service
+    _padWeekLeft(partialWeek) {
+        console.log('in _padWeekLeft: ', partialWeek);
+        const fullWeek = partialWeek;
+        const missingDays = this._integerToArray(this.todayDayOfWeek);
+
+        console.log('missingDays: ', missingDays);
+
+        // Loop through days in current week prior to the start date to create a full first week
+        for (const day of missingDays) {
+            console.log('day in missingDays: ', day);
+            const previous = moment(this.startDate).subtract((day + 1), 'days').toISOString();
+
+            // push each to the front of the week
+            partialWeek.unshift(previous);
+        }
+
+        console.log('returing fullWeek: ', fullWeek);
+        return fullWeek;
+    }
+
+
+    // can this be part of padWeekLeft?
+    _padWeekRight() {
+    }
+
+
+    /**
+     * Turn a integer (e.g. '6') into an array: '[1,2,3,4,5,6]'
+     *
+     * @param {Integer} count
+     * @return {Array} days
+     */
+    _integerToArray(count) {
+        let i;
+        const days = [];
+
+        for (i = 0; i < count; i += 1) {
+            days.push(i);
+        }
+
+        return days;
+
     }
 
 }
