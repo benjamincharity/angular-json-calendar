@@ -13,8 +13,8 @@ export class bcCalendarConfig {
         this.count = 30;
 
         // Define the different possible representations of the weekday
-        this.weekdays = {
-            letters: [
+        this.weekdayStyle = {
+            letter: [
                 'S',
                 'M',
                 'T',
@@ -23,7 +23,7 @@ export class bcCalendarConfig {
                 'F',
                 'S',
             ],
-            abbreviations: [
+            abbreviation: [
                 'Sun',
                 'Mon',
                 'Tue',
@@ -32,7 +32,7 @@ export class bcCalendarConfig {
                 'Fri',
                 'Sat',
             ],
-            words: [
+            word: [
                 'Sunday',
                 'Monday',
                 'Tuesday',
@@ -44,7 +44,8 @@ export class bcCalendarConfig {
         };
 
         // Set the default word type (M vs Mon vs Monday)
-        this.dayWordType = 'abbreviations';
+        this.wordType = 'abbreviation';
+
 
     }
 
