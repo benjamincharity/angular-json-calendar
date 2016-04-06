@@ -1,6 +1,10 @@
-import { CalendarService } from './calendar.service';
+import { bcCalendarConfig } from './calendar.provider';
+import { bcCalendarService } from './calendar.service';
+import { bcCalendarDirective } from './calendar.directive';
 
 export default angular.module('bc.JsonCalendar', [])
-    .service('bcCalendarService', CalendarService)
+    .provider('bcCalendarConfig', bcCalendarConfig)
+    .service('bcCalendarService', bcCalendarService)
+    .directive('bcCalendar', bcCalendarDirective)
 ;
 

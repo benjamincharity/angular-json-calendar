@@ -1,7 +1,7 @@
-import { CalendarController } from './.controller';
+import { CalendarController } from './calendar.controller';
 import template from './calendar.html';
 
-export function CalendarDirective(
+export function bcCalendarDirective(
 ) {
     'ngInject';
 
@@ -9,7 +9,11 @@ export function CalendarDirective(
         restrict: 'E',
         replace: true,
         scope: {},
-        bindToController: {},
+        bindToController: {
+            bcStartDate: '@?', // date - default to today
+            bcInterval: '@?', // string days|weeks|months - defaults to month
+            bcCount: '@?', // integer - default to 1
+        },
         templateUrl: template,
         link: linkFunction,
         controller: CalendarController,
@@ -27,4 +31,5 @@ export function CalendarDirective(
     }
 
 }
+
 

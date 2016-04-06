@@ -1,4 +1,4 @@
-export class CalendarService {
+export class bcCalendarService {
 
     constructor(
     ) {
