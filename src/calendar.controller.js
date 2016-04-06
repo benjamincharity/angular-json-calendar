@@ -21,6 +21,9 @@ export class CalendarController {
         // Define the starting day of the calendar
         this.startDate = this.startDate || this.bcCalendarConfig.startDate;
 
+        // Define today's date
+        this.today = this.bcCalendarConfig.startDate;
+
         // Define the style for weekday words (M vs Mon vs Monday)
         this.weekdays = this.bcWordType ?  this.bcCalendarConfig.weekdayStyle[this.bcWordType] :
                 this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
@@ -34,15 +37,17 @@ export class CalendarController {
         this.todayDayOfWeek = moment(this.startDate).day();
 
 
-        const days = this.getDaysInMonth(2016, 3);
 
-        console.log('days: ', days);
-
-
-
+        const DEV_DATE = {
+            year: 2016,
+            month: 3,
+            day: 5,
+        };
 
         /*
-         *this.isBeforeToday(new Date(2016, 3, 5));
+         *this.getDaysInMonth(DEV_DATE.year, DEV_DATE.month);
+         *this.isDayToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day))
+         *this.isBeforeToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day));
          */
 
 
@@ -65,7 +70,14 @@ export class CalendarController {
     }
 
 
-    isDayToday() {
+    /**
+     * Check to see if the day matches the current date
+     *
+     * @param {Date} day
+     * @return {Bool}
+     */
+    isDayToday(date) {
+        return moment(date).isSame(this.startDate);
     }
 
 
