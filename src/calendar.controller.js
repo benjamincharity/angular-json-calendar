@@ -36,6 +36,10 @@ export class CalendarController {
         // Get the current weekday
         this.todayDayOfWeek = moment(this.startDate).day();
 
+        // Initially nothing is selected
+        this.selectedDate = null;
+
+
 
 
         const DEV_DATE = {
@@ -51,6 +55,36 @@ export class CalendarController {
          */
 
 
+
+
+
+        // loop through `interval` for `count` times
+        //
+        // always are building out days no matter the interval
+        // interval is merely to simplify math for the end user
+        //
+        // assume 'month'
+        // buildMonth(start month)
+        //   build out month json
+        //     get all days
+        //     formatMonth
+        //       loop through putting weeks into arrays
+        //       final collection looks like:
+        //         - collection is array of months
+        //         - months is an array of weeks
+        //         - weeks is an array of days
+        //   store month somewhere
+        //   increment counter by 1
+        //   if still less than this.count
+        //     call buildMonth again with next month
+        //
+
+
+
+    }
+
+
+    buildMonthJson(year, month) {
     }
 
 
