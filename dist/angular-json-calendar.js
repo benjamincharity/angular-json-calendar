@@ -99,14 +99,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.count = 30;
 	
 	        // Define the different possible representations of the weekday
-	        this.weekdays = {
-	            letters: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-	            abbreviations: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
-	            words: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satday']
+	        this.weekdayStyle = {
+	            letter: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+	            abbreviation: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+	            word: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satday']
 	        };
 	
 	        // Set the default word type (M vs Mon vs Monday)
-	        this.dayWordType = 'abbreviations';
+	        this.wordType = 'abbreviation';
 	    }
 	
 	    _createClass(bcCalendarConfig, [{
@@ -313,8 +313,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcStartDate: '@?', // date - default to today
 	            bcInterval: '@?', // string days|weeks|months - defaults to month
 	            bcCount: '@?', // integer - default to 1
-	            bcDayWordType: '@?' // string - default to 'abbreviations'
-	        },
+	            bcWordType: '@?' },
+	        // string - default to 'abbreviation'
 	        templateUrl: _calendar3.default,
 	        link: linkFunction,
 	        controller: _calendar.CalendarController,
@@ -364,11 +364,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Define the starting day of the calendar
 	            this.startDate = this.startDate || this.bcCalendarConfig.startDate;
 	
+	            console.log('this.bcWordType: ', this.bcWordType);
+	
 	            // Define the style for weekday words (M vs Mon vs Monday)
-	            this.weekdays = this.bcDayWordType ? this.bcCalendarConfig.weekdays[this.bcDayWordType] : this.bcCalendarConfig.weekdays[this.bcCalendarConfig.dayWordType];
+	            this.weekdays = this.bcWordType ? this.bcCalendarConfig.weekdayStyle[this.bcWordType] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
 	
 	            console.log('startDate: ', this.startDate);
-	            console.log('weekdays: ', this.weekdays);
+	            console.log('weekdayssss: ', this.weekdays);
 	        }
 	
 	        /**
@@ -409,7 +411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/calendar.html';
-	var html = "<section class=calendar> <header class=calendar__header> <span class=calendar__day data-ng-repeat=\"day in vm.days track by $index\"> <strong class=calendar__time> {{ day }} </strong> </span> </header> <div class=calendar__week data-ng-repeat=\"week in vm.weeks track by $index\"> <span class=calendar__day data-ng-class=\"{ 'calendar__day--disabled': vm.isBeforeToday(day),\n                       'calendar__day--today': vm.isDayToday(day) }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in week track by $index\"> <time class=calendar__time data-ng-class=\"{ 'calendar__time--selected': vm.isDaySelected(day) }\" datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" title=\"{{ day }}\"> {{ day | date:'D' }} </time> </span> </div> </section>";
+	var html = "<section class=calendar> <header class=calendar__header> <span class=calendar__day data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=calendar__time> {{ day }} </strong> </span> </header> <div class=calendar__week data-ng-repeat=\"week in vm.weeks track by $index\"> <span class=calendar__day data-ng-class=\"{ 'calendar__day--disabled': vm.isBeforeToday(day),\n                       'calendar__day--today': vm.isDayToday(day) }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in week track by $index\"> <time class=calendar__time data-ng-class=\"{ 'calendar__time--selected': vm.isDaySelected(day) }\" datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" title=\"{{ day }}\"> {{ day | date:'D' }} </time> </span> </div> </section>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
