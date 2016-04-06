@@ -40,21 +40,18 @@ export class bcCalendarService {
      * @param {Date} date2
      * @return {Bool} match
      */
-    /*
-     *    monthsMatch(date1, date2) {
-     *
-     *        let match = false;
-     *        const month1 = moment(date1).month();
-     *        const month2 = moment(date2).month();
-     *
-     *        if (month1 === month2) {
-     *            match = true;
-     *        }
-     *
-     *        return match;
-     *
-     *    }
-     */
+    doMonthsMatch(date1, date2) {
+        let match = false;
+        const month1 = moment(date1).month();
+        const month2 = moment(date2).month();
+
+        if (month1 === month2) {
+            match = true;
+        }
+
+        return match;
+
+    }
 
 
     /**
