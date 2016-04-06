@@ -397,7 +397,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            };
 	
 	            /*
-	             *this._getDaysInMonth(DEV_DATE.year, DEV_DATE.month);
+	             *this._getDaysInMonth(this.startDate);
 	             *this.isDayToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day))
 	             *this.isBeforeToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day));
 	             */
@@ -441,28 +441,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var fakeArray = [''];
 	
-	            this.build(this.startDate, this.interval);
+	            this.build(this.startDate, 1);
 	        }
 	    }, {
 	        key: 'build',
 	        value: function build(start, duration) {
-	            var startYear = moment(start).year();
-	            var startMonth = moment(start).month();
+	            console.warn('in build: ', start, duration);
 	
-	            console.warn('in build: ', startYear, startMonth);
-	
+	            var collection = [];
 	            var monthsBuilt = 0;
 	
 	            // loop to create months
 	            while (monthsBuilt < duration) {
-	                console.log('building another month', monthsBuilt);
+	                console.log('building a month', monthsBuilt, moment(start).add(monthsBuilt, 'months'));
 	
-	                var days = this._getDaysInMonth(startYear, startMonth + monthsBuilt);
+	                var days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
 	                console.log('days: ', days);
+	
+	                // Add month to collection
+	                collection.push(days);
 	
 	                // increment counter
 	                monthsBuilt = monthsBuilt + 1;
 	            }
+	
+	            console.log('collection: ', collection);
 	        }
 	
 	        /*
@@ -511,75 +514,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /**
 	         * Return an array of dates for the passed in month
 	         *
-	         * @param {Integer} year
-	         * @param {Integer} month
+	         * @param {Date} startDate
 	         * @return {Array} days
 	         */
 	
 	    }, {
 	        key: '_getDaysInMonth',
-	        value: function _getDaysInMonth(year, month) {
-	            var date = new Date(year, month, 1);
+	        value: function _getDaysInMonth(startDate) {
+	            var firstDate = moment(startDate).startOf('month');
 	            var days = [];
+	            var date = moment(startDate).startOf('month');
 	
-	            while (date.getMonth() === month) {
+	            // As long as the month hasn't changed
+	            while (moment(date).isSame(firstDate, 'month')) {
+	                // Add the new day to our array
 	                days.push(moment(date).startOf('day').format());
-	                date.setDate(date.getDate() + 1);
+	
+	                // Increment the date by one day
+	                date = moment(date).add(1, 'days');
 	            }
 	
 	            return days;
 	        }
-	
-	        // TODO: move to service
-	
-	    }, {
-	        key: '_padWeekLeft',
-	        value: function _padWeekLeft(partialWeek) {
-	            console.log('in _padWeekLeft: ', partialWeek);
-	            var fullWeek = partialWeek;
-	            var missingDays = this._integerToArray(this.todayDayOfWeek);
-	
-	            console.log('missingDays: ', missingDays);
-	
-	            // Loop through days in current week prior to the start date to create a full first week
-	            var _iteratorNormalCompletion = true;
-	            var _didIteratorError = false;
-	            var _iteratorError = undefined;
-	
-	            try {
-	                for (var _iterator = missingDays[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	                    var day = _step.value;
-	
-	                    console.log('day in missingDays: ', day);
-	                    var previous = moment(this.startDate).subtract(day + 1, 'days').toISOString();
-	
-	                    // push each to the front of the week
-	                    partialWeek.unshift(previous);
-	                }
-	            } catch (err) {
-	                _didIteratorError = true;
-	                _iteratorError = err;
-	            } finally {
-	                try {
-	                    if (!_iteratorNormalCompletion && _iterator.return) {
-	                        _iterator.return();
-	                    }
-	                } finally {
-	                    if (_didIteratorError) {
-	                        throw _iteratorError;
-	                    }
-	                }
-	            }
-	
-	            console.log('returing fullWeek: ', fullWeek);
-	            return fullWeek;
-	        }
-	
-	        // can this be part of padWeekLeft?
-	
-	    }, {
-	        key: '_padWeekRight',
-	        value: function _padWeekRight() {}
 	
 	        /**
 	         * Turn a integer (e.g. '6') into an array: '[1,2,3,4,5,6]'

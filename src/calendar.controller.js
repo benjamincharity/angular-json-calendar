@@ -60,7 +60,7 @@ export class CalendarController {
         };
 
         /*
-         *this._getDaysInMonth(DEV_DATE.year, DEV_DATE.month);
+         *this._getDaysInMonth(this.startDate);
          *this.isDayToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day))
          *this.isBeforeToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day));
          */
@@ -109,30 +109,33 @@ export class CalendarController {
 
         const fakeArray = [''];
 
-        this.build(this.startDate, this.interval);
+        this.build(this.startDate, 1);
+
     }
 
 
     build(start, duration) {
-        const startYear = moment(start).year();
-        const startMonth = moment(start).month();
+        console.warn('in build: ', start, duration);
 
-        console.warn('in build: ', startYear, startMonth);
-
+        const collection = [];
         let monthsBuilt = 0;
 
         // loop to create months
         while (monthsBuilt < duration) {
-            console.log('building another month', monthsBuilt);
+            console.log('building a month',
+                        monthsBuilt, moment(start).add(monthsBuilt, 'months'));
 
-            const days = this._getDaysInMonth(startYear, startMonth + monthsBuilt);
+            const days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
             console.log('days: ', days);
 
+            // Add month to collection
+            collection.push(days);
 
             // increment counter
             monthsBuilt = monthsBuilt + 1;
         }
 
+        console.log('collection: ', collection);
 
 
     }
@@ -184,47 +187,24 @@ export class CalendarController {
     /**
      * Return an array of dates for the passed in month
      *
-     * @param {Integer} year
-     * @param {Integer} month
+     * @param {Date} startDate
      * @return {Array} days
      */
-    _getDaysInMonth(year, month) {
-        const date = new Date(year, month, 1);
+    _getDaysInMonth(startDate) {
+        const firstDate = moment(startDate).startOf('month');
         const days = [];
+        let date = moment(startDate).startOf('month');
 
-        while (date.getMonth() === month) {
+        // As long as the month hasn't changed
+        while (moment(date).isSame(firstDate, 'month')) {
+            // Add the new day to our array
             days.push(moment(date).startOf('day').format());
-            date.setDate(date.getDate() + 1);
+
+            // Increment the date by one day
+            date = moment(date).add(1, 'days');
         }
 
         return days;
-    }
-
-
-    // TODO: move to service
-    _padWeekLeft(partialWeek) {
-        console.log('in _padWeekLeft: ', partialWeek);
-        const fullWeek = partialWeek;
-        const missingDays = this._integerToArray(this.todayDayOfWeek);
-
-        console.log('missingDays: ', missingDays);
-
-        // Loop through days in current week prior to the start date to create a full first week
-        for (const day of missingDays) {
-            console.log('day in missingDays: ', day);
-            const previous = moment(this.startDate).subtract((day + 1), 'days').toISOString();
-
-            // push each to the front of the week
-            partialWeek.unshift(previous);
-        }
-
-        console.log('returing fullWeek: ', fullWeek);
-        return fullWeek;
-    }
-
-
-    // can this be part of padWeekLeft?
-    _padWeekRight() {
     }
 
 
