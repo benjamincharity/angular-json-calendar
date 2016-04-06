@@ -7,10 +7,10 @@ export class bcCalendarConfig {
         this.startDate = moment(new Date().toISOString()).startOf('day');
 
         // The default interval type [days|weeks|months]
-        this.interval = 'days';
+        this.interval = 'months';
 
         // How many of the interval type should be generated
-        this.count = 30;
+        this.count = 1;
 
         // Define the different possible representations of the weekday
         this.weekdayStyle = {

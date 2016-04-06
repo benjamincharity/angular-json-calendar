@@ -18,17 +18,24 @@ export class CalendarController {
 
 
     _activate() {
-        // Define the starting day of the calendar
-        this.startDate = this.startDate || this.bcCalendarConfig.startDate;
 
         // Define today's date
         this.today = this.bcCalendarConfig.startDate;
+
+        // DEFAULTS
+        this.startDate = this.startDate || this.bcCalendarConfig.startDate;
+        this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
+        this.interval = this.bcInterval || this.bcCalendarConfig.interval;
+
+
+        // Define the calendar duration (or length)
+        this.duration =
+            moment.duration(this.count, this.bcCalendarConfig.interval);
 
         // Define the style for weekday words (M vs Mon vs Monday)
         this.weekdays = this.bcWordType ?  this.bcCalendarConfig.weekdayStyle[this.bcWordType] :
                 this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
 
-        console.log('startDate: ', this.startDate);
 
         // Get the current day of the month
         this.todayDayOfMonth = moment(this.startDate).date();
@@ -63,6 +70,22 @@ export class CalendarController {
         // always are building out days no matter the interval
         // interval is merely to simplify math for the end user
         //
+        // if ask for 2 days
+        //   collection is array with single item (month)
+        //   month is array with single item (week)
+        //   if weeks are turned ON
+        //     week is array with 7 items (days) (backfilled for missing days)
+        //   if weeks are turned OFF
+        //     week is array with 2 items (days)
+        //
+        // if ask for 2 weeks
+        //   collection is array with single item (month)
+        //   month is array with 2 items (weeks)
+        //   weeks are arrays with 7 items (days)
+        //   if weeks are turned ON
+        //     backfill for missing days
+        //
+        //
         // assume 'month'
         // buildMonth(start month)
         //   build out month json
@@ -84,7 +107,15 @@ export class CalendarController {
     }
 
 
-    buildMonthJson(year, month) {
+    buildMonths(year, month) {
+    }
+
+
+    buildWeeks() {
+    }
+
+
+    buildDays() {
     }
 
 

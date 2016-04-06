@@ -93,10 +93,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.startDate = moment(new Date().toISOString()).startOf('day');
 	
 	        // The default interval type [days|weeks|months]
-	        this.interval = 'days';
+	        this.interval = 'months';
 	
 	        // How many of the interval type should be generated
-	        this.count = 30;
+	        this.count = 1;
 	
 	        // Define the different possible representations of the weekday
 	        this.weekdayStyle = {
@@ -361,22 +361,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(CalendarController, [{
 	        key: '_activate',
 	        value: function _activate() {
-	            // Define the starting day of the calendar
-	            this.startDate = this.startDate || this.bcCalendarConfig.startDate;
 	
 	            // Define today's date
 	            this.today = this.bcCalendarConfig.startDate;
 	
+	            // DEFAULTS
+	            this.startDate = this.startDate || this.bcCalendarConfig.startDate;
+	            this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
+	            this.interval = this.bcInterval || this.bcCalendarConfig.interval;
+	
+	            // Define the calendar duration (or length)
+	            this.duration = moment.duration(this.count, this.bcCalendarConfig.interval);
+	
 	            // Define the style for weekday words (M vs Mon vs Monday)
 	            this.weekdays = this.bcWordType ? this.bcCalendarConfig.weekdayStyle[this.bcWordType] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
-	
-	            console.log('startDate: ', this.startDate);
 	
 	            // Get the current day of the month
 	            this.todayDayOfMonth = moment(this.startDate).date();
 	
 	            // Get the current weekday
 	            this.todayDayOfWeek = moment(this.startDate).day();
+	
+	            // Initially nothing is selected
+	            this.selectedDate = null;
 	
 	            var DEV_DATE = {
 	                year: 2016,
@@ -389,7 +396,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	             *this.isDayToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day))
 	             *this.isBeforeToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day));
 	             */
+	
+	            // loop through `interval` for `count` times
+	            //
+	            // always are building out days no matter the interval
+	            // interval is merely to simplify math for the end user
+	            //
+	            // if ask for 2 days
+	            //   collection is array with single item (month)
+	            //   month is array with single item (week)
+	            //   if weeks are turned ON
+	            //     week is array with 7 items (days) (backfilled for missing days)
+	            //   if weeks are turned OFF
+	            //     week is array with 2 items (days)
+	            //
+	            // if ask for 2 weeks
+	            //   collection is array with single item (month)
+	            //   month is array with 2 items (weeks)
+	            //   weeks are arrays with 7 items (days)
+	            //   if weeks are turned ON
+	            //     backfill for missing days
+	            //
+	            //
+	            // assume 'month'
+	            // buildMonth(start month)
+	            //   build out month json
+	            //     get all days
+	            //     formatMonth
+	            //       loop through putting weeks into arrays
+	            //       final collection looks like:
+	            //         - collection is array of months
+	            //         - months is an array of weeks
+	            //         - weeks is an array of days
+	            //   store month somewhere
+	            //   increment counter by 1
+	            //   if still less than this.count
+	            //     call buildMonth again with next month
+	            //
 	        }
+	    }, {
+	        key: 'buildMonths',
+	        value: function buildMonths(year, month) {}
+	    }, {
+	        key: 'buildWeeks',
+	        value: function buildWeeks() {}
+	    }, {
+	        key: 'buildDays',
+	        value: function buildDays() {}
 	
 	        /**
 	         * Check to see if the day is prior to the current date
