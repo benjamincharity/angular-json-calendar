@@ -21,7 +21,12 @@ export class CalendarController {
         // Define the starting day of the calendar
         this.startDate = this.startDate || this.bcCalendarConfig.startDate;
 
+        // Define the style for weekday words (M vs Mon vs Monday)
+        this.weekdays = this.bcDayWordType ?  this.bcCalendarConfig.weekdays[this.bcDayWordType] :
+                this.bcCalendarConfig.weekdays[this.bcCalendarConfig.dayWordType];
+
         console.log('startDate: ', this.startDate);
+        console.log('weekdays: ', this.weekdays);
 
 
     }
@@ -45,11 +50,11 @@ export class CalendarController {
     }
 
 
-    isSelectedDay() {
+    isDaySelected() {
     }
 
 
-    isToday() {
+    isDayToday() {
     }
 
 

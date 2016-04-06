@@ -1,27 +1,26 @@
 <section class="calendar">
 
   <header class="calendar__header">
-    <span class="calendar__day" data-ng-repeat="day in days track by $index">
+    <span class="calendar__day" data-ng-repeat="day in vm.days track by $index">
       <strong class="calendar__time">
         {{ day }}
       </strong>
     </span>
   </header>
 
-  <div class="calendar__week" data-ng-repeat="week in weeks track by $index">
+  <div class="calendar__week" data-ng-repeat="week in vm.weeks track by $index">
 
     <span
       class="calendar__day"
-      data-ng-click="selectDate(day)"
+      data-ng-class="{ 'calendar__day--disabled': vm.isBeforeToday(day),
+                       'calendar__day--today': vm.isDayToday(day) }"
+      data-ng-click="vm.selectDate(day)"
       data-ng-repeat="day in week track by $index"
-      data-ng-class="{ 'is--disabled': isBeforeToday(day),
-                       'is--today': isToday(day)
-                     }"
     >
       <time
         class="calendar__time"
+        data-ng-class="{ 'calendar__time--selected': vm.isDaySelected(day) }"
         datetime="{{ day | date:'MMMM Do, YYYY' }}"
-        data-ng-class="{ 'is--selected': isSelectedDay(day) }"
         title="{{ day }}"
       >
         {{ day | date:'D' }}
