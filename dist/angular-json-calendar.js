@@ -62,10 +62,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _calendar = __webpack_require__(1);
 	
-	exports.default = angular.module('bc.JsonCalendar', []).service('bcCalendarService', _calendar.CalendarService);
+	var _calendar2 = __webpack_require__(2);
+	
+	var _calendar3 = __webpack_require__(3);
+	
+	exports.default = angular.module('bc.JsonCalendar', []).provider('bcCalendarConfig', _calendar.bcCalendarConfig).service('bcCalendarService', _calendar2.bcCalendarService).directive('bcCalendar', _calendar3.bcCalendarDirective);
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var bcCalendarConfig = exports.bcCalendarConfig = function () {
+	
+	    // Define defaults
+	
+	    function bcCalendarConfig() {
+	        _classCallCheck(this, bcCalendarConfig);
+	
+	        // The calendar will begin with today
+	        this.startDate = new Date().toISOString();
+	
+	        // The default interval type [days|weeks|months]
+	        this.interval = 'months';
+	
+	        // How many 'months' should be generated
+	        this.count = 1;
+	    }
+	
+	    _createClass(bcCalendarConfig, [{
+	        key: '$get',
+	        value: function $get() {
+	            return this;
+	        }
+	    }]);
+	
+	    return bcCalendarConfig;
+	}();
+
+/***/ },
+/* 2 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -78,11 +123,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var CalendarService = exports.CalendarService = function () {
-	  function CalendarService() {
+	var bcCalendarService = exports.bcCalendarService = function () {
+	  function bcCalendarService() {
 	    'ngInject';
 	
-	    _classCallCheck(this, CalendarService);
+	    _classCallCheck(this, bcCalendarService);
 	  }
 	
 	  /**
@@ -189,7 +234,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	
 	
-	  _createClass(CalendarService, [{
+	  _createClass(bcCalendarService, [{
 	    key: 'getDaysInMonth',
 	    value: function getDaysInMonth(month, year) {
 	
@@ -226,8 +271,102 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }]);
 	
-	  return CalendarService;
+	  return bcCalendarService;
 	}();
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.bcCalendarDirective = bcCalendarDirective;
+	
+	var _calendar = __webpack_require__(4);
+	
+	var _calendar2 = __webpack_require__(5);
+	
+	var _calendar3 = _interopRequireDefault(_calendar2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function bcCalendarDirective() {
+	    'ngInject';
+	
+	    var directive = {
+	        restrict: 'E',
+	        replace: true,
+	        scope: {},
+	        bindToController: {
+	            bcStartDate: '@?', // date - default to today
+	            bcInterval: '@?', // string days|weeks|months - defaults to month
+	            bcCount: '@?' },
+	        // integer - default to 1
+	        templateUrl: _calendar3.default,
+	        link: linkFunction,
+	        controller: _calendar.CalendarController,
+	        controllerAs: 'vm'
+	    };
+	
+	    return directive;
+	
+	    /**
+	     * Link
+	     */
+	    function linkFunction($scope, $element, $attrs, vm) {}
+	}
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var CalendarController = exports.CalendarController = function () {
+	    CalendarController.$inject = ["bcCalendarConfig"];
+	    function CalendarController(bcCalendarConfig) {
+	        'ngInject';
+	
+	        _classCallCheck(this, CalendarController);
+	
+	        this.bcCalendarConfig = bcCalendarConfig;
+	
+	        console.log('config: ', bcCalendarConfig);
+	
+	        this._activate();
+	    }
+	
+	    _createClass(CalendarController, [{
+	        key: '_activate',
+	        value: function _activate() {
+	            this.startDate = this.startDate || this.bcCalendarConfig.startDate;
+	
+	            console.log('startDate: ', this.startDate);
+	        }
+	    }]);
+	
+	    return CalendarController;
+	}();
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/calendar.html';
+	var html = "<section class=calendar> <header class=calendar__header> <span class=calendar__day data-ng-repeat=\"day in days track by $index\"> <strong class=calendar__time> {{ day | weekdays:'letter' }} </strong> </span> </header> <div class=calendar__week data-ng-repeat=\"week in weeks track by $index\"> <span class=calendar__day data-ng-click=selectDate(day) data-ng-repeat=\"day in week track by $index\" data-ng-class=\"{ 'is--disabled': isBeforeToday(day),\n                       'is--today': isToday(day)\n                     }\"> <time class=calendar__time datetime=\"{{ day | amDateFormat:'MMMM Do, YYYY' }}\" data-ng-class=\"{ 'is--selected': isSelectedDay(day) }\" title=\"{{ day }}\"> {{ day | amDateFormat:'D' }} </time> </span> </div> </section>";
+	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
 
 /***/ }
 /******/ ])
