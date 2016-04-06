@@ -93,10 +93,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.startDate = new Date().toISOString();
 	
 	        // The default interval type [days|weeks|months]
-	        this.interval = 'months';
+	        this.interval = 'days';
 	
-	        // How many 'months' should be generated
-	        this.count = 1;
+	        // How many of the interval type should be generated
+	        this.count = 30;
+	
+	        // Define the different possible representations of the weekday
+	        this.weekdays = {
+	            letters: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+	            abbreviations: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+	            words: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satday']
+	        };
+	
+	        // Set the default word type (M vs Mon vs Monday)
+	        this.dayWordType = 'abbreviations';
 	    }
 	
 	    _createClass(bcCalendarConfig, [{
@@ -302,8 +312,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        bindToController: {
 	            bcStartDate: '@?', // date - default to today
 	            bcInterval: '@?', // string days|weeks|months - defaults to month
-	            bcCount: '@?' },
-	        // integer - default to 1
+	            bcCount: '@?', // integer - default to 1
+	            bcDayWordType: '@?' // string - default to 'abbreviations'
+	        },
 	        templateUrl: _calendar3.default,
 	        link: linkFunction,
 	        controller: _calendar.CalendarController,
@@ -353,7 +364,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Define the starting day of the calendar
 	            this.startDate = this.startDate || this.bcCalendarConfig.startDate;
 	
+	            // Define the style for weekday words (M vs Mon vs Monday)
+	            this.weekdays = this.bcDayWordType ? this.bcCalendarConfig.weekdays[this.bcDayWordType] : this.bcCalendarConfig.weekdays[this.bcCalendarConfig.dayWordType];
+	
 	            console.log('startDate: ', this.startDate);
+	            console.log('weekdays: ', this.weekdays);
 	        }
 	
 	        /**
@@ -376,11 +391,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return doMonthsMatch && dateDayOfMonth < todayOfMonth;
 	        }
 	    }, {
-	        key: 'isSelectedDay',
-	        value: function isSelectedDay() {}
+	        key: 'isDaySelected',
+	        value: function isDaySelected() {}
 	    }, {
-	        key: 'isToday',
-	        value: function isToday() {}
+	        key: 'isDayToday',
+	        value: function isDayToday() {}
 	    }, {
 	        key: 'selectDate',
 	        value: function selectDate() {}
@@ -394,7 +409,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/calendar.html';
-	var html = "<section class=calendar> <header class=calendar__header> <span class=calendar__day data-ng-repeat=\"day in days track by $index\"> <strong class=calendar__time> {{ day }} </strong> </span> </header> <div class=calendar__week data-ng-repeat=\"week in weeks track by $index\"> <span class=calendar__day data-ng-click=selectDate(day) data-ng-repeat=\"day in week track by $index\" data-ng-class=\"{ 'is--disabled': isBeforeToday(day),\n                       'is--today': isToday(day)\n                     }\"> <time class=calendar__time datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" data-ng-class=\"{ 'is--selected': isSelectedDay(day) }\" title=\"{{ day }}\"> {{ day | date:'D' }} </time> </span> </div> </section>";
+	var html = "<section class=calendar> <header class=calendar__header> <span class=calendar__day data-ng-repeat=\"day in vm.days track by $index\"> <strong class=calendar__time> {{ day }} </strong> </span> </header> <div class=calendar__week data-ng-repeat=\"week in vm.weeks track by $index\"> <span class=calendar__day data-ng-class=\"{ 'calendar__day--disabled': vm.isBeforeToday(day),\n                       'calendar__day--today': vm.isDayToday(day) }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in week track by $index\"> <time class=calendar__time data-ng-class=\"{ 'calendar__time--selected': vm.isDaySelected(day) }\" datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" title=\"{{ day }}\"> {{ day | date:'D' }} </time> </span> </div> </section>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
