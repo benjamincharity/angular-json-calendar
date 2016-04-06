@@ -7,10 +7,44 @@ export class bcCalendarConfig {
         this.startDate = new Date().toISOString();
 
         // The default interval type [days|weeks|months]
-        this.interval = 'months';
+        this.interval = 'days';
 
-        // How many 'months' should be generated
-        this.count = 1;
+        // How many of the interval type should be generated
+        this.count = 30;
+
+        // Define the different possible representations of the weekday
+        this.weekdays = {
+            letters: [
+                'S',
+                'M',
+                'T',
+                'W',
+                'T',
+                'F',
+                'S',
+            ],
+            abbreviations: [
+                'Sun',
+                'Mon',
+                'Tue',
+                'Wed',
+                'Thur',
+                'Fri',
+                'Sat',
+            ],
+            words: [
+                'Sunday',
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Satday',
+            ],
+        };
+
+        // Set the default word type (M vs Mon vs Monday)
+        this.dayWordType = 'abbreviations';
 
     }
 
