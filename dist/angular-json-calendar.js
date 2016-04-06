@@ -160,81 +160,80 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {Date} date2
 	   * @return {Bool} match
 	   */
-	  /*
-	   *    monthsMatch(date1, date2) {
-	   *
-	   *        let match = false;
-	   *        const month1 = moment(date1).month();
-	   *        const month2 = moment(date2).month();
-	   *
-	   *        if (month1 === month2) {
-	   *            match = true;
-	   *        }
-	   *
-	   *        return match;
-	   *
-	   *    }
-	   */
-	
-	  /**
-	   * Test if day is today
-	   *
-	   * @param {Date} date - The date to check
-	   * @param {Date} today - The day to check against
-	   * @return {Bool} isToday
-	   */
-	  /*
-	   *    isToday(date, today) {
-	   *
-	   *        today = moment(today).startOf('day');
-	   *
-	   *        const dayToTest = moment(date).startOf('day');
-	   *        const isToday = today.diff(dayToTest) ? false : true;
-	   *
-	   *        return isToday;
-	   *
-	   *    }
-	   */
-	
-	  /**
-	   * Update the date with the current time
-	   *
-	   * @param {Date} date
-	   * @return {Date} updatedDate
-	   */
-	  /*
-	   *    updateTime(date) {
-	   *
-	   *        let updatedDate;
-	   *
-	   *        // Get the current date
-	   *        const jsDate = new Date().toISOString();
-	   *        const currentHour = moment(jsDate).hour();
-	   *        const currentMinutes = moment(jsDate).minutes();
-	   *
-	   *        // Zero out seconds and milliseconds
-	   *        updatedDate = moment(date).set({
-	   *            hour: currentHour,
-	   *            minutes: currentMinutes,
-	   *            second: 0,
-	   *            millisecond: 0,
-	   *        }).format();
-	   *
-	   *        return updatedDate;
-	   *
-	   *    }
-	   */
-	
-	  /**
-	   * Return an array of days for the passed in month
-	   *
-	   * @param {Integer} month
-	   * @param {Integer} year
-	   * @return {Array} days
-	   */
 	
 	
 	  _createClass(bcCalendarService, [{
+	    key: 'doMonthsMatch',
+	    value: function doMonthsMatch(date1, date2) {
+	      var match = false;
+	      var month1 = moment(date1).month();
+	      var month2 = moment(date2).month();
+	
+	      if (month1 === month2) {
+	        match = true;
+	      }
+	
+	      return match;
+	    }
+	
+	    /**
+	     * Test if day is today
+	     *
+	     * @param {Date} date - The date to check
+	     * @param {Date} today - The day to check against
+	     * @return {Bool} isToday
+	     */
+	    /*
+	     *    isToday(date, today) {
+	     *
+	     *        today = moment(today).startOf('day');
+	     *
+	     *        const dayToTest = moment(date).startOf('day');
+	     *        const isToday = today.diff(dayToTest) ? false : true;
+	     *
+	     *        return isToday;
+	     *
+	     *    }
+	     */
+	
+	    /**
+	     * Update the date with the current time
+	     *
+	     * @param {Date} date
+	     * @return {Date} updatedDate
+	     */
+	    /*
+	     *    updateTime(date) {
+	     *
+	     *        let updatedDate;
+	     *
+	     *        // Get the current date
+	     *        const jsDate = new Date().toISOString();
+	     *        const currentHour = moment(jsDate).hour();
+	     *        const currentMinutes = moment(jsDate).minutes();
+	     *
+	     *        // Zero out seconds and milliseconds
+	     *        updatedDate = moment(date).set({
+	     *            hour: currentHour,
+	     *            minutes: currentMinutes,
+	     *            second: 0,
+	     *            millisecond: 0,
+	     *        }).format();
+	     *
+	     *        return updatedDate;
+	     *
+	     *    }
+	     */
+	
+	    /**
+	     * Return an array of days for the passed in month
+	     *
+	     * @param {Integer} month
+	     * @param {Integer} year
+	     * @return {Array} days
+	     */
+	
+	  }, {
 	    key: 'getDaysInMonth',
 	    value: function getDaysInMonth(month, year) {
 	
@@ -334,13 +333,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var CalendarController = exports.CalendarController = function () {
-	    CalendarController.$inject = ["bcCalendarConfig"];
-	    function CalendarController(bcCalendarConfig) {
+	    CalendarController.$inject = ["bcCalendarConfig", "bcCalendarService"];
+	    function CalendarController(bcCalendarConfig, bcCalendarService) {
 	        'ngInject';
 	
 	        _classCallCheck(this, CalendarController);
 	
 	        this.bcCalendarConfig = bcCalendarConfig;
+	        this.bcCalendarService = bcCalendarService;
 	
 	        console.log('config: ', bcCalendarConfig);
 	
@@ -350,10 +350,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(CalendarController, [{
 	        key: '_activate',
 	        value: function _activate() {
+	            // Define the starting day of the calendar
 	            this.startDate = this.startDate || this.bcCalendarConfig.startDate;
 	
 	            console.log('startDate: ', this.startDate);
 	        }
+	
+	        /**
+	         * Check to see if the day is prior to the current date
+	         * This is used to disable the unselectable days
+	         * TODO: Can I really not just compare dates?
+	         *
+	         * @param {Date} day
+	         * @return {Bool} isBefore
+	         */
+	
+	    }, {
+	        key: 'isBeforeToday',
+	        value: function isBeforeToday(date) {
+	            var dateDayOfMonth = moment(date).date();
+	            var doMonthsMatch = this.bcCalendarService.doMonthsMatch(this.startDate, date);
+	            var todayOfMonth = moment(this.startDate).date();
+	
+	            // If both days are in the same month and the passed day comes earlier than today
+	            return doMonthsMatch && dateDayOfMonth < todayOfMonth;
+	        }
+	    }, {
+	        key: 'isSelectedDay',
+	        value: function isSelectedDay() {}
+	    }, {
+	        key: 'isToday',
+	        value: function isToday() {}
+	    }, {
+	        key: 'selectDate',
+	        value: function selectDate() {}
 	    }]);
 	
 	    return CalendarController;
@@ -364,7 +394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/calendar.html';
-	var html = "<section class=calendar> <header class=calendar__header> <span class=calendar__day data-ng-repeat=\"day in days track by $index\"> <strong class=calendar__time> {{ day | weekdays:'letter' }} </strong> </span> </header> <div class=calendar__week data-ng-repeat=\"week in weeks track by $index\"> <span class=calendar__day data-ng-click=selectDate(day) data-ng-repeat=\"day in week track by $index\" data-ng-class=\"{ 'is--disabled': isBeforeToday(day),\n                       'is--today': isToday(day)\n                     }\"> <time class=calendar__time datetime=\"{{ day | amDateFormat:'MMMM Do, YYYY' }}\" data-ng-class=\"{ 'is--selected': isSelectedDay(day) }\" title=\"{{ day }}\"> {{ day | amDateFormat:'D' }} </time> </span> </div> </section>";
+	var html = "<section class=calendar> <header class=calendar__header> <span class=calendar__day data-ng-repeat=\"day in days track by $index\"> <strong class=calendar__time> {{ day }} </strong> </span> </header> <div class=calendar__week data-ng-repeat=\"week in weeks track by $index\"> <span class=calendar__day data-ng-click=selectDate(day) data-ng-repeat=\"day in week track by $index\" data-ng-class=\"{ 'is--disabled': isBeforeToday(day),\n                       'is--today': isToday(day)\n                     }\"> <time class=calendar__time datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" data-ng-class=\"{ 'is--selected': isSelectedDay(day) }\" title=\"{{ day }}\"> {{ day | date:'D' }} </time> </span> </div> </section>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
