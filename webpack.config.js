@@ -31,9 +31,14 @@ var config = {
             {
                 test: /\.js$/,
                 loaders: [
+                    'ng-annotate',
                     'babel?presets[]=es2015'
                 ],
                 exclude: /bower_components/
+            },
+            {
+                test: /\.(html|svg)$/,
+                loader: 'ngtemplate!html'
             }
         ]
     },
