@@ -90,7 +90,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _classCallCheck(this, bcCalendarConfig);
 	
 	        // The calendar will begin with today
-	        this.startDate = new Date().toISOString();
+	        this.startDate = moment(new Date().toISOString()).startOf('day');
 	
 	        // The default interval type [days|weeks|months]
 	        this.interval = 'days';
@@ -364,43 +364,87 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Define the starting day of the calendar
 	            this.startDate = this.startDate || this.bcCalendarConfig.startDate;
 	
-	            console.log('this.bcWordType: ', this.bcWordType);
+	            // Define today's date
+	            this.today = this.bcCalendarConfig.startDate;
 	
 	            // Define the style for weekday words (M vs Mon vs Monday)
 	            this.weekdays = this.bcWordType ? this.bcCalendarConfig.weekdayStyle[this.bcWordType] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
 	
 	            console.log('startDate: ', this.startDate);
-	            console.log('weekdayssss: ', this.weekdays);
+	
+	            // Get the current day of the month
+	            this.todayDayOfMonth = moment(this.startDate).date();
+	
+	            // Get the current weekday
+	            this.todayDayOfWeek = moment(this.startDate).day();
+	
+	            var DEV_DATE = {
+	                year: 2016,
+	                month: 3,
+	                day: 5
+	            };
+	
+	            /*
+	             *this.getDaysInMonth(DEV_DATE.year, DEV_DATE.month);
+	             *this.isDayToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day))
+	             *this.isBeforeToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day));
+	             */
 	        }
 	
 	        /**
 	         * Check to see if the day is prior to the current date
 	         * This is used to disable the unselectable days
-	         * TODO: Can I really not just compare dates?
 	         *
 	         * @param {Date} day
-	         * @return {Bool} isBefore
+	         * @return {Bool}
 	         */
 	
 	    }, {
 	        key: 'isBeforeToday',
 	        value: function isBeforeToday(date) {
-	            var dateDayOfMonth = moment(date).date();
-	            var doMonthsMatch = this.bcCalendarService.doMonthsMatch(this.startDate, date);
-	            var todayOfMonth = moment(this.startDate).date();
-	
-	            // If both days are in the same month and the passed day comes earlier than today
-	            return doMonthsMatch && dateDayOfMonth < todayOfMonth;
+	            return moment(date).isBefore(this.startDate);
 	        }
 	    }, {
 	        key: 'isDaySelected',
 	        value: function isDaySelected() {}
+	
+	        /**
+	         * Check to see if the day matches the current date
+	         *
+	         * @param {Date} day
+	         * @return {Bool}
+	         */
+	
 	    }, {
 	        key: 'isDayToday',
-	        value: function isDayToday() {}
+	        value: function isDayToday(date) {
+	            return moment(date).isSame(this.startDate);
+	        }
 	    }, {
 	        key: 'selectDate',
 	        value: function selectDate() {}
+	
+	        /**
+	         * Return an array of dates for the passed in month
+	         *
+	         * @param {Integer} year
+	         * @param {Integer} month
+	         * @return {Array} days
+	         */
+	
+	    }, {
+	        key: 'getDaysInMonth',
+	        value: function getDaysInMonth(year, month) {
+	            var date = new Date(year, month, 1);
+	            var days = [];
+	
+	            while (date.getMonth() === month) {
+	                days.push(moment(date).startOf('day').format());
+	                date.setDate(date.getDate() + 1);
+	            }
+	
+	            return days;
+	        }
 	    }]);
 	
 	    return CalendarController;
