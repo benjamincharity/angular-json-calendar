@@ -13,6 +13,7 @@ export function bcCalendarDirective(
             bcStartDate: '@?', // date - default to today
             bcInterval: '@?', // string days|weeks|months - defaults to month
             bcCount: '@?', // integer - default to 1
+            bcDayWordType: '@?' // string - default to 'abbreviations'
         },
         templateUrl: template,
         link: linkFunction,
