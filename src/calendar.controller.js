@@ -8,7 +8,6 @@ export class CalendarController {
         this.bcCalendarConfig = bcCalendarConfig;
         this.bcCalendarService = bcCalendarService;
 
-        console.log('config: ', bcCalendarConfig);
 
         this._activate();
 
@@ -18,7 +17,6 @@ export class CalendarController {
 
 
     _activate() {
-
         // Define today's date
         this.today = this.bcCalendarConfig.startDate;
 
@@ -30,16 +28,12 @@ export class CalendarController {
                 this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
         this.organizeWeeks = this.bcOrganizeWeeks || this.bcCalendarConfig.organizeWeeks;
 
-        console.log('count: ', this.count);
-        console.log('interval: ', this.interval);
-
         // Define the calendar duration (or length)
         this.calendarDuration =
             moment.duration(this.count, this.bcCalendarConfig.interval);
 
         // Get the full count of days
         this.calendarDays = this.calendarDuration.asDays();
-        console.log('calendarDays: ', this.calendarDays);
 
 
         // Get the current day of the month
@@ -60,11 +54,6 @@ export class CalendarController {
             day: 5,
         };
 
-        /*
-         *this._getDaysInMonth(this.startDate);
-         *this.isDayToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day))
-         *this.isBeforeToday(new Date(DEV_DATE.year, DEV_DATE.month, DEV_DATE.day));
-         */
 
 
 
@@ -107,8 +96,6 @@ export class CalendarController {
         //     call buildMonth again with next month
         //
 
-
-        const fakeArray = [''];
 
         this.calendar = this.build(this.startDate, 2);
 
