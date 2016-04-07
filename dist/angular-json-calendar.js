@@ -451,6 +451,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Loop to create months
 	            while (monthsBuilt < duration) {
+	                // If not the first month generated, the start of the month should be at the beginning
+	                // rather than the start date
+	                if (monthsBuilt !== 0) {
+	                    start = moment(start).startOf('month');
+	                }
+	
 	                var days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
 	
 	                // If this is the first month
