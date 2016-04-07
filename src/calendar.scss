@@ -1,4 +1,5 @@
 $color: #f00;
+$black: #000;
 
 .bc-calendar {
   border: 1px solid $color;
@@ -13,15 +14,43 @@ $color: #f00;
   &__week {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: space-between;
+
+    &:nth-of-type(even) {
+      background-color: rgba($black, .1);
+    }
   }
 
   // <span> individual day
   &__day {
+    display: block;
     flex: 1 1 auto;
+    position: relative;
     text-align: center;
+    width: calc((100% / 7) - 6.25rem);
+
+    &::before {
+      content: '';
+      display: block;
+      height: 0;
+      padding-top: 80%;
+    }
 
     &--disabled {
-      opacity: .4;
+      opacity: .3;
+    }
+
+    &--even {
+      background-color: rgba($black, .1);
+    }
+
+    // <time> wrapper for actual datetime
+    &-time {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
     }
   }
 

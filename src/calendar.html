@@ -15,17 +15,21 @@
       <span
         class="bc-calendar__day"
         data-ng-class="{ 'bc-calendar__day--disabled': vm.isBeforeToday(day),
-                         'bc-calendar__day--today': vm.isDayToday(day) }"
+                         'bc-calendar__day--today': vm.isDayToday(day),
+                         'bc-calendar__day--even': $even }"
         data-ng-click="vm.selectDate(day)"
         data-ng-repeat="day in week track by $index"
       >
         <time
-          class="bc-calendar__time"
+          class="bc-calendar__day-time"
           data-ng-class="{ 'bc-calendar__time--selected': vm.isDaySelected(day) }"
           datetime="{{ day | date:'MMMM Do, YYYY' }}"
           title="{{ day }}"
         >
-          {{ day | date:'EEE dd' }}
+          {{ day | date:'dd/MM/yy' }}
+          <small>
+            {{ day | date:'EEE' }}
+          </small>
         </time>
       </span>
 
