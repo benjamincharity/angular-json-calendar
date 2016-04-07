@@ -105,6 +105,7 @@ export class CalendarController {
     /**
      * Build calendar
      * TODO: Should this be a service?
+     * TODO: months are visually separate.. verify all days are together before separating
      *
      * @param {String} start
      * @param {Integer} duration
@@ -127,13 +128,22 @@ export class CalendarController {
 
             let days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
 
-            // If this is the first month
+            // If this is the FIRST month
             if (monthsBuilt === 0) {
                 // Create the missing days for the padding
                 const missingDays = this._padWeekLeft(days, this.todayDayOfWeek);
 
-                // Add to the beginning of our existing array
+                // Add to the BEGINNING of our existing array
                 days = missingDays.concat(days);
+            }
+
+            // If this is the LAST month
+            if (monthsBuilt === duration) {
+                // Create the missing days for the padding
+                const missingDays = this._padWeekRight(days, days[days.length - 1]);
+
+                // Add to the END of our existing array
+                Array.prototype.push.apply(days, missingDays)
             }
 
             // Add month to collection
@@ -293,21 +303,13 @@ export class CalendarController {
      * @return {Array} pad
      */
     _padWeekRight(days, startDay) {
-        const pad = [];
-        const missingDays = this._integerToArray(startDay);
+        const week = 7;
+        const dayOfWeek = moment(startDay).day();
 
-        // Loop through missing days
-        for (const day in missingDays) {
-            // How many days to go back
-            const subtraction = parseInt(day, 10) + 1;
+        // weekdays are zero based
+        const neededDays = week - (dayOfWeek + 1);
 
-            // Find that day
-            const previous = moment(this.startDate).subtract((subtraction), 'days').toISOString();
-            // Add to the beginning of the array
-            pad.unshift(previous);
-        }
-
-        return pad;
+        return this._integerToArray(neededDays);
     }
 
 }

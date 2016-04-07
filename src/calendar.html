@@ -25,12 +25,19 @@
           data-ng-class="{ 'bc-calendar__time--selected': vm.isDaySelected(day) }"
           datetime="{{ day | date:'MMMM Do, YYYY' }}"
           title="{{ day }}"
+          data-ng-if="day.length > 2"
         >
-          {{ day | date:'dd/MM/yy' }}
+          {{ day | date:'MM/dd/yy' }}
           <small>
             {{ day | date:'EEE' }}
           </small>
         </time>
+
+        <span
+          class="bc-calendar__day-time"
+          data-ng-if="day.length < 3"
+        ></span>
+
       </span>
 
     </div>
