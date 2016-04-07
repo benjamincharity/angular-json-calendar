@@ -2,5 +2,12 @@ $color: #f00;
 
 .bc-calendar {
   border: 1px solid $color;
+
+  &__day {
+
+    &--disabled {
+      opacity: .4;
+    }
+  }
 }
 
