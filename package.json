@@ -26,7 +26,7 @@
     "scss:expanded": "node-sass --output-style expanded -o dist/ src/calendar.scss && mv dist/calendar.css dist/angular-json-calendar.css",
     "watch:css": "onchange 'src/*.scss' -- npm run build:css",
     "watch:js": "onchange 'src/*.js' 'src/*.html' -- npm run build:js",
-    "watch": "onchange 'src/*.js' 'src/*.html' 'src/*.scss' -- npm run build:css && npm run build:js"
+    "watch": "onchange 'src/*.js' 'src/*.html' 'src/*.scss' -- npm run build"
   },
   "repository": {
     "type": "git",
