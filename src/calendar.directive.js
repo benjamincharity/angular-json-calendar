@@ -14,6 +14,7 @@ export function bcCalendarDirective(
             bcInterval: '@?', // string days|weeks|months - defaults to month
             bcCount: '@?', // integer - default to 1
             bcWordType: '@?', // string - default to 'abbreviation'
+            bcOrganizeWeeks: '@?', // bool - default to true
         },
         templateUrl: template,
         link: linkFunction,
