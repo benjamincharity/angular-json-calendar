@@ -107,6 +107,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // Set the default word type (M vs Mon vs Monday)
 	        this.wordType = 'abbreviation';
+	
+	        // Should days be organized by week?
+	        this.organizeWeeks = true;
 	    }
 	
 	    _createClass(bcCalendarConfig, [{
@@ -313,8 +316,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcStartDate: '@?', // date - default to today
 	            bcInterval: '@?', // string days|weeks|months - defaults to month
 	            bcCount: '@?', // integer - default to 1
-	            bcWordType: '@?' },
-	        // string - default to 'abbreviation'
+	            bcWordType: '@?', // string - default to 'abbreviation'
+	            bcOrganizeWeeks: '@?' },
+	        // bool - default to true
 	        templateUrl: _calendar3.default,
 	        link: linkFunction,
 	        controller: _calendar.CalendarController,
@@ -370,6 +374,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
 	            this.interval = this.bcInterval || this.bcCalendarConfig.interval;
 	            this.weekdays = this.bcWordType ? this.bcCalendarConfig.weekdayStyle[this.bcWordType] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
+	            this.organizeWeeks = this.bcOrganizeWeeks || this.bcCalendarConfig.organizeWeeks;
 	
 	            console.log('count: ', this.count);
 	            console.log('interval: ', this.interval);
@@ -441,11 +446,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var fakeArray = [''];
 	
-	            this.build(this.startDate, 1);
+	            this.calendar = this.build(this.startDate, 2);
 	        }
 	    }, {
 	        key: 'build',
-	        value: function build(start, duration) {
+	        value: function build(start, duration, splitWeeks) {
 	            console.warn('in build: ', start, duration);
 	
 	            var collection = [];
@@ -453,10 +458,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // loop to create months
 	            while (monthsBuilt < duration) {
-	                console.log('building a month', monthsBuilt, moment(start).add(monthsBuilt, 'months'));
-	
 	                var days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
-	                console.log('days: ', days);
 	
 	                // Add month to collection
 	                collection.push(days);
@@ -465,7 +467,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                monthsBuilt = monthsBuilt + 1;
 	            }
 	
+	            if (this.organizeWeeks) {
+	                collection = this._organizeWeeks(collection);
+	            }
+	
 	            console.log('collection: ', collection);
+	
+	            return collection;
 	        }
 	
 	        /*
@@ -556,6 +564,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            return days;
 	        }
+	    }, {
+	        key: '_organizeWeeks',
+	        value: function _organizeWeeks(collection) {
+	            var _this = this;
+	
+	            var weekLength = 7;
+	
+	            collection.forEach(function (value, index) {
+	                collection[index] = _this._chunk(value, weekLength);
+	            });
+	
+	            return collection;
+	        }
+	
+	        /**
+	         * Split an array into chunks and return an array of these chunks
+	         *
+	         * @param {Array} group
+	         * @param {Integer} groupsize
+	         * @return {Array} chunks
+	         */
+	
+	    }, {
+	        key: '_chunk',
+	        value: function _chunk(group, groupsize) {
+	            var sets = [];
+	            var i = 0;
+	            var chunks = group.length / parseInt(groupsize, 10);
+	
+	            while (i < chunks) {
+	                sets[i] = group.splice(0, groupsize);
+	                i = i + 1;
+	            }
+	
+	            return sets;
+	        }
 	    }]);
 	
 	    return CalendarController;
@@ -566,7 +610,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/calendar.html';
-	var html = "<section class=calendar> <header class=calendar__header> <span class=calendar__day data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=calendar__time> {{ day }} </strong> </span> </header> <div class=calendar__week data-ng-repeat=\"week in vm.weeks track by $index\"> <span class=calendar__day data-ng-class=\"{ 'calendar__day--disabled': vm.isBeforeToday(day),\n                       'calendar__day--today': vm.isDayToday(day) }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in week track by $index\"> <time class=calendar__time data-ng-class=\"{ 'calendar__time--selected': vm.isDaySelected(day) }\" datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" title=\"{{ day }}\"> {{ day | date:'D' }} </time> </span> </div> </section>";
+	var html = "<section class=bc-calendar> <header class=bc-calendar__header> <span class=bc-calendar__day data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__time> {{ day }} </strong> </span> </header> <div class=bc-calendar__month data-ng-repeat=\"month in vm.calendar track by $index\"> <div class=bc-calendar__week data-ng-repeat=\"week in month track by $index\"> <span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day),\n                         'bc-calendar__day--today': vm.isDayToday(day) }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in week track by $index\"> <time class=bc-calendar__time data-ng-class=\"{ 'bc-calendar__time--selected': vm.isDaySelected(day) }\" datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" title=\"{{ day }}\"> {{ day | date:'dd - EEE' }} </time> </span> </div> </div> </section>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 

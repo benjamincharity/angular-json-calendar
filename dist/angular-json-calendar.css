@@ -1,3 +1,7 @@
 .bc-calendar {
   border: 1px solid #f00;
 }
+
+.bc-calendar__day--disabled {
+  opacity: .4;
+}
