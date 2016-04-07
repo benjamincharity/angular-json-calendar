@@ -28,6 +28,7 @@ export class CalendarController {
         this.interval = this.bcInterval || this.bcCalendarConfig.interval;
         this.weekdays = this.bcWordType ?  this.bcCalendarConfig.weekdayStyle[this.bcWordType] :
                 this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
+        this.organizeWeeks = this.bcOrganizeWeeks || this.bcCalendarConfig.organizeWeeks;
 
         console.log('count: ', this.count);
         console.log('interval: ', this.interval);
@@ -109,24 +110,20 @@ export class CalendarController {
 
         const fakeArray = [''];
 
-        this.build(this.startDate, 1);
+        this.calendar = this.build(this.startDate, 2);
 
     }
 
 
-    build(start, duration) {
+    build(start, duration, splitWeeks) {
         console.warn('in build: ', start, duration);
 
-        const collection = [];
+        let collection = [];
         let monthsBuilt = 0;
 
         // loop to create months
         while (monthsBuilt < duration) {
-            console.log('building a month',
-                        monthsBuilt, moment(start).add(monthsBuilt, 'months'));
-
             const days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
-            console.log('days: ', days);
 
             // Add month to collection
             collection.push(days);
@@ -135,9 +132,13 @@ export class CalendarController {
             monthsBuilt = monthsBuilt + 1;
         }
 
+        if (this.organizeWeeks) {
+            collection = this._organizeWeeks(collection);
+        }
+
         console.log('collection: ', collection);
 
-
+        return collection;
     }
 
 
@@ -224,6 +225,38 @@ export class CalendarController {
 
         return days;
 
+    }
+
+
+    _organizeWeeks(collection) {
+        const weekLength = 7;
+
+        collection.forEach((value, index) => {
+            collection[index] = this._chunk(value, weekLength);
+        });
+
+        return collection;
+    }
+
+
+    /**
+     * Split an array into chunks and return an array of these chunks
+     *
+     * @param {Array} group
+     * @param {Integer} groupsize
+     * @return {Array} chunks
+     */
+    _chunk(group, groupsize) {
+        const sets = [];
+        let i = 0;
+        const chunks = group.length / parseInt(groupsize, 10);
+
+        while(i < chunks) {
+            sets[i] = group.splice(0, groupsize);
+            i = i + 1;
+        }
+
+        return sets;
     }
 
 }
