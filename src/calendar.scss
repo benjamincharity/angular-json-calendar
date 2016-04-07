@@ -3,11 +3,27 @@ $color: #f00;
 .bc-calendar {
   border: 1px solid $color;
 
+  // container for heading row
+  &__header {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  // <div> container for week
+  &__week {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  // <span> individual day
   &__day {
+    flex: 1 1 auto;
+    text-align: center;
 
     &--disabled {
       opacity: .4;
     }
   }
+
 }
 
