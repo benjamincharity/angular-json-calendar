@@ -115,20 +115,35 @@ export class CalendarController {
     }
 
 
-    build(start, duration, splitWeeks) {
-        console.warn('in build: ', start, duration);
-
+    /**
+     * Build calendar
+     * TODO: Should this be a service?
+     *
+     * @param {String} start
+     * @param {Integer} duration
+     * @return {Array} collection
+     */
+    build(start, duration) {
         let collection = [];
         let monthsBuilt = 0;
 
-        // loop to create months
+        // Loop to create months
         while (monthsBuilt < duration) {
-            const days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
+            let days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
+
+            // If this is the first month
+            if (monthsBuilt === 0) {
+                // Create the missing days for the padding
+                const missingDays = this._padWeekLeft(days, this.todayDayOfWeek);
+
+                // Add to the beginning of our existing array
+                days = missingDays.concat(days);
+            }
 
             // Add month to collection
             collection.push(days);
 
-            // increment counter
+            // Increment counter
             monthsBuilt = monthsBuilt + 1;
         }
 
@@ -140,18 +155,6 @@ export class CalendarController {
 
         return collection;
     }
-
-
-    /*
-     *buildWeeks() {
-     *}
-     */
-
-
-    /*
-     *buildDays() {
-     *}
-     */
 
 
     /**
@@ -166,10 +169,6 @@ export class CalendarController {
     }
 
 
-    isDaySelected() {
-    }
-
-
     /**
      * Check to see if the day matches the current date
      *
@@ -178,6 +177,10 @@ export class CalendarController {
      */
     isDayToday(date) {
         return moment(date).isSame(this.startDate);
+    }
+
+
+    isDaySelected() {
     }
 
 
@@ -192,9 +195,9 @@ export class CalendarController {
      * @return {Array} days
      */
     _getDaysInMonth(startDate) {
-        const firstDate = moment(startDate).startOf('month');
+        const firstDate = moment(startDate);
         const days = [];
-        let date = moment(startDate).startOf('month');
+        let date = moment(startDate);
 
         // As long as the month hasn't changed
         while (moment(date).isSame(firstDate, 'month')) {
@@ -224,10 +227,15 @@ export class CalendarController {
         }
 
         return days;
-
     }
 
 
+    /**
+     * Organize collection of days into sub collections of weeks
+     *
+     * @param {Array} collection
+     * @return {Array} collection
+     */
     _organizeWeeks(collection) {
         const weekLength = 7;
 
@@ -258,6 +266,32 @@ export class CalendarController {
 
         return sets;
     }
+
+
+    /**
+     * Pad the beginning of a week
+     *
+     * @param {Array} days
+     * @return {Array} pad
+     */
+    _padWeekLeft(days, startDay) {
+        const pad = [];
+        const missingDays = this._integerToArray(startDay);
+
+        // Loop through missing days
+        for (const day in missingDays) {
+            // How many days to go back
+            const subtraction = parseInt(day, 10) + 1;
+
+            // Find that day
+            const previous = moment(this.startDate).subtract((subtraction), 'days').toISOString();
+            // Add to the beginning of the array
+            pad.unshift(previous);
+        }
+
+        return pad;
+    }
+
 
 }
 
