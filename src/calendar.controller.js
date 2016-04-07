@@ -112,10 +112,13 @@ export class CalendarController {
      */
     build(start, duration) {
         let collection = [];
-        let monthsBuilt = 0;
+        let monthsBuilt = -1;
 
         // Loop to create months
         while (monthsBuilt < duration) {
+            // Increment counter
+            monthsBuilt = monthsBuilt + 1;
+
             // If not the first month generated, the start of the month should be at the beginning
             // rather than the start date
             if (monthsBuilt !== 0) {
@@ -135,9 +138,6 @@ export class CalendarController {
 
             // Add month to collection
             collection.push(days);
-
-            // Increment counter
-            monthsBuilt = monthsBuilt + 1;
         }
 
         if (this.organizeWeeks) {
@@ -285,6 +285,30 @@ export class CalendarController {
         return pad;
     }
 
+
+    /**
+     * Pad the beginning of a week
+     *
+     * @param {Array} days
+     * @return {Array} pad
+     */
+    _padWeekRight(days, startDay) {
+        const pad = [];
+        const missingDays = this._integerToArray(startDay);
+
+        // Loop through missing days
+        for (const day in missingDays) {
+            // How many days to go back
+            const subtraction = parseInt(day, 10) + 1;
+
+            // Find that day
+            const previous = moment(this.startDate).subtract((subtraction), 'days').toISOString();
+            // Add to the beginning of the array
+            pad.unshift(previous);
+        }
+
+        return pad;
+    }
 
 }
 
