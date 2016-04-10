@@ -23,10 +23,10 @@ export class CalendarController {
         // DEFAULTS
         this.startDate = this.startDate || this.bcCalendarConfig.startDate;
         this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
-        this.interval = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
-        this.weekdays = this.bcWeekTitleFormat ?  this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
-                this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
-        this.organizeWeeks = this.bcOrganizeWeeks || this.bcCalendarConfig.organizeWeeks;
+        this.nestingDepth = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
+        this.weekdays = this.bcWeekTitleFormat ?
+            this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
+            this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
 
         // Define the calendar duration (or length)
         this.calendarDuration =
@@ -46,57 +46,7 @@ export class CalendarController {
         this.selectedDate = null;
 
 
-
-
-        const DEV_DATE = {
-            year: 2016,
-            month: 3,
-            day: 5,
-        };
-
-
-
-
-
-
-        // loop through `interval` for `count` times
-        //
-        // always are building out days no matter the interval
-        // interval is merely to simplify math for the end user
-        //
-        // if ask for 2 days
-        //   collection is array with single item (month)
-        //   month is array with single item (week)
-        //   if weeks are turned ON
-        //     week is array with 7 items (days) (backfilled for missing days)
-        //   if weeks are turned OFF
-        //     week is array with 2 items (days)
-        //
-        // if ask for 2 weeks
-        //   collection is array with single item (month)
-        //   month is array with 2 items (weeks)
-        //   weeks are arrays with 7 items (days)
-        //   if weeks are turned ON
-        //     backfill for missing days
-        //
-        //
-        // assume 'month'
-        // buildMonth(start month)
-        //   build out month json
-        //     get all days
-        //     formatMonth
-        //       loop through putting weeks into arrays
-        //       final collection looks like:
-        //         - collection is array of months
-        //         - months is an array of weeks
-        //         - weeks is an array of days
-        //   store month somewhere
-        //   increment counter by 1
-        //   if still less than this.count
-        //     call buildMonth again with next month
-        //
-
-
+        // Build the calendar JSON
         this.calendar = this.build(this.startDate, 2);
 
     }

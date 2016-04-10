@@ -1,0 +1,28 @@
+<span
+  class="bc-calendar__day"
+  data-ng-class="{ 'bc-calendar__day--disabled': vm.isBeforeToday(item),
+                   'bc-calendar__day--today': vm.isDayToday(item),
+                   'bc-calendar__day--even': $even }"
+  data-ng-click="vm.selectDate(item)"
+  data-ng-repeat="item in vm.calendar track by $index"
+>
+  <time
+    class="bc-calendar__day-time"
+    data-ng-class="{ 'bc-calendar__time--selected': vm.isDaySelected(item) }"
+    datetime="{{ item | date:'MMMM Do, YYYY' }}"
+    title="{{ item }}"
+    data-ng-if="item.length > 2"
+  >
+    {{ item | date:'MM/dd/yy' }}
+    <small>
+      {{ item | date:'EEE' }}
+    </small>
+  </time>
+
+  <span
+    class="bc-calendar__day-time"
+    data-ng-if="item.length < 3"
+  ></span>
+
+</span>
+

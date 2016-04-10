@@ -1,15 +1,5 @@
-<section class="bc-calendar">
-
-  <header class="bc-calendar__header">
-    <span class="bc-calendar__day  bc-calendar__day--header" data-ng-repeat="day in vm.weekdays track by $index">
-      <strong class="bc-calendar__day-title">
-        {{ day }}
-      </strong>
-    </span>
-  </header>
-
-
-  <div class="bc-calendar__month" data-ng-repeat="month in vm.calendar track by $index">
+<div class="bc-calendar__year" data-ng-repeat="year in vm.calendar track by $index">
+  <div class="bc-calendar__month" data-ng-repeat="month in year track by $index">
     <div class="bc-calendar__week" data-ng-repeat="week in month track by $index">
 
       <span
@@ -42,6 +32,5 @@
 
     </div>
   </div>
-
-</section>
+</div>
 

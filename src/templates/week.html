@@ -1,0 +1,32 @@
+<div class="bc-calendar__week" data-ng-repeat="week in vm.calendar track by $index">
+
+  <span
+    class="bc-calendar__day"
+    data-ng-class="{ 'bc-calendar__day--disabled': vm.isBeforeToday(day),
+                     'bc-calendar__day--today': vm.isDayToday(day),
+                     'bc-calendar__day--even': $even }"
+    data-ng-click="vm.selectDate(day)"
+    data-ng-repeat="day in week track by $index"
+  >
+    <time
+      class="bc-calendar__day-time"
+      data-ng-class="{ 'bc-calendar__time--selected': vm.isDaySelected(day) }"
+      datetime="{{ day | date:'MMMM Do, YYYY' }}"
+      title="{{ day }}"
+      data-ng-if="day.length > 2"
+    >
+      {{ day | date:'MM/dd/yy' }}
+      <small>
+        {{ day | date:'EEE' }}
+      </small>
+    </time>
+
+    <span
+      class="bc-calendar__day-time"
+      data-ng-if="day.length < 3"
+    ></span>
+
+  </span>
+
+</div>
+
