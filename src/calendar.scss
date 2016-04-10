@@ -36,6 +36,20 @@ $black: #000;
       padding-top: 80%;
     }
 
+    &--header {
+      &::before {
+        display: none;
+      }
+
+      time {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        top: auto;
+      }
+    }
+
     &--disabled {
       opacity: .3;
     }
