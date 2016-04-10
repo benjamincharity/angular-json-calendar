@@ -23,7 +23,7 @@ export class CalendarController {
         // DEFAULTS
         this.startDate = this.startDate || this.bcCalendarConfig.startDate;
         this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
-        this.interval = this.bcInterval || this.bcCalendarConfig.interval;
+        this.interval = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
         this.weekdays = this.bcWordType ?  this.bcCalendarConfig.weekdayStyle[this.bcWordType] :
                 this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
         this.organizeWeeks = this.bcOrganizeWeeks || this.bcCalendarConfig.organizeWeeks;
@@ -145,6 +145,8 @@ export class CalendarController {
                 // Add to the END of our existing array
                 Array.prototype.push.apply(days, missingDays)
             }
+
+            console.log('adding: ', days);
 
             // Add month to collection
             collection.push(days);

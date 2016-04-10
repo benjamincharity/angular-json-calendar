@@ -11,9 +11,11 @@ export function bcCalendarDirective(
         scope: {},
         bindToController: {
             bcStartDate: '@?', // date - default to today
-            bcInterval: '@?', // string days|weeks|months - defaults to month
+            bcNestingDepth: '@?', // string [year|month|week|day] - defaults to month
             bcCount: '@?', // integer - default to 1
+            // TODO: change to bcWeekTitleFormat
             bcWordType: '@?', // string - default to 'abbreviation'
+            // TODO: remove in favor of bcNestingDepth
             bcOrganizeWeeks: '@?', // bool - default to true
         },
         templateUrl: template,
@@ -23,6 +25,16 @@ export function bcCalendarDirective(
     };
 
     return directive;
+
+
+
+    // PSEUDO:
+    //
+    // If bcOrganizeMonths = true
+    //   template months.html (includes weeks.html which includes day.html
+    // If bcOrganizeWeeks = true
+    //   template weeks.html (includes day.html)
+    //
 
 
     /**

@@ -7,7 +7,7 @@ export class bcCalendarConfig {
         this.startDate = moment(new Date().toISOString()).startOf('day');
 
         // The default interval type [days|weeks|months]
-        this.interval = 'months';
+        this.nestingDepth = 'months';
 
         // How many of the interval type should be generated
         this.count = 1;
