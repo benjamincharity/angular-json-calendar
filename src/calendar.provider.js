@@ -44,7 +44,7 @@ export class bcCalendarConfig {
         };
 
         // Set the default word type (M vs Mon vs Monday)
-        this.wordType = 'abbreviation';
+        this.weekTitleFormat = 'abbreviation';
 
         // Should days be organized by week?
         this.organizeWeeks = true;

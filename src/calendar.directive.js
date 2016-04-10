@@ -11,10 +11,9 @@ export function bcCalendarDirective(
         scope: {},
         bindToController: {
             bcStartDate: '@?', // date - default to today
-            bcNestingDepth: '@?', // string [year|month|week|day] - defaults to month
+            bcNestingDepth: '@?', // string [year|month|week|day] - defaults: month
             bcCount: '@?', // integer - default to 1
-            // TODO: change to bcWeekTitleFormat
-            bcWordType: '@?', // string - default to 'abbreviation'
+            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
             // TODO: remove in favor of bcNestingDepth
             bcOrganizeWeeks: '@?', // bool - default to true
         },

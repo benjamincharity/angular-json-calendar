@@ -24,8 +24,8 @@ export class CalendarController {
         this.startDate = this.startDate || this.bcCalendarConfig.startDate;
         this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
         this.interval = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
-        this.weekdays = this.bcWordType ?  this.bcCalendarConfig.weekdayStyle[this.bcWordType] :
-                this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.wordType];
+        this.weekdays = this.bcWeekTitleFormat ?  this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
+                this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
         this.organizeWeeks = this.bcOrganizeWeeks || this.bcCalendarConfig.organizeWeeks;
 
         // Define the calendar duration (or length)
