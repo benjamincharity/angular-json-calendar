@@ -45,9 +45,33 @@ export class CalendarController {
         // Initially nothing is selected
         this.selectedDate = null;
 
+        /*
+         *const needed = 30;
+         *console.log('testl: ', this._buildDays(needed, new Date().toISOString()).length);
+         */
+
+        const JS_DATE = {
+            year: 2016,
+            month: 0,
+            day: 5,
+        };
+
+        const needed = 100;
+        const tempDays = this._buildDays(needed,
+            new Date(JS_DATE.year, JS_DATE.month, JS_DATE.day).toISOString());
+
+        console.log('tempDays: ', tempDays);
+
+        this.calendar = this._organizeMonths(tempDays);
+
+        /*
+         *console.log('tempMonths: ', tempMonths);
+         */
 
         // Build the calendar JSON
-        this.calendar = this.build(this.startDate, 2);
+        /*
+         *this.calendar = this.build(this.startDate, 2);
+         */
 
     }
 
@@ -55,7 +79,8 @@ export class CalendarController {
     /**
      * Build calendar
      * TODO: Should this be a service?
-     * TODO: months are visually separate.. verify all days are together before separating
+     * TODO: Abstract this out so I can better build the needed collection. Abstract out each part,
+     * building days, organizing weeks/months/years
      *
      * @param {String} start
      * @param {Integer} duration
@@ -81,7 +106,7 @@ export class CalendarController {
             // If this is the FIRST month
             if (monthsBuilt === 0) {
                 // Create the missing days for the padding
-                const missingDays = this._padWeekLeft(days, this.todayDayOfWeek);
+                const missingDays = this._padDaysLeft(days, this.todayDayOfWeek);
 
                 // Add to the BEGINNING of our existing array
                 days = missingDays.concat(days);
@@ -95,8 +120,6 @@ export class CalendarController {
                 // Add to the END of our existing array
                 Array.prototype.push.apply(days, missingDays)
             }
-
-            console.log('adding: ', days);
 
             // Add month to collection
             collection.push(days);
@@ -143,6 +166,30 @@ export class CalendarController {
     }
 
 
+    _buildDays(limit, start) {
+        let counter = 0;
+        const days = [];
+        let day;
+
+        while (counter < limit) {
+            // Create the day
+            day = moment(start).add(counter, 'days').toISOString();
+
+            // Add to the array
+            days.push(day);
+
+            // Increment our counter
+            counter = counter + 1;
+        }
+
+        /*
+         *console.warn('build days: ', limit, start, days);
+         */
+
+        return days;
+    }
+
+
     /**
      * Return an array of dates for the passed in month
      *
@@ -182,6 +229,51 @@ export class CalendarController {
         }
 
         return days;
+    }
+
+
+    // Since we are organizing months, we backfill the first month
+    _organizeMonths(allDays) {
+        let collection = allDays;
+        let firstDate;
+        let month;
+        let dayOfMonth = moment(collection[0]).date();
+        let daysInMonth = moment(collection[0]).daysInMonth();
+        const calendar = [];
+
+        // Pad the beginning of the month with any missing days
+        // If the first day is not the first day of the month
+        if (moment(collection[0]).date() > 0) {
+
+            // Pull this month's days from the collection
+            month = collection.slice(0, (daysInMonth - (dayOfMonth - 1)));
+
+            // Fill the missing days
+            const pad = this._padDaysLeft(month[0], (dayOfMonth - 1));
+
+            // Combine with the existing array
+            collection = pad.concat(collection);
+        }
+
+        // Split into months
+        // As long as there are days left in the collection
+        while (collection.length > 0) {
+            // Get the day of the month for the first date of the collection eg. '24'
+            dayOfMonth = moment(moment(collection[0])).date();
+
+            // Determine how many days there are this month (total)
+            daysInMonth = moment(collection[0]).daysInMonth();
+
+            // Pull this month's days from the collection
+            month = collection.splice(0, (daysInMonth - (dayOfMonth - 1)));
+
+            // Add to the calendar array
+            calendar.push(month);
+        }
+
+        console.info('RETURNING: ', calendar);
+        return calendar;
+
     }
 
 
@@ -226,12 +318,13 @@ export class CalendarController {
     /**
      * Pad the beginning of a week
      *
-     * @param {Array} days
+     * @param {String} startDate - date to to work back from
+     * @param {Array} count - how many days to pad
      * @return {Array} pad
      */
-    _padWeekLeft(days, startDay) {
+    _padDaysLeft(startDate, count) {
         const pad = [];
-        const missingDays = this._integerToArray(startDay);
+        const missingDays = this._integerToArray(count);
 
         // Loop through missing days
         for (const day in missingDays) {
@@ -239,7 +332,8 @@ export class CalendarController {
             const subtraction = parseInt(day, 10) + 1;
 
             // Find that day
-            const previous = moment(this.startDate).subtract((subtraction), 'days').toISOString();
+            const previous = moment(startDate).subtract((subtraction), 'days').toISOString();
+
             // Add to the beginning of the array
             pad.unshift(previous);
         }

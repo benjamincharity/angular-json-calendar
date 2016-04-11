@@ -48,6 +48,18 @@
   padding-top: 80%;
 }
 
+.bc-calendar__day--header::before {
+  display: none;
+}
+
+.bc-calendar__day--header time {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+}
+
 .bc-calendar__day--disabled {
   opacity: .3;
 }
