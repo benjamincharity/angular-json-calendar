@@ -62,7 +62,7 @@ export class CalendarController {
         this.bcCollection = this._organizeMonths(tempDays);
 
 
-        console.log('this.bcCalendar: ', this.bcCalendar);
+        console.log('this.bcCollection: ', this.bcCollection);
 
         /*
          *console.log('tempMonths: ', tempMonths);
@@ -302,7 +302,6 @@ export class CalendarController {
         }
 
 
-        console.info('RETURNING: ', calendar);
         return calendar;
 
     }

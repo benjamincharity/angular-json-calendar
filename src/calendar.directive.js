@@ -25,7 +25,7 @@ export function bcCalendarDirective(
         scope: {},
         bindToController: {
             bcStartDate: '@?', // date - default to today
-            bcNestingDepth: '@?', // string [year|month|week|day] - defaults: month
+            bcNestingDepth: '@?', // string [month|week|day] - defaults: month
             bcCount: '@?', // integer - default to 1
             bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
         },
