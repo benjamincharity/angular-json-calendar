@@ -2,7 +2,8 @@
   class="bc-calendar__day"
   data-ng-class="{ 'bc-calendar__day--disabled': vm.isBeforeToday(item),
                    'bc-calendar__day--today': vm.isDayToday(item),
-                   'bc-calendar__day--even': $even }"
+                   'bc-calendar__day--even': $even,
+                   'bc-calendar__day--pad': item.length < 5 }"
   data-ng-click="vm.selectDate(item)"
   data-ng-repeat="item in vm.calendar track by $index"
 >

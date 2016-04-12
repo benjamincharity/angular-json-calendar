@@ -6,7 +6,8 @@
         class="bc-calendar__day"
         data-ng-class="{ 'bc-calendar__day--disabled': vm.isBeforeToday(day),
                          'bc-calendar__day--today': vm.isDayToday(day),
-                         'bc-calendar__day--even': $even }"
+                         'bc-calendar__day--even': $even,
+                         'bc-calendar__day--pad': item.length < 5 }"
         data-ng-click="vm.selectDate(day)"
         data-ng-repeat="day in week track by $index"
       >
