@@ -66,7 +66,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _calendar3 = __webpack_require__(3);
 	
-	exports.default = angular.module('bc.JsonCalendar', []).provider('bcCalendarConfig', _calendar.bcCalendarConfig).service('bcCalendarService', _calendar2.bcCalendarService).directive('bcCalendar', _calendar3.bcCalendarDirective);
+	var _day = __webpack_require__(10);
+	
+	exports.default = angular.module('bc.JsonCalendar', []).provider('bcCalendarConfig', _calendar.bcCalendarConfig).service('bcCalendarService', _calendar2.bcCalendarService).directive('bcCalendar', _calendar3.bcCalendarDirective).directive('bcDay', _day.bcDayDirective);
 
 /***/ },
 /* 1 */
@@ -588,7 +590,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                day = moment(start).add(counter, 'days').toISOString();
 	
 	                // Add to the array
-	                days.push(day);
+	                days.push({
+	                    date: day
+	                });
 	
 	                // Increment our counter
 	                counter = counter + 1;
@@ -660,17 +664,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var calendar = [];
 	            var collection = allDays;
 	            var month = void 0;
-	            var dayOfMonth = moment(collection[0]).date();
-	            var daysInMonth = moment(collection[0]).daysInMonth();
+	            var dayOfMonth = moment(collection[0].date).date();
+	            var daysInMonth = moment(collection[0].date).daysInMonth();
 	
 	            // Pad the beginning of the month with any missing days
 	            // If the first day is not the first day of the month
-	            if (moment(collection[0]).date() > 0) {
+	            if (moment(collection[0].date).date() > 0) {
 	                // Pull this month's days from the collection
 	                month = collection.slice(0, daysInMonth - (dayOfMonth - 1));
 	
 	                // Fill the missing days from the month
-	                var pad = this._padDaysLeft(month[0], dayOfMonth - 1);
+	                var pad = this._padDaysLeft(month[0].date, dayOfMonth - 1);
 	
 	                // Combine with the existing array
 	                collection = pad.concat(collection);
@@ -681,16 +685,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	            while (collection.length > 0) {
 	
 	                // Get the day of the month for the first date of the collection eg. '24'
-	                dayOfMonth = moment(moment(collection[0])).date();
+	                dayOfMonth = moment(collection[0].date).date();
 	
 	                // Determine how many days there are this month (total)
-	                daysInMonth = moment(collection[0]).daysInMonth();
+	                daysInMonth = moment(collection[0].date).daysInMonth();
 	
 	                // Pull this month's days from the collection
 	                month = collection.splice(0, daysInMonth - (dayOfMonth - 1));
 	
 	                // How many weekdays are prior to the first day of this month?
-	                var daysNeededAtBeginning = moment(month[0]).day();
+	                var daysNeededAtBeginning = moment(month[0].date).day();
 	
 	                // If days are needed for the first week
 	                if (daysNeededAtBeginning > 0) {
@@ -700,7 +704,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                // How many weekdays are after the last day of the month?
 	                // (remember: weeks are zero-based)
-	                var daysNeededAtEnd = this.WEEK_LENGTH - (moment(month[month.length - 1]).day() + 1);
+	                var daysNeededAtEnd = this.WEEK_LENGTH - (moment(month[month.length - 1].date).day() + 1);
 	
 	                // If days are needed for the last week
 	                if (daysNeededAtEnd > 0) {
@@ -712,9 +716,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                calendar.push(this._organizeWeeks(month));
 	            }
 	
-	            /*
-	             *console.info('RETURNING: ', calendar);
-	             */
+	            console.info('RETURNING: ', calendar);
 	            return calendar;
 	        }
 	
@@ -774,7 +776,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Create array
 	            for (i = 0; i < count; i += 1) {
-	                days.push(i);
+	                days.push({
+	                    date: null
+	                });
 	            }
 	
 	            // If direction is 'right'
@@ -810,7 +814,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var previous = moment(startDate).subtract(subtraction, 'days').toISOString();
 	
 	                // Add to the beginning of the array
-	                pad.unshift(previous);
+	                pad.unshift({
+	                    date: previous
+	                });
 	            }
 	
 	            return pad;
@@ -826,11 +832,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: '_padWeekRight',
 	        value: function _padWeekRight(days, startDay) {
+	            var pad = [];
 	            var week = 7;
 	            var dayOfWeek = moment(startDay).day();
 	
 	            // weekdays are zero based
-	            var neededDays = week - (dayOfWeek + 1);
+	            var neededDays = this._integerToArray(week - (dayOfWeek + 1));
+	
+	            for (var day in neededDays) {
+	                pad.push({
+	                    date: null
+	                });
+	            }
 	
 	            return this._integerToArray(neededDays);
 	        }
@@ -862,7 +875,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/month.html';
-	var html = "<div class=bc-calendar__month data-ng-repeat=\"month in vm.calendar track by $index\"> <div class=bc-calendar__week data-ng-repeat=\"week in month track by $index\"> <span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day),\n                       'bc-calendar__day--today': vm.isDayToday(day),\n                       'bc-calendar__day--even': $even,\n                       'bc-calendar__day--pad': item.length < 5 }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in week track by $index\"> <time class=bc-calendar__day-time data-ng-class=\"{ 'bc-calendar__time--selected': vm.isDaySelected(day) }\" datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" title=\"{{ day }}\" data-ng-if=\"day.length > 2\"> {{ day | date:'MM/dd/yy' }} <small> {{ day | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=\"day.length < 3\"></span> </span> </div> </div>";
+	var html = "<div class=bc-calendar__month data-ng-repeat=\"month in vm.calendar track by $index\"> <div class=bc-calendar__week data-ng-repeat=\"week in month track by $index\"> <bc-day bc-collection=week></bc-day> </div> </div>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -880,9 +893,44 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/day.html';
-	var html = "<span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(item),\n                   'bc-calendar__day--today': vm.isDayToday(item),\n                   'bc-calendar__day--even': $even,\n                   'bc-calendar__day--pad': item.length < 5 }\" data-ng-click=vm.selectDate(item) data-ng-repeat=\"item in vm.calendar track by $index\"> <time class=bc-calendar__day-time data-ng-class=\"{ 'bc-calendar__time--selected': vm.isDaySelected(item) }\" datetime=\"{{ item | date:'MMMM Do, YYYY' }}\" title=\"{{ item }}\" data-ng-if=\"item.length > 2\"> {{ item | date:'MM/dd/yy' }} <small> {{ item | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=\"item.length < 3\"></span> </span>";
+	var html = "<span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day.date),\n                   'bc-calendar__day--today': vm.isDayToday(day.date),\n                   'bc-calendar__day--even': $even,\n                   'bc-calendar__day--pad': !day.date }\" data-ng-click=vm.selectDate(day.date) data-ng-repeat=\"day in vm.bcCollection track by $index\"> <time class=bc-calendar__day-time data-ng-class=\"{ 'bc-calendar__time--selected': vm.isDaySelected(day.date) }\" datetime=\"{{ day.date | date:'MMMM Do, YYYY' }}\" title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> {{ day.date | date:'MM/dd/yy' }} <small> {{ day.date | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=!day.date></span> </span>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.bcDayDirective = bcDayDirective;
+	
+	var _day = __webpack_require__(9);
+	
+	var _day2 = _interopRequireDefault(_day);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function bcDayDirective() {
+	    'ngInject';
+	
+	    var directive = {
+	        restrict: 'E',
+	        replace: true,
+	        scope: {},
+	        bindToController: {
+	            bcCollection: '='
+	        },
+	        templateUrl: _day2.default,
+	        controller: function controller() {},
+	        controllerAs: 'vm'
+	    };
+	
+	    return directive;
+	}
 
 /***/ }
 /******/ ])

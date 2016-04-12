@@ -176,7 +176,9 @@ export class CalendarController {
             day = moment(start).add(counter, 'days').toISOString();
 
             // Add to the array
-            days.push(day);
+            days.push({
+                date: day,
+            });
 
             // Increment our counter
             counter = counter + 1;
@@ -242,17 +244,17 @@ export class CalendarController {
         const calendar = [];
         let collection = allDays;
         let month;
-        let dayOfMonth = moment(collection[0]).date();
-        let daysInMonth = moment(collection[0]).daysInMonth();
+        let dayOfMonth = moment(collection[0].date).date();
+        let daysInMonth = moment(collection[0].date).daysInMonth();
 
         // Pad the beginning of the month with any missing days
         // If the first day is not the first day of the month
-        if (moment(collection[0]).date() > 0) {
+        if (moment(collection[0].date).date() > 0) {
             // Pull this month's days from the collection
             month = collection.slice(0, (daysInMonth - (dayOfMonth - 1)));
 
             // Fill the missing days from the month
-            const pad = this._padDaysLeft(month[0], (dayOfMonth - 1));
+            const pad = this._padDaysLeft(month[0].date, (dayOfMonth - 1));
 
             // Combine with the existing array
             collection = pad.concat(collection);
@@ -264,16 +266,16 @@ export class CalendarController {
         while (collection.length > 0) {
 
             // Get the day of the month for the first date of the collection eg. '24'
-            dayOfMonth = moment(moment(collection[0])).date();
+            dayOfMonth = moment(collection[0].date).date();
 
             // Determine how many days there are this month (total)
-            daysInMonth = moment(collection[0]).daysInMonth();
+            daysInMonth = moment(collection[0].date).daysInMonth();
 
             // Pull this month's days from the collection
             month = collection.splice(0, (daysInMonth - (dayOfMonth - 1)));
 
             // How many weekdays are prior to the first day of this month?
-            const daysNeededAtBeginning = moment(month[0]).day();
+            const daysNeededAtBeginning = moment(month[0].date).day();
 
             // If days are needed for the first week
             if (daysNeededAtBeginning > 0) {
@@ -283,7 +285,8 @@ export class CalendarController {
 
             // How many weekdays are after the last day of the month?
             // (remember: weeks are zero-based)
-            const daysNeededAtEnd = this.WEEK_LENGTH - (moment(month[month.length - 1]).day() + 1);
+            const daysNeededAtEnd =
+                this.WEEK_LENGTH - (moment(month[month.length - 1].date).day() + 1);
 
             // If days are needed for the last week
             if (daysNeededAtEnd > 0) {
@@ -296,9 +299,8 @@ export class CalendarController {
 
         }
 
-        /*
-         *console.info('RETURNING: ', calendar);
-         */
+
+        console.info('RETURNING: ', calendar);
         return calendar;
 
     }
@@ -349,7 +351,9 @@ export class CalendarController {
 
         // Create array
         for (i = 0; i < count; i += 1) {
-            days.push(i);
+            days.push({
+                date: null,
+            });
         }
 
         // If direction is 'right'
@@ -384,7 +388,9 @@ export class CalendarController {
             const previous = moment(startDate).subtract((subtraction), 'days').toISOString();
 
             // Add to the beginning of the array
-            pad.unshift(previous);
+            pad.unshift({
+                date: previous,
+            });
         }
 
         return pad;
@@ -398,11 +404,18 @@ export class CalendarController {
      * @return {Array} pad
      */
     _padWeekRight(days, startDay) {
+        const pad =[];
         const week = 7;
         const dayOfWeek = moment(startDay).day();
 
         // weekdays are zero based
-        const neededDays = week - (dayOfWeek + 1);
+        const neededDays = this._integerToArray(week - (dayOfWeek + 1));
+
+        for (const day in neededDays) {
+            pad.push({
+                date: null,
+            });
+        }
 
         return this._integerToArray(neededDays);
     }
