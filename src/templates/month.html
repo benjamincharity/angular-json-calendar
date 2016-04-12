@@ -1,7 +1,6 @@
-<div class="bc-calendar__month" data-ng-repeat="month in vm.calendar track by $index">
-  <div class="bc-calendar__week" data-ng-repeat="week in month track by $index">
+<div class="bc-calendar__month" data-ng-repeat="month in vm.bcCollection track by $index">
 
-    <bc-day bc-collection="week"></bc-day>
+  <bc-week bc-collection="month"></bc-week>
 
-  </div>
 </div>
+

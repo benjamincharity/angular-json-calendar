@@ -1,37 +1,6 @@
-<div class="bc-calendar__year" data-ng-repeat="year in vm.calendar track by $index">
-  <div class="bc-calendar__month" data-ng-repeat="month in year track by $index">
-    <div class="bc-calendar__week" data-ng-repeat="week in month track by $index">
+<div class="bc-calendar__year" data-ng-repeat="year in vm.bcCollection track by $index">
 
-      <span
-        class="bc-calendar__day"
-        data-ng-class="{ 'bc-calendar__day--disabled': vm.isBeforeToday(day),
-                         'bc-calendar__day--today': vm.isDayToday(day),
-                         'bc-calendar__day--even': $even,
-                         'bc-calendar__day--pad': item.length < 5 }"
-        data-ng-click="vm.selectDate(day)"
-        data-ng-repeat="day in week track by $index"
-      >
-        <time
-          class="bc-calendar__day-time"
-          data-ng-class="{ 'bc-calendar__time--selected': vm.isDaySelected(day) }"
-          datetime="{{ day | date:'MMMM Do, YYYY' }}"
-          title="{{ day }}"
-          data-ng-if="day.length > 2"
-        >
-          {{ day | date:'MM/dd/yy' }}
-          <small>
-            {{ day | date:'EEE' }}
-          </small>
-        </time>
+  <bc-month bc-collection="year"></bc-month>
 
-        <span
-          class="bc-calendar__day-time"
-          data-ng-if="day.length < 3"
-        ></span>
-
-      </span>
-
-    </div>
-  </div>
 </div>
 
