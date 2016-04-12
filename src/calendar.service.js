@@ -9,140 +9,30 @@ export class bcCalendarService {
 
 
 
-    /**
-     * Test if days match
-     *
-     * @param {Date} date1
-     * @param {Date} date2
-     * @return {Bool} match
-     */
-    /*
-     *    daysMatch(date1, date2) {
-     *
-     *        let match = false;
-     *        const day1 = moment(date1).date();
-     *        const day2 = moment(date2).date();
-     *
-     *        if (day1 === day2) {
-     *            match = true;
-     *        }
-     *
-     *        return match;
-     *
-     *    }
-     */
 
 
     /**
-     * Test if months match
+     * Check to see if the day is prior to the current date
+     * This is used to disable the unselectable days
      *
-     * @param {Date} date1
-     * @param {Date} date2
-     * @return {Bool} match
+     * @param {Date} day
+     * @return {Bool}
      */
-    doMonthsMatch(date1, date2) {
-        let match = false;
-        const month1 = moment(date1).month();
-        const month2 = moment(date2).month();
-
-        if (month1 === month2) {
-            match = true;
-        }
-
-        return match;
-
+    dateIsBeforeToday(date) {
+        return moment(date).isBefore(this.startDate);
     }
 
 
-    /**
-     * Test if day is today
-     *
-     * @param {Date} date - The date to check
-     * @param {Date} today - The day to check against
-     * @return {Bool} isToday
-     */
-    /*
-     *    isToday(date, today) {
-     *
-     *        today = moment(today).startOf('day');
-     *
-     *        const dayToTest = moment(date).startOf('day');
-     *        const isToday = today.diff(dayToTest) ? false : true;
-     *
-     *        return isToday;
-     *
-     *    }
-     */
-
-
-    /**
-     * Update the date with the current time
-     *
-     * @param {Date} date
-     * @return {Date} updatedDate
-     */
-    /*
-     *    updateTime(date) {
-     *
-     *        let updatedDate;
-     *
-     *        // Get the current date
-     *        const jsDate = new Date().toISOString();
-     *        const currentHour = moment(jsDate).hour();
-     *        const currentMinutes = moment(jsDate).minutes();
-     *
-     *        // Zero out seconds and milliseconds
-     *        updatedDate = moment(date).set({
-     *            hour: currentHour,
-     *            minutes: currentMinutes,
-     *            second: 0,
-     *            millisecond: 0,
-     *        }).format();
-     *
-     *        return updatedDate;
-     *
-     *    }
-     */
-
-
-
-
-
-
-
 
 
 
     /**
-     * Return an array of days for the passed in month
-     *
-     * @param {Integer} month
-     * @param {Integer} year
-     * @return {Array} days
-     */
-    getDaysInMonth(month, year) {
-
-        const date = new Date(year, month, 1);
-        const days = [];
-
-        while (date.getMonth() === month) {
-            days.push(moment(date).hour(0).minute(0).second(0).format());
-            date.setDate(date.getDate() + 1);
-        }
-
-        return days;
-
-    }
-
-
-    /**
-     * Turn a count (e.g. '6') into an array: '[1,2,3,4,5,6]'
+     * Turn a integer (e.g. '6') into an array: '[1,2,3,4,5,6]'
      *
      * @param {Integer} count
      * @return {Array} days
      */
-    createDaysArray(count) {
-
+    integerToArray(count) {
         let i;
         const days = [];
 
@@ -151,8 +41,68 @@ export class bcCalendarService {
         }
 
         return days;
+    }
+
+
+    /**
+     * Pad the beginning of a week
+     *
+     * @param {String} startDate - date to to work back from
+     * @param {Array} count - how many days to pad
+     * @return {Array} pad
+     */
+    padDaysLeft(startDate, count) {
+        const pad = [];
+        const missingDays = this.integerToArray(count);
+
+        // Loop through missing days
+        for (const day in missingDays) {
+            // How many days to go back
+            const subtraction = parseInt(day, 10) + 1;
+
+            // Find that day
+            const previous = moment(startDate).subtract((subtraction), 'days').toISOString();
+
+            // Add to the beginning of the array
+            pad.unshift({
+                date: previous,
+            });
+        }
+
+        return pad;
+    }
+
+
+    /**
+     * Pad a collection with blank tiles at the beginning
+     *
+     * @param {Array} collection
+     * @param {Integer} count
+     * @return {Array} paddedCollection
+     */
+    padBlankTiles(collection, count, direction = 'left') {
+        let i;
+        const days = [];
+
+        // Create array
+        for (i = 0; i < count; i += 1) {
+            days.push({
+                date: null,
+            });
+        }
+
+        // If direction is 'right'
+        if (direction === 'right') {
+            // pad the end
+            return collection.concat(days);
+        } else if (direction === 'left') {
+            // otherwise pad the beginning
+            return days.concat(collection);
+        }
 
     }
+
+
 
 }
 

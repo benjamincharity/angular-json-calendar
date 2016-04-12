@@ -135,7 +135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -143,153 +143,113 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var bcCalendarService = exports.bcCalendarService = function () {
-	  function bcCalendarService() {
-	    'ngInject';
+	    function bcCalendarService() {
+	        'ngInject';
 	
-	    _classCallCheck(this, bcCalendarService);
-	  }
-	
-	  /**
-	   * Test if days match
-	   *
-	   * @param {Date} date1
-	   * @param {Date} date2
-	   * @return {Bool} match
-	   */
-	  /*
-	   *    daysMatch(date1, date2) {
-	   *
-	   *        let match = false;
-	   *        const day1 = moment(date1).date();
-	   *        const day2 = moment(date2).date();
-	   *
-	   *        if (day1 === day2) {
-	   *            match = true;
-	   *        }
-	   *
-	   *        return match;
-	   *
-	   *    }
-	   */
-	
-	  /**
-	   * Test if months match
-	   *
-	   * @param {Date} date1
-	   * @param {Date} date2
-	   * @return {Bool} match
-	   */
-	
-	
-	  _createClass(bcCalendarService, [{
-	    key: 'doMonthsMatch',
-	    value: function doMonthsMatch(date1, date2) {
-	      var match = false;
-	      var month1 = moment(date1).month();
-	      var month2 = moment(date2).month();
-	
-	      if (month1 === month2) {
-	        match = true;
-	      }
-	
-	      return match;
+	        _classCallCheck(this, bcCalendarService);
 	    }
 	
 	    /**
-	     * Test if day is today
+	     * Check to see if the day is prior to the current date
+	     * This is used to disable the unselectable days
 	     *
-	     * @param {Date} date - The date to check
-	     * @param {Date} today - The day to check against
-	     * @return {Bool} isToday
-	     */
-	    /*
-	     *    isToday(date, today) {
-	     *
-	     *        today = moment(today).startOf('day');
-	     *
-	     *        const dayToTest = moment(date).startOf('day');
-	     *        const isToday = today.diff(dayToTest) ? false : true;
-	     *
-	     *        return isToday;
-	     *
-	     *    }
+	     * @param {Date} day
+	     * @return {Bool}
 	     */
 	
-	    /**
-	     * Update the date with the current time
-	     *
-	     * @param {Date} date
-	     * @return {Date} updatedDate
-	     */
-	    /*
-	     *    updateTime(date) {
-	     *
-	     *        let updatedDate;
-	     *
-	     *        // Get the current date
-	     *        const jsDate = new Date().toISOString();
-	     *        const currentHour = moment(jsDate).hour();
-	     *        const currentMinutes = moment(jsDate).minutes();
-	     *
-	     *        // Zero out seconds and milliseconds
-	     *        updatedDate = moment(date).set({
-	     *            hour: currentHour,
-	     *            minutes: currentMinutes,
-	     *            second: 0,
-	     *            millisecond: 0,
-	     *        }).format();
-	     *
-	     *        return updatedDate;
-	     *
-	     *    }
-	     */
 	
-	    /**
-	     * Return an array of days for the passed in month
-	     *
-	     * @param {Integer} month
-	     * @param {Integer} year
-	     * @return {Array} days
-	     */
+	    _createClass(bcCalendarService, [{
+	        key: 'dateIsBeforeToday',
+	        value: function dateIsBeforeToday(date) {
+	            return moment(date).isBefore(this.startDate);
+	        }
 	
-	  }, {
-	    key: 'getDaysInMonth',
-	    value: function getDaysInMonth(month, year) {
+	        /**
+	         * Turn a integer (e.g. '6') into an array: '[1,2,3,4,5,6]'
+	         *
+	         * @param {Integer} count
+	         * @return {Array} days
+	         */
 	
-	      var date = new Date(year, month, 1);
-	      var days = [];
+	    }, {
+	        key: 'integerToArray',
+	        value: function integerToArray(count) {
+	            var i = void 0;
+	            var days = [];
 	
-	      while (date.getMonth() === month) {
-	        days.push(moment(date).hour(0).minute(0).second(0).format());
-	        date.setDate(date.getDate() + 1);
-	      }
+	            for (i = 0; i < count; i += 1) {
+	                days.push(i);
+	            }
 	
-	      return days;
-	    }
+	            return days;
+	        }
 	
-	    /**
-	     * Turn a count (e.g. '6') into an array: '[1,2,3,4,5,6]'
-	     *
-	     * @param {Integer} count
-	     * @return {Array} days
-	     */
+	        /**
+	         * Pad the beginning of a week
+	         *
+	         * @param {String} startDate - date to to work back from
+	         * @param {Array} count - how many days to pad
+	         * @return {Array} pad
+	         */
 	
-	  }, {
-	    key: 'createDaysArray',
-	    value: function createDaysArray(count) {
+	    }, {
+	        key: 'padDaysLeft',
+	        value: function padDaysLeft(startDate, count) {
+	            var pad = [];
+	            var missingDays = this.integerToArray(count);
 	
-	      var i = void 0;
-	      var days = [];
+	            // Loop through missing days
+	            for (var day in missingDays) {
+	                // How many days to go back
+	                var subtraction = parseInt(day, 10) + 1;
 	
-	      for (i = 0; i < count; i += 1) {
-	        days.push(i);
-	      }
+	                // Find that day
+	                var previous = moment(startDate).subtract(subtraction, 'days').toISOString();
 	
-	      return days;
-	    }
-	  }]);
+	                // Add to the beginning of the array
+	                pad.unshift({
+	                    date: previous
+	                });
+	            }
 	
-	  return bcCalendarService;
+	            return pad;
+	        }
+	
+	        /**
+	         * Pad a collection with blank tiles at the beginning
+	         *
+	         * @param {Array} collection
+	         * @param {Integer} count
+	         * @return {Array} paddedCollection
+	         */
+	
+	    }, {
+	        key: 'padBlankTiles',
+	        value: function padBlankTiles(collection, count) {
+	            var direction = arguments.length <= 2 || arguments[2] === undefined ? 'left' : arguments[2];
+	
+	            var i = void 0;
+	            var days = [];
+	
+	            // Create array
+	            for (i = 0; i < count; i += 1) {
+	                days.push({
+	                    date: null
+	                });
+	            }
+	
+	            // If direction is 'right'
+	            if (direction === 'right') {
+	                // pad the end
+	                return collection.concat(days);
+	            } else if (direction === 'left') {
+	                // otherwise pad the beginning
+	                return days.concat(collection);
+	            }
+	        }
+	    }]);
+	
+	    return bcCalendarService;
 	}();
 
 /***/ },
@@ -465,70 +425,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        /**
-	         * Build calendar
-	         * TODO: Should this be a service?
-	         * TODO: Abstract this out so I can better build the needed collection. Abstract out each part,
-	         * building days, organizing weeks/months/years
-	         * TODO: Not used anymore...
-	         *
-	         * @param {String} start
-	         * @param {Integer} duration
-	         * @return {Array} collection
-	         */
-	
-	    }, {
-	        key: 'build',
-	        value: function build(start, duration) {
-	            var collection = [];
-	            var monthsBuilt = -1;
-	
-	            // Loop to create months
-	            while (monthsBuilt < duration) {
-	                // Increment counter
-	                monthsBuilt = monthsBuilt + 1;
-	
-	                // If not the first month generated, the start of the month should be at the beginning
-	                // rather than the start date
-	                if (monthsBuilt !== 0) {
-	                    start = moment(start).startOf('month');
-	                }
-	
-	                var days = this._getDaysInMonth(moment(start).add(monthsBuilt, 'months'));
-	
-	                // If this is the FIRST month
-	                if (monthsBuilt === 0) {
-	                    // Create the missing days for the padding
-	                    var missingDays = this._padDaysLeft(days, this.todayDayOfWeek);
-	
-	                    // Add to the BEGINNING of our existing array
-	                    days = missingDays.concat(days);
-	                }
-	
-	                // If this is the LAST month
-	                if (monthsBuilt === duration) {
-	                    // Create the missing days for the padding
-	                    var _missingDays = this._padWeekRight(days, days[days.length - 1]);
-	
-	                    // Add to the END of our existing array
-	                    Array.prototype.push.apply(days, _missingDays);
-	                }
-	
-	                // Add month to collection
-	                collection.push(days);
-	            }
-	
-	            if (this.organizeWeeks) {
-	                collection = this._organizeWeeks(collection);
-	            }
-	
-	            /*
-	             *console.log('collection: ', collection);
-	             */
-	
-	            return collection;
-	        }
-	
-	        /**
 	         * Check to see if the day is prior to the current date
 	         * This is used to disable the unselectable days
 	         *
@@ -539,7 +435,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'isBeforeToday',
 	        value: function isBeforeToday(date) {
-	            return moment(date).isBefore(this.startDate);
+	            return this.bcCalendarService.dateIsBeforeToday(date);
 	        }
 	
 	        /**
@@ -603,52 +499,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        /**
-	         * Return an array of dates for the passed in month
-	         *
-	         * @param {Date} startDate
-	         * @return {Array} days
-	         */
-	
-	    }, {
-	        key: '_getDaysInMonth',
-	        value: function _getDaysInMonth(startDate) {
-	            var firstDate = moment(startDate);
-	            var days = [];
-	            var date = moment(startDate);
-	
-	            // As long as the month hasn't changed
-	            while (moment(date).isSame(firstDate, 'month')) {
-	                // Add the new day to our array
-	                days.push(moment(date).startOf('day').format());
-	
-	                // Increment the date by one day
-	                date = moment(date).add(1, 'days');
-	            }
-	
-	            return days;
-	        }
-	
-	        /**
-	         * Turn a integer (e.g. '6') into an array: '[1,2,3,4,5,6]'
-	         *
-	         * @param {Integer} count
-	         * @return {Array} days
-	         */
-	
-	    }, {
-	        key: '_integerToArray',
-	        value: function _integerToArray(count) {
-	            var i = void 0;
-	            var days = [];
-	
-	            for (i = 0; i < count; i += 1) {
-	                days.push(i);
-	            }
-	
-	            return days;
-	        }
-	
-	        /**
 	         * Organize by month
 	         *
 	         * @param {Array} allDays - An array of all days
@@ -659,6 +509,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: '_organizeMonths',
 	        value: function _organizeMonths(allDays) {
 	            var calendar = [];
+	            var SATURDAY = 6;
+	            var SUNDAY = 0;
 	            var collection = allDays;
 	            var month = void 0;
 	            var dayOfMonth = moment(collection[0].date).date();
@@ -671,7 +523,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                month = collection.slice(0, daysInMonth - (dayOfMonth - 1));
 	
 	                // Fill the missing days from the month
-	                var pad = this._padDaysLeft(month[0].date, dayOfMonth - 1);
+	                var pad = this.bcCalendarService.padDaysLeft(month[0].date, dayOfMonth - 1);
 	
 	                // Combine with the existing array
 	                collection = pad.concat(collection);
@@ -691,22 +543,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	                month = collection.splice(0, daysInMonth - (dayOfMonth - 1));
 	
 	                // How many weekdays are prior to the first day of this month?
-	                var daysNeededAtBeginning = moment(month[0].date).day();
+	                var firstDay = moment(month[0].date).day();
 	
-	                // If blank tiles are needed for the first week
-	                if (daysNeededAtBeginning > 0) {
+	                // If the first day is after Sunday
+	                if (firstDay > SUNDAY) {
 	                    // Pad with blank tiles so that the first day is lined up in the correct column
-	                    month = this._padBlankTiles(month, daysNeededAtBeginning, 'left');
+	                    month = this.bcCalendarService.padBlankTiles(month, firstDay, 'left');
 	                }
 	
 	                // How many weekdays are after the last day of the month?
 	                // (remember: weeks are zero-based)
-	                var daysNeededAtEnd = this.WEEK_LENGTH - (moment(month[month.length - 1].date).day() + 1);
+	                var lastDay = moment(month[month.length - 1].date).day();
 	
 	                // If blank tiles are needed for the last week
-	                if (daysNeededAtEnd > 0) {
+	                if (lastDay < SATURDAY) {
 	                    // Pad with blank tiles so that the first day is lined up in the correct column
-	                    month = this._padBlankTiles(month, daysNeededAtEnd, 'right');
+	                    month = this.bcCalendarService.padBlankTiles(month, this.WEEK_LENGTH - (lastDay + 1), 'right');
 	                }
 	
 	                // Organize into weeks and add to the calendar array
@@ -735,13 +587,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // If the first day is after Sunday
 	            if (firstDay > SUNDAY) {
 	                // Pad with blank tiles so the first day is lined up in the correct weekday column
-	                days = this._padBlankTiles(days, firstDay, 'left');
+	                days = this.bcCalendarService.padBlankTiles(days, firstDay, 'left');
 	            }
 	
 	            // If the last day is before Saturday
 	            if (lastDay < SATURDAY) {
 	                // Pad with blank tiles so that the last week's days are in the correct weekday column
-	                days = this._padBlankTiles(days, this.WEEK_LENGTH - (lastDay + 1), 'right');
+	                days = this.bcCalendarService.padBlankTiles(days, this.WEEK_LENGTH - (lastDay + 1), 'right');
 	            }
 	
 	            return this._chunk(days);
@@ -770,96 +622,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	
 	            return sets;
-	        }
-	
-	        /**
-	         * Pad a collection with blank tiles at the beginning
-	         *
-	         * @param {Array} collection
-	         * @param {Integer} count
-	         * @return {Array} paddedCollection
-	         */
-	
-	    }, {
-	        key: '_padBlankTiles',
-	        value: function _padBlankTiles(collection, count) {
-	            var direction = arguments.length <= 2 || arguments[2] === undefined ? 'left' : arguments[2];
-	
-	            var i = void 0;
-	            var days = [];
-	
-	            // Create array
-	            for (i = 0; i < count; i += 1) {
-	                days.push({
-	                    date: null
-	                });
-	            }
-	
-	            // If direction is 'right'
-	            if (direction === 'right') {
-	                // pad the end
-	                return collection.concat(days);
-	            } else if (direction === 'left') {
-	                // otherwise pad the beginning
-	                return days.concat(collection);
-	            }
-	        }
-	
-	        /**
-	         * Pad the beginning of a week
-	         *
-	         * @param {String} startDate - date to to work back from
-	         * @param {Array} count - how many days to pad
-	         * @return {Array} pad
-	         */
-	
-	    }, {
-	        key: '_padDaysLeft',
-	        value: function _padDaysLeft(startDate, count) {
-	            var pad = [];
-	            var missingDays = this._integerToArray(count);
-	
-	            // Loop through missing days
-	            for (var day in missingDays) {
-	                // How many days to go back
-	                var subtraction = parseInt(day, 10) + 1;
-	
-	                // Find that day
-	                var previous = moment(startDate).subtract(subtraction, 'days').toISOString();
-	
-	                // Add to the beginning of the array
-	                pad.unshift({
-	                    date: previous
-	                });
-	            }
-	
-	            return pad;
-	        }
-	
-	        /**
-	         * Pad the beginning of a week
-	         *
-	         * @param {Array} days
-	         * @return {Array} pad
-	         */
-	
-	    }, {
-	        key: '_padWeekRight',
-	        value: function _padWeekRight(days, startDay) {
-	            var pad = [];
-	            var week = 7;
-	            var dayOfWeek = moment(startDay).day();
-	
-	            // weekdays are zero based
-	            var neededDays = this._integerToArray(week - (dayOfWeek + 1));
-	
-	            for (var day in neededDays) {
-	                pad.push({
-	                    date: null
-	                });
-	            }
-	
-	            return this._integerToArray(neededDays);
 	        }
 	    }]);
 	
