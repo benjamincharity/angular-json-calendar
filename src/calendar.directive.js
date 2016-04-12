@@ -28,6 +28,7 @@ export function bcCalendarDirective(
             bcNestingDepth: '@?', // string [month|week|day] - defaults: month
             bcCount: '@?', // integer - default to 1
             bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
+            bcDateSelected: '&', // function will be called when a date is selected (tap/click)
         },
         link: linkFunction,
         templateUrl: calendarTemplate,

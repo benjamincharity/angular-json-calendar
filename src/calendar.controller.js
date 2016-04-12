@@ -73,6 +73,9 @@ export class CalendarController {
          *this.calendar = this.build(this.startDate, 2);
          */
 
+
+
+
     }
 
 
@@ -160,11 +163,23 @@ export class CalendarController {
     }
 
 
-    isDaySelected() {
-    }
+    /**
+     * Select a date
+     *
+     * @param {Object} day
+     */
+    selectDate(day) {
 
+        // Set the selected day
+        this.selectedDate = day;
 
-    selectDate() {
+        // Only call the passed method if it exists and a valid date was chosen
+        if (day.date && this.bcDateSelected) {
+            this.bcDateSelected({
+                date: day.date,
+            });
+        }
+
     }
 
 
