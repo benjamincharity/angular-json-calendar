@@ -232,7 +232,12 @@ export class CalendarController {
     }
 
 
-    // Since we are organizing months, we backfill the first month
+    /**
+     * Organize by month
+     *
+     * @param {Array} allDays - An array of all days
+     * @return {Array} collection - days organized into weeks and months
+     */
     _organizeMonths(allDays) {
         const calendar = [];
         let collection = allDays;
@@ -240,29 +245,24 @@ export class CalendarController {
         let dayOfMonth = moment(collection[0]).date();
         let daysInMonth = moment(collection[0]).daysInMonth();
 
-        /*
-         *console.log('FIRST COLLECTION: ', collection);
-         */
-
         // Pad the beginning of the month with any missing days
         // If the first day is not the first day of the month
         if (moment(collection[0]).date() > 0) {
-
             // Pull this month's days from the collection
             month = collection.slice(0, (daysInMonth - (dayOfMonth - 1)));
 
-            // Fill the missing days
+            // Fill the missing days from the month
             const pad = this._padDaysLeft(month[0], (dayOfMonth - 1));
 
             // Combine with the existing array
             collection = pad.concat(collection);
-
         }
 
 
         // Split into months
         // As long as there are days left in the collection
         while (collection.length > 0) {
+
             // Get the day of the month for the first date of the collection eg. '24'
             dayOfMonth = moment(moment(collection[0])).date();
 
@@ -285,18 +285,6 @@ export class CalendarController {
             // (remember: weeks are zero-based)
             const daysNeededAtEnd = this.WEEK_LENGTH - (moment(month[month.length - 1]).day() + 1);
 
-
-            /*
-             *const DEV = {
-             *    month: month,
-             *    length: month.length,
-             *    lastDay: month[month.length - 1],
-             *    momentLastDay: moment(month[month.length - 1]),
-             *    dayOfWeek: moment(month[month.length - 1]).day(),
-             *};
-             *console.log('INFO: ', DEV);
-             */
-
             // If days are needed for the last week
             if (daysNeededAtEnd > 0) {
                 // Pad with blank tiles so that the first day is lined up in the correct column
@@ -305,9 +293,12 @@ export class CalendarController {
 
             // Organize and add to the calendar array
             calendar.push(this._organizeWeeks(month));
+
         }
 
-        console.info('RETURNING: ', calendar);
+        /*
+         *console.info('RETURNING: ', calendar);
+         */
         return calendar;
 
     }

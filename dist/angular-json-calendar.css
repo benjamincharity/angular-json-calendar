@@ -12,6 +12,10 @@
           flex-flow: row nowrap;
 }
 
+.bc-calendar__month {
+  margin-bottom: 2rem;
+}
+
 .bc-calendar__week {
   display: -webkit-box;
   display: -webkit-flex;
