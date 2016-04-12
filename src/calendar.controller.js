@@ -27,6 +27,7 @@ export class CalendarController {
         this.weekdays = this.bcWeekTitleFormat ?
             this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
             this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
+        this.WEEK_LENGTH = 7;
 
         // Define the calendar duration (or length)
         this.calendarDuration =
@@ -45,22 +46,19 @@ export class CalendarController {
         // Initially nothing is selected
         this.selectedDate = null;
 
-        /*
-         *const needed = 30;
-         *console.log('testl: ', this._buildDays(needed, new Date().toISOString()).length);
-         */
-
         const JS_DATE = {
             year: 2016,
-            month: 0,
-            day: 5,
+            month: 3,
+            day: 11,
         };
 
         const needed = 100;
         const tempDays = this._buildDays(needed,
             new Date(JS_DATE.year, JS_DATE.month, JS_DATE.day).toISOString());
 
-        console.log('tempDays: ', tempDays);
+        /*
+         *console.log('tempDays: ', tempDays);
+         */
 
         this.calendar = this._organizeMonths(tempDays);
 
@@ -129,7 +127,9 @@ export class CalendarController {
             collection = this._organizeWeeks(collection);
         }
 
-        console.log('collection: ', collection);
+        /*
+         *console.log('collection: ', collection);
+         */
 
         return collection;
     }
@@ -234,12 +234,15 @@ export class CalendarController {
 
     // Since we are organizing months, we backfill the first month
     _organizeMonths(allDays) {
+        const calendar = [];
         let collection = allDays;
-        let firstDate;
         let month;
         let dayOfMonth = moment(collection[0]).date();
         let daysInMonth = moment(collection[0]).daysInMonth();
-        const calendar = [];
+
+        /*
+         *console.log('FIRST COLLECTION: ', collection);
+         */
 
         // Pad the beginning of the month with any missing days
         // If the first day is not the first day of the month
@@ -253,7 +256,9 @@ export class CalendarController {
 
             // Combine with the existing array
             collection = pad.concat(collection);
+
         }
+
 
         // Split into months
         // As long as there are days left in the collection
@@ -267,8 +272,39 @@ export class CalendarController {
             // Pull this month's days from the collection
             month = collection.splice(0, (daysInMonth - (dayOfMonth - 1)));
 
-            // Add to the calendar array
-            calendar.push(month);
+            // How many weekdays are prior to the first day of this month?
+            const daysNeededAtBeginning = moment(month[0]).day();
+
+            // If days are needed for the first week
+            if (daysNeededAtBeginning > 0) {
+                // Pad with blank tiles so that the first day is lined up in the correct column
+                month = this._padBlankTiles(month, daysNeededAtBeginning, 'left');
+            }
+
+            // How many weekdays are after the last day of the month?
+            // (remember: weeks are zero-based)
+            const daysNeededAtEnd = this.WEEK_LENGTH - (moment(month[month.length - 1]).day() + 1);
+
+
+            /*
+             *const DEV = {
+             *    month: month,
+             *    length: month.length,
+             *    lastDay: month[month.length - 1],
+             *    momentLastDay: moment(month[month.length - 1]),
+             *    dayOfWeek: moment(month[month.length - 1]).day(),
+             *};
+             *console.log('INFO: ', DEV);
+             */
+
+            // If days are needed for the last week
+            if (daysNeededAtEnd > 0) {
+                // Pad with blank tiles so that the first day is lined up in the correct column
+                month = this._padBlankTiles(month, daysNeededAtEnd, 'right');
+            }
+
+            // Organize and add to the calendar array
+            calendar.push(this._organizeWeeks(month));
         }
 
         console.info('RETURNING: ', calendar);
@@ -280,17 +316,11 @@ export class CalendarController {
     /**
      * Organize collection of days into sub collections of weeks
      *
-     * @param {Array} collection
+     * @param {Array} days - array of days
      * @return {Array} collection
      */
-    _organizeWeeks(collection) {
-        const weekLength = 7;
-
-        collection.forEach((value, index) => {
-            collection[index] = this._chunk(value, weekLength);
-        });
-
-        return collection;
+    _organizeWeeks(days) {
+        return this._chunk(days);
     }
 
 
@@ -298,10 +328,10 @@ export class CalendarController {
      * Split an array into chunks and return an array of these chunks
      *
      * @param {Array} group
-     * @param {Integer} groupsize
+     * @param {Integer} groupsize - Chunk size. Defaults to 7 (one week).
      * @return {Array} chunks
      */
-    _chunk(group, groupsize) {
+    _chunk(group, groupsize = this.WEEK_LENGTH) {
         const sets = [];
         let i = 0;
         const chunks = group.length / parseInt(groupsize, 10);
@@ -312,6 +342,34 @@ export class CalendarController {
         }
 
         return sets;
+    }
+
+
+    /**
+     * Pad a collection with blank tiles at the beginning
+     *
+     * @param {Array} collection
+     * @param {Integer} count
+     * @return {Array} paddedCollection
+     */
+    _padBlankTiles(collection, count, direction = 'left') {
+        let i;
+        const days = [];
+
+        // Create array
+        for (i = 0; i < count; i += 1) {
+            days.push(i);
+        }
+
+        // If direction is 'right'
+        if (direction === 'right') {
+            // pad the end
+            return collection.concat(days);
+        } else if (direction === 'left') {
+            // otherwise pad the beginning
+            return days.concat(collection);
+        }
+
     }
 
 

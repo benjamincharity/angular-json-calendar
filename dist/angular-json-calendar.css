@@ -75,3 +75,7 @@
   right: 0;
   top: 0;
 }
+
+.bc-calendar__day-time small {
+  display: block;
+}
