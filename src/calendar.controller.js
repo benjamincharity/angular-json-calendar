@@ -21,7 +21,7 @@ export class CalendarController {
 
         // DEFAULTS
         this.startDate = this.startDate || this.bcCalendarConfig.startDate;
-        this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
+        this.days = parseInt(this.bcCount || this.bcCalendarConfig.days, 10);
         this.nestingDepth = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
         this.weekdays = this.bcWeekTitleFormat ?
             this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
@@ -30,7 +30,7 @@ export class CalendarController {
 
         // Define the calendar duration (or length)
         this.calendarDuration =
-            moment.duration(this.count, this.bcCalendarConfig.interval);
+            moment.duration(this.days, this.bcCalendarConfig.interval);
 
         // Get the full count of days
         this.calendarDays = this.calendarDuration.asDays();
@@ -74,6 +74,18 @@ export class CalendarController {
          */
 
 
+        //
+        // Call the correct organization method based on the nesting depth
+        //
+        if (this.nestingDepth === 'month') {
+            this.bcCollection = this._organizeMonths(tempDays);
+        } else if (this.nestingDepth === 'week') {
+            this.bcCollection = this._organizeWeeks(tempDays);
+        } else if (this.nestingDepth === 'day') {
+            this.bcCollection = tempDays;
+        }
+
+
 
 
     }
@@ -84,6 +96,7 @@ export class CalendarController {
      * TODO: Should this be a service?
      * TODO: Abstract this out so I can better build the needed collection. Abstract out each part,
      * building days, organizing weeks/months/years
+     * TODO: Not used anymore...
      *
      * @param {String} start
      * @param {Integer} duration
@@ -294,7 +307,7 @@ export class CalendarController {
             // How many weekdays are prior to the first day of this month?
             const daysNeededAtBeginning = moment(month[0].date).day();
 
-            // If days are needed for the first week
+            // If blank tiles are needed for the first week
             if (daysNeededAtBeginning > 0) {
                 // Pad with blank tiles so that the first day is lined up in the correct column
                 month = this._padBlankTiles(month, daysNeededAtBeginning, 'left');
@@ -305,14 +318,14 @@ export class CalendarController {
             const daysNeededAtEnd =
                 this.WEEK_LENGTH - (moment(month[month.length - 1].date).day() + 1);
 
-            // If days are needed for the last week
+            // If blank tiles are needed for the last week
             if (daysNeededAtEnd > 0) {
                 // Pad with blank tiles so that the first day is lined up in the correct column
                 month = this._padBlankTiles(month, daysNeededAtEnd, 'right');
             }
 
-            // Organize and add to the calendar array
-            calendar.push(this._organizeWeeks(month));
+            // Organize into weeks and add to the calendar array
+            calendar.push(this._chunk(month));
 
         }
 
@@ -323,12 +336,30 @@ export class CalendarController {
 
 
     /**
-     * Organize collection of days into sub collections of weeks
+     * Organize a collection of days into sub collections of weeks
      *
      * @param {Array} days - array of days
      * @return {Array} collection
      */
     _organizeWeeks(days) {
+        // Determine the day of the week that the calendar starts and ends on
+        const firstDay = moment(days[0].date).day();
+        const lastDay = moment(days[days.length - 1].date).day();
+        const SATURDAY = 6;
+        const SUNDAY = 0;
+
+        // If the first day is after Sunday
+        if (firstDay > SUNDAY) {
+            // Pad with blank tiles so the first day is lined up in the correct weekday column
+            days = this._padBlankTiles(days, firstDay, 'left');
+        }
+
+        // If the last day is before Saturday
+        if (lastDay < SATURDAY) {
+            // Pad with blank tiles so that the last week's days are in the correct weekday column
+            days = this._padBlankTiles(days, this.WEEK_LENGTH - (lastDay + 1), 'right');
+        }
+
         return this._chunk(days);
     }
 

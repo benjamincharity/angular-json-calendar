@@ -9,8 +9,8 @@ export class bcCalendarConfig {
         // The default interval type [day|week|month]
         this.nestingDepth = 'month';
 
-        // How many of the interval type should be generated
-        this.count = 1;
+        // How many days should be generated
+        this.days = 30;
 
         // Define the different possible representations of the weekday
         this.weekdayStyle = {

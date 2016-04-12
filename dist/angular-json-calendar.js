@@ -101,8 +101,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // The default interval type [day|week|month]
 	        this.nestingDepth = 'month';
 	
-	        // How many of the interval type should be generated
-	        this.count = 1;
+	        // How many days should be generated
+	        this.days = 30;
 	
 	        // Define the different possible representations of the weekday
 	        this.weekdayStyle = {
@@ -347,9 +347,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        bindToController: {
 	            bcStartDate: '@?', // date - default to today
 	            bcNestingDepth: '@?', // string [month|week|day] - defaults: month
-	            bcCount: '@?', // integer - default to 1
-	            bcWeekTitleFormat: '@?' },
-	        // string [word|abbreviation|letter] - default: abbreviation
+	            bcDays: '@?', // integer - default to 1
+	            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
+	            bcDateSelected: '&' },
+	        // function will be called when a date is selected (tap/click)
 	        link: linkFunction,
 	        templateUrl: _calendar3.default,
 	        controller: _calendar.CalendarController,
@@ -405,13 +406,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // DEFAULTS
 	            this.startDate = this.startDate || this.bcCalendarConfig.startDate;
-	            this.count = parseInt(this.bcCount || this.bcCalendarConfig.count, 10);
+	            this.days = parseInt(this.bcCount || this.bcCalendarConfig.days, 10);
 	            this.nestingDepth = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
 	            this.weekdays = this.bcWeekTitleFormat ? this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
 	            this.WEEK_LENGTH = 7;
 	
 	            // Define the calendar duration (or length)
-	            this.calendarDuration = moment.duration(this.count, this.bcCalendarConfig.interval);
+	            this.calendarDuration = moment.duration(this.days, this.bcCalendarConfig.interval);
 	
 	            // Get the full count of days
 	            this.calendarDays = this.calendarDuration.asDays();
@@ -450,6 +451,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            /*
 	             *this.calendar = this.build(this.startDate, 2);
 	             */
+	
+	            //
+	            // Call the correct organization method based on the nesting depth
+	            //
+	            if (this.nestingDepth === 'month') {
+	                this.bcCollection = this._organizeMonths(tempDays);
+	            } else if (this.nestingDepth === 'week') {
+	                this.bcCollection = this._organizeWeeks(tempDays);
+	            } else if (this.nestingDepth === 'day') {
+	                this.bcCollection = tempDays;
+	            }
 	        }
 	
 	        /**
@@ -457,6 +469,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * TODO: Should this be a service?
 	         * TODO: Abstract this out so I can better build the needed collection. Abstract out each part,
 	         * building days, organizing weeks/months/years
+	         * TODO: Not used anymore...
 	         *
 	         * @param {String} start
 	         * @param {Integer} duration
@@ -541,12 +554,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function isDayToday(date) {
 	            return moment(date).isSame(this.startDate);
 	        }
-	    }, {
-	        key: 'isDaySelected',
-	        value: function isDaySelected() {}
+	
+	        /**
+	         * Select a date
+	         *
+	         * @param {Object} day
+	         */
+	
 	    }, {
 	        key: 'selectDate',
-	        value: function selectDate() {}
+	        value: function selectDate(day) {
+	
+	            // Set the selected day
+	            this.selectedDate = day;
+	
+	            // Only call the passed method if it exists and a valid date was chosen
+	            if (day.date && this.bcDateSelected) {
+	                this.bcDateSelected({
+	                    date: day.date
+	                });
+	            }
+	        }
 	    }, {
 	        key: '_buildDays',
 	        value: function _buildDays(limit, start) {
@@ -665,7 +693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                // How many weekdays are prior to the first day of this month?
 	                var daysNeededAtBeginning = moment(month[0].date).day();
 	
-	                // If days are needed for the first week
+	                // If blank tiles are needed for the first week
 	                if (daysNeededAtBeginning > 0) {
 	                    // Pad with blank tiles so that the first day is lined up in the correct column
 	                    month = this._padBlankTiles(month, daysNeededAtBeginning, 'left');
@@ -675,21 +703,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	                // (remember: weeks are zero-based)
 	                var daysNeededAtEnd = this.WEEK_LENGTH - (moment(month[month.length - 1].date).day() + 1);
 	
-	                // If days are needed for the last week
+	                // If blank tiles are needed for the last week
 	                if (daysNeededAtEnd > 0) {
 	                    // Pad with blank tiles so that the first day is lined up in the correct column
 	                    month = this._padBlankTiles(month, daysNeededAtEnd, 'right');
 	                }
 	
-	                // Organize and add to the calendar array
-	                calendar.push(this._organizeWeeks(month));
+	                // Organize into weeks and add to the calendar array
+	                calendar.push(this._chunk(month));
 	            }
 	
 	            return calendar;
 	        }
 	
 	        /**
-	         * Organize collection of days into sub collections of weeks
+	         * Organize a collection of days into sub collections of weeks
 	         *
 	         * @param {Array} days - array of days
 	         * @return {Array} collection
@@ -698,6 +726,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: '_organizeWeeks',
 	        value: function _organizeWeeks(days) {
+	            // Determine the day of the week that the calendar starts and ends on
+	            var firstDay = moment(days[0].date).day();
+	            var lastDay = moment(days[days.length - 1].date).day();
+	            var SATURDAY = 6;
+	            var SUNDAY = 0;
+	
+	            // If the first day is after Sunday
+	            if (firstDay > SUNDAY) {
+	                // Pad with blank tiles so the first day is lined up in the correct weekday column
+	                days = this._padBlankTiles(days, firstDay, 'left');
+	            }
+	
+	            // If the last day is before Saturday
+	            if (lastDay < SATURDAY) {
+	                // Pad with blank tiles so that the last week's days are in the correct weekday column
+	                days = this._padBlankTiles(days, this.WEEK_LENGTH - (lastDay + 1), 'right');
+	            }
+	
 	            return this._chunk(days);
 	        }
 	
@@ -861,7 +907,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/day.html';
-	var html = "<span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day.date),\n                   'bc-calendar__day--today': vm.isDayToday(day.date),\n                   'bc-calendar__day--even': $even,\n                   'bc-calendar__day--pad': !day.date }\" data-ng-click=vm.selectDate(day.date) data-ng-repeat=\"day in vm.bcCollection track by $index\"> <time class=bc-calendar__day-time data-ng-class=\"{ 'bc-calendar__time--selected': vm.isDaySelected(day.date) }\" datetime=\"{{ day.date | date:'MMMM Do, YYYY' }}\" title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> {{ day.date | date:'MM/dd/yy' }} <small> {{ day.date | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=!day.date></span> </span>";
+	var html = "<span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day.date),\n                   'bc-calendar__day--today': vm.isDayToday(day.date),\n                   'bc-calendar__day--even': $even,\n                   'bc-calendar__day--pad': !day.date,\n                   'bc-calendar__day--selected': day.date === vm.selectedDate.date }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in vm.bcCollection track by $index\"> <time class=bc-calendar__day-time datetime=\"{{ day.date | date:'MMMM Do, YYYY' }}\" title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> {{ day.date | date:'MM/dd/yy' }} <small> {{ day.date | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=!day.date></span> </span>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
