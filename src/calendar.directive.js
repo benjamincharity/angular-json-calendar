@@ -5,6 +5,7 @@ import monthTemplate from './templates/month.html';
 import weekTemplate from './templates/week.html';
 import dayTemplate from './templates/day.html';
 
+// TODO: turn these ^ into directives
 
 export function bcCalendarDirective(
     $compile
