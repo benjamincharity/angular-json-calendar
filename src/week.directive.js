@@ -12,25 +12,9 @@ export function bcWeekDirective(
             bcCollection: '=',
         },
         templateUrl: weekTemplate,
-        controller: () => {
-
-            /*
-             *console.log(this.bcCollection);
-             */
-
-        },
+        controller: () => {},
         controllerAs: 'vm',
-        link: linkFunction,
     };
-
-
-    /**
-     * Link
-     */
-    function linkFunction($scope, $element, $attrs, vm) {
-        console.log('In link: ', $scope.bcCollection);
-    }
-
 
     return directive;
 
