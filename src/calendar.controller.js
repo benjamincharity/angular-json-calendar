@@ -8,7 +8,6 @@ export class CalendarController {
         this.bcCalendarConfig = bcCalendarConfig;
         this.bcCalendarService = bcCalendarService;
 
-
         this._activate();
 
     }
@@ -60,7 +59,10 @@ export class CalendarController {
          *console.log('tempDays: ', tempDays);
          */
 
-        this.calendar = this._organizeMonths(tempDays);
+        this.bcCollection = this._organizeMonths(tempDays);
+
+
+        console.log('this.bcCalendar: ', this.bcCalendar);
 
         /*
          *console.log('tempMonths: ', tempMonths);

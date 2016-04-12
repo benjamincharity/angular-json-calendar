@@ -5,7 +5,6 @@ import monthTemplate from './templates/month.html';
 import weekTemplate from './templates/week.html';
 import dayTemplate from './templates/day.html';
 
-// TODO: turn these ^ into directives
 
 export function bcCalendarDirective(
     $compile
@@ -45,66 +44,12 @@ export function bcCalendarDirective(
      * Link
      */
     function linkFunction($scope, $element, $attrs, vm) {
-        console.log('depth: ', vm.nestingDepth, templates[vm.nestingDepth]);
 
         // Set the correct template based on the desired nesting depth
         vm.getTemplateUrl = () => {
             return templates[vm.nestingDepth];
         };
 
-
-
-
-        // collection
-        const month = [
-            // month
-            {
-                type: 'months',
-                children: [
-                    // week
-                    {
-                        type: 'weeks',
-                        children: [
-                            {
-                                type: 'days',
-                                children: [
-                                    'day',
-                                    'day',
-                                ],
-                            },
-                        ],
-                    },
-                ],
-            },
-        ];
-
-        // collection
-        const week = [
-            // week
-            {
-                type: 'weeks',
-                children: [
-                    {
-                        type: 'days',
-                        children: [
-                            'day',
-                            'day',
-                        ],
-                    },
-                ],
-            },
-        ];
-
-        // collection
-        const day = [
-            {
-                type: 'days',
-                children: [
-                    'day',
-                    'day',
-                ],
-            },
-        ];
     }
 
 

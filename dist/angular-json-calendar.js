@@ -66,9 +66,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _calendar3 = __webpack_require__(3);
 	
-	var _day = __webpack_require__(10);
+	var _month = __webpack_require__(11);
 	
-	exports.default = angular.module('bc.JsonCalendar', []).provider('bcCalendarConfig', _calendar.bcCalendarConfig).service('bcCalendarService', _calendar2.bcCalendarService).directive('bcCalendar', _calendar3.bcCalendarDirective).directive('bcDay', _day.bcDayDirective);
+	var _week = __webpack_require__(12);
+	
+	var _day = __webpack_require__(13);
+	
+	exports.default = angular.module('bc.JsonCalendar', []).provider('bcCalendarConfig', _calendar.bcCalendarConfig).service('bcCalendarService', _calendar2.bcCalendarService).directive('bcCalendar', _calendar3.bcCalendarDirective).directive('bcMonth', _month.bcMonthDirective).directive('bcWeek', _week.bcWeekDirective).directive('bcDay', _day.bcDayDirective);
 
 /***/ },
 /* 1 */
@@ -323,6 +327,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _day2 = _interopRequireDefault(_day);
 	
+	var _test = __webpack_require__(10);
+	
+	var _test2 = _interopRequireDefault(_test);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// TODO: turn these ^ into directives
@@ -361,45 +369,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Link
 	     */
 	    function linkFunction($scope, $element, $attrs, vm) {
-	        console.log('depth: ', vm.nestingDepth, templates[vm.nestingDepth]);
 	
 	        // Set the correct template based on the desired nesting depth
 	        vm.getTemplateUrl = function () {
 	            return templates[vm.nestingDepth];
 	        };
-	
-	        // collection
-	        var month = [
-	        // month
-	        {
-	            type: 'months',
-	            children: [
-	            // week
-	            {
-	                type: 'weeks',
-	                children: [{
-	                    type: 'days',
-	                    children: ['day', 'day']
-	                }]
-	            }]
-	        }];
-	
-	        // collection
-	        var week = [
-	        // week
-	        {
-	            type: 'weeks',
-	            children: [{
-	                type: 'days',
-	                children: ['day', 'day']
-	            }]
-	        }];
-	
-	        // collection
-	        var day = [{
-	            type: 'days',
-	            children: ['day', 'day']
-	        }];
 	    }
 	}
 
@@ -471,7 +445,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	             *console.log('tempDays: ', tempDays);
 	             */
 	
-	            this.calendar = this._organizeMonths(tempDays);
+	            this.bcCollection = this._organizeMonths(tempDays);
+	
+	            console.log('this.bcCalendar: ', this.bcCalendar);
 	
 	            /*
 	             *console.log('tempMonths: ', tempMonths);
@@ -857,7 +833,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/calendar.html';
-	var html = "<section class=bc-calendar> <header class=bc-calendar__header> <span class=\"bc-calendar__day bc-calendar__day--header\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </header> <div ng-include=vm.getTemplateUrl()></div> </section>";
+	var html = "<section class=bc-calendar> <header class=bc-calendar__header> <span class=\"bc-calendar__day bc-calendar__day--header\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </header> <div data-ng-include=vm.getTemplateUrl()></div> </section>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -866,7 +842,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/year.html';
-	var html = "<div class=bc-calendar__year data-ng-repeat=\"year in vm.calendar track by $index\"> <div class=bc-calendar__month data-ng-repeat=\"month in year track by $index\"> <div class=bc-calendar__week data-ng-repeat=\"week in month track by $index\"> <span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day),\n                         'bc-calendar__day--today': vm.isDayToday(day),\n                         'bc-calendar__day--even': $even,\n                         'bc-calendar__day--pad': item.length < 5 }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in week track by $index\"> <time class=bc-calendar__day-time data-ng-class=\"{ 'bc-calendar__time--selected': vm.isDaySelected(day) }\" datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" title=\"{{ day }}\" data-ng-if=\"day.length > 2\"> {{ day | date:'MM/dd/yy' }} <small> {{ day | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=\"day.length < 3\"></span> </span> </div> </div> </div>";
+	var html = "<div class=bc-calendar__year data-ng-repeat=\"year in vm.bcCollection track by $index\"> <bc-month bc-collection=year></bc-month> </div>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -875,7 +851,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/month.html';
-	var html = "<div class=bc-calendar__month data-ng-repeat=\"month in vm.calendar track by $index\"> <div class=bc-calendar__week data-ng-repeat=\"week in month track by $index\"> <bc-day bc-collection=week></bc-day> </div> </div>";
+	var html = "<div class=bc-calendar__month data-ng-repeat=\"month in vm.bcCollection track by $index\"> <bc-week bc-collection=month></bc-week> </div>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -884,7 +860,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/week.html';
-	var html = "<div class=bc-calendar__week data-ng-repeat=\"week in vm.calendar track by $index\"> <span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day),\n                     'bc-calendar__day--today': vm.isDayToday(day),\n                     'bc-calendar__day--even': $even,\n                     'bc-calendar__day--pad': item.length < 5 }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in week track by $index\"> <time class=bc-calendar__day-time data-ng-class=\"{ 'bc-calendar__time--selected': vm.isDaySelected(day) }\" datetime=\"{{ day | date:'MMMM Do, YYYY' }}\" title=\"{{ day }}\" data-ng-if=\"day.length > 2\"> {{ day | date:'MM/dd/yy' }} <small> {{ day | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=\"day.length < 3\"></span> </span> </div>";
+	var html = "<div class=bc-calendar__week data-ng-repeat=\"week in vm.bcCollection track by $index\"> <bc-day bc-collection=week></bc-day> </div>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -899,6 +875,113 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/test.html';
+	var html = "<div> <h1>TEST</h1> <pre>\n{{ vm  | json }}\n</pre> </div>";
+	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.bcMonthDirective = bcMonthDirective;
+	
+	var _month = __webpack_require__(7);
+	
+	var _month2 = _interopRequireDefault(_month);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function bcMonthDirective() {
+	    'ngInject';
+	
+	    var directive = {
+	        restrict: 'E',
+	        replace: true,
+	        scope: {},
+	        bindToController: {
+	            bcCollection: '='
+	        },
+	        templateUrl: _month2.default,
+	        controller: function controller() {
+	
+	            /*
+	             *console.log(this);
+	             */
+	
+	        },
+	        controllerAs: 'vm',
+	        link: linkFunction
+	    };
+	
+	    /**
+	     * Link
+	     */
+	    function linkFunction($scope, $element, $attrs, vm) {
+	        console.log('In link: ', $scope.bcCollection);
+	    }
+	
+	    return directive;
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.bcWeekDirective = bcWeekDirective;
+	
+	var _week = __webpack_require__(8);
+	
+	var _week2 = _interopRequireDefault(_week);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function bcWeekDirective() {
+	    'ngInject';
+	
+	    var directive = {
+	        restrict: 'E',
+	        replace: true,
+	        scope: {},
+	        bindToController: {
+	            bcCollection: '='
+	        },
+	        templateUrl: _week2.default,
+	        controller: function controller() {
+	
+	            /*
+	             *console.log(this.bcCollection);
+	             */
+	
+	        },
+	        controllerAs: 'vm',
+	        link: linkFunction
+	    };
+	
+	    /**
+	     * Link
+	     */
+	    function linkFunction($scope, $element, $attrs, vm) {
+	        console.log('In link: ', $scope.bcCollection);
+	    }
+	
+	    return directive;
+	}
+
+/***/ },
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -925,7 +1008,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcCollection: '='
 	        },
 	        templateUrl: _day2.default,
-	        controller: function controller() {},
+	        controller: function controller() {
+	
+	            /*
+	             *console.log(this.bcCollection);
+	             */
+	
+	        },
 	        controllerAs: 'vm'
 	    };
 	
