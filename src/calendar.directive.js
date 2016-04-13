@@ -25,8 +25,9 @@ export function bcCalendarDirective(
         scope: {},
         bindToController: {
             bcStartDate: '@?', // date - default to today
+            bcEndDate: '@?', // date - if not present, use create using bcDays
             bcNestingDepth: '@?', // string [month|week|day] - defaults: month
-            bcDays: '@?', // integer - default to 1
+            bcDays: '@?', // integer - default to 30 (used to create bcEndDate)
             bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
             bcDateSelected: '&', // function will be called when a date is selected (tap/click)
         },

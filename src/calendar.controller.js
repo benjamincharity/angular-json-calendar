@@ -44,11 +44,6 @@ export class CalendarController {
 
         console.log('calendarDays: ', this.calendarDays);
 
-        // Get the current day of the month eg 23
-        this.todayDayOfMonth = moment(this.startDate).date();
-
-        // Get the current weekday eg 2
-        this.todayDayOfWeek = moment(this.startDate).day();
 
         // Initially no date is selected
         this.selectedDate = null;
@@ -63,23 +58,40 @@ export class CalendarController {
 
         console.log('days: ', days);
 
+        console.log('this.bcCollection: ', this.bcCollection)
+
+
+        // Build the calendar JSON and expose to the DOM
+        this._buildCalendar(days, this.nestingDepth);
+
+    }
+
+
+
+
+    /**
+     * Build the calendar JSON
+     *
+     * @param {Array} days
+     * @param {String} depth
+     * @return {Element} element
+     */
+    _buildCalendar(days, depth) {
+
         // Call the correct organization method based on the nesting depth
-        if (this.nestingDepth === 'month') {
+        if (depth === 'month') {
 
             this.bcCollection = this.bcCalendarService.organizeMonths(days);
 
-        } else if (this.nestingDepth === 'week') {
+        } else if (depth === 'week') {
 
             this.bcCollection = this.bcCalendarService.organizeWeeks(days);
 
-        } else if (this.nestingDepth === 'day') {
+        } else if (depth === 'day') {
 
             this.bcCollection = days;
 
         }
-
-        console.log('this.bcCollection: ', this.bcCollection)
-
 
     }
 

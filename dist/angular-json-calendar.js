@@ -448,8 +448,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        scope: {},
 	        bindToController: {
 	            bcStartDate: '@?', // date - default to today
+	            bcEndDate: '@?', // date - if not present, use create using bcDays
 	            bcNestingDepth: '@?', // string [month|week|day] - defaults: month
-	            bcDays: '@?', // integer - default to 1
+	            bcDays: '@?', // integer - default to 30 (used to create bcEndDate)
 	            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
 	            bcDateSelected: '&' },
 	        // function will be called when a date is selected (tap/click)
@@ -527,12 +528,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            console.log('calendarDays: ', this.calendarDays);
 	
-	            // Get the current day of the month eg 23
-	            this.todayDayOfMonth = moment(this.startDate).date();
-	
-	            // Get the current weekday eg 2
-	            this.todayDayOfWeek = moment(this.startDate).day();
-	
 	            // Initially no date is selected
 	            this.selectedDate = null;
 	
@@ -546,19 +541,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            console.log('days: ', days);
 	
+	            console.log('this.bcCollection: ', this.bcCollection);
+	
+	            // Build the calendar JSON and expose to the DOM
+	            this._buildCalendar(days, this.nestingDepth);
+	        }
+	
+	        /**
+	         * Build the calendar JSON
+	         *
+	         * @param {Array} days
+	         * @param {String} depth
+	         * @return {Element} element
+	         */
+	
+	    }, {
+	        key: '_buildCalendar',
+	        value: function _buildCalendar(days, depth) {
+	
 	            // Call the correct organization method based on the nesting depth
-	            if (this.nestingDepth === 'month') {
+	            if (depth === 'month') {
 	
 	                this.bcCollection = this.bcCalendarService.organizeMonths(days);
-	            } else if (this.nestingDepth === 'week') {
+	            } else if (depth === 'week') {
 	
 	                this.bcCollection = this.bcCalendarService.organizeWeeks(days);
-	            } else if (this.nestingDepth === 'day') {
+	            } else if (depth === 'day') {
 	
 	                this.bcCollection = days;
 	            }
-	
-	            console.log('this.bcCollection: ', this.bcCollection);
 	        }
 	
 	        /**
