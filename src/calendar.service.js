@@ -4,9 +4,9 @@ export class bcCalendarService {
     ) {
         'ngInject';
 
+        this.WEEK_LENGTH = 7;
+
     }
-
-
 
 
 
@@ -23,7 +23,16 @@ export class bcCalendarService {
     }
 
 
-
+    /**
+     * Check to see if the day matches the current date
+     *
+     * @param {Date} date
+     * @param {Date} startDate
+     * @return {Bool}
+     */
+    isDayToday(date, startDate) {
+        return moment(date).isSame(startDate);
+    }
 
 
     /**
@@ -99,6 +108,131 @@ export class bcCalendarService {
             // otherwise pad the beginning
             return days.concat(collection);
         }
+
+    }
+
+
+    /**
+     * Split an array into chunks and return an array of these chunks
+     *
+     * @param {Array} group
+     * @param {Integer} groupsize - Chunk size. Defaults to 7 (one week).
+     * @return {Array} chunks
+     */
+    chunk(group, groupsize = this.WEEK_LENGTH) {
+        const sets = [];
+        let i = 0;
+        const chunks = group.length / parseInt(groupsize, 10);
+
+        while(i < chunks) {
+            sets[i] = group.splice(0, groupsize);
+            i = i + 1;
+        }
+
+        return sets;
+    }
+
+
+    /**
+     * Organize a collection of days into sub collections of weeks
+     *
+     * @param {Array} days - array of days
+     * @return {Array} collection
+     */
+    organizeWeeks(days) {
+        // Determine the day of the week that the calendar starts and ends on
+        const firstDay = moment(days[0].date).day();
+        const lastDay = moment(days[days.length - 1].date).day();
+        const SATURDAY = 6;
+        const SUNDAY = 0;
+
+        // If the first day is after Sunday
+        if (firstDay > SUNDAY) {
+            // Pad with blank tiles so the first day is lined up in the correct weekday column
+            days = this.padBlankTiles(days, firstDay, 'left');
+        }
+
+        // If the last day is before Saturday
+        if (lastDay < SATURDAY) {
+            // Pad with blank tiles so that the last week's days are in the correct weekday column
+            days = this.padBlankTiles(days,this.WEEK_LENGTH - (lastDay + 1),
+                                                        'right');
+        }
+
+        return this.chunk(days);
+    }
+
+
+    /**
+     * Organize by month
+     *
+     * @param {Array} allDays - An array of all days
+     * @return {Array} collection - days organized into weeks and months
+     */
+    organizeMonths(allDays) {
+        const calendar = [];
+        const SATURDAY = 6;
+        const SUNDAY = 0;
+        let collection = allDays;
+        let month;
+        let dayOfMonth = moment(collection[0].date).date();
+        let daysInMonth = moment(collection[0].date).daysInMonth();
+
+        // Pad the beginning of the month with any missing days
+        // If the first day is not the first day of the month
+        if (moment(collection[0].date).date() > 0) {
+            // Pull this month's days from the collection
+            month = collection.slice(0, (daysInMonth - (dayOfMonth - 1)));
+
+            // Fill the missing days from the month
+            const pad = this.padDaysLeft(month[0].date, (dayOfMonth - 1));
+
+            // Combine with the existing array
+            collection = pad.concat(collection);
+        }
+
+
+        // Split into months
+        // As long as there are days left in the collection
+        while (collection.length > 0) {
+
+            // Get the day of the month for the first date of the collection eg. '24'
+            dayOfMonth = moment(collection[0].date).date();
+
+            // Determine how many days there are this month (total)
+            daysInMonth = moment(collection[0].date).daysInMonth();
+
+            // Pull this month's days from the collection
+            month = collection.splice(0, (daysInMonth - (dayOfMonth - 1)));
+
+            // How many weekdays are prior to the first day of this month?
+            const firstDay = moment(month[0].date).day();
+
+            // If the first day is after Sunday
+            if (firstDay > SUNDAY) {
+                // Pad with blank tiles so that the first day is lined up in the correct column
+                month = this.padBlankTiles(month, firstDay, 'left');
+            }
+
+            // How many weekdays are after the last day of the month?
+            // (remember: weeks are zero-based)
+            const lastDay = moment(month[month.length - 1].date).day();
+
+            // If blank tiles are needed for the last week
+            if (lastDay < SATURDAY) {
+                // Pad with blank tiles so that the first day is lined up in the correct column
+                month = this.padBlankTiles(month,
+                                                             this.WEEK_LENGTH - (lastDay + 1),
+                                                             'right');
+            }
+
+            // Organize into weeks and add to the calendar array
+            calendar.push(this.chunk(month));
+
+        }
+
+
+        return calendar;
 
     }
 
