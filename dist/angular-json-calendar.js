@@ -116,6 +116,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // Should days be organized by week?
 	        this.organizeWeeks = true;
+	
+	        // Should the calendar's header be visible?
+	        this.showHeader = true;
 	    }
 	
 	    _createClass(bcCalendarConfig, [{
@@ -473,8 +476,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcNestingDepth: '@?', // string [month|week|day] - defaults: month
 	            bcDays: '@?', // integer - default to 30 (used to create bcEndDate)
 	            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
-	            bcDateSelected: '&' },
-	        // function will be called when a date is selected (tap/click)
+	            bcDateSelected: '&', // function will be called when a date is selected (tap/click)
+	            bcShowHeader: '=?' },
+	        // determine if the weekdays header should be created
 	        link: linkFunction,
 	        templateUrl: _calendar3.default,
 	        controller: _calendar.CalendarController,
@@ -548,14 +552,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Define the weekday headers format
 	            this.weekdays = this.bcWeekTitleFormat ? this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
 	
-	            // Initially no date is selected
-	            this.selectedDate = null;
-	
 	            // Build array of days
 	            var days = this._buildDays(this.days, this.startDate);
 	
 	            // Build the calendar JSON and expose to the DOM
 	            this._buildCalendar(days, this.nestingDepth);
+	
+	            // Initially no date is selected
+	            this.selectedDate = null;
+	
+	            // Set the visibility of the calendar header
+	            this.showHeader = typeof this.bcShowHeader === 'boolean' ? this.bcShowHeader : this.bcCalendarConfig.showHeader;
 	        }
 	
 	        /**
@@ -671,7 +678,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/calendar.html';
-	var html = "<section class=bc-calendar> <header class=bc-calendar__header> <span class=\"bc-calendar__day bc-calendar__day--header\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </header> <div data-ng-include=vm.getTemplateUrl()></div> </section>";
+	var html = "<section class=bc-calendar> <header class=bc-calendar__header data-ng-if=vm.showHeader> <span class=\"bc-calendar__day bc-calendar__day--header\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </header> <div data-ng-include=vm.getTemplateUrl()></div> </section>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 

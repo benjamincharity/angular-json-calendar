@@ -24,12 +24,13 @@ export function bcCalendarDirective(
         replace: true,
         scope: {},
         bindToController: {
-            bcStartDate: '@?', // date - default to today
-            bcEndDate: '@?', // date - if not present, use create using bcDays
-            bcNestingDepth: '@?', // string [month|week|day] - defaults: month
-            bcDays: '@?', // integer - default to 30 (used to create bcEndDate)
+            bcStartDate: '@?',       // date - default to today
+            bcEndDate: '@?',         // date - if not present, use create using bcDays
+            bcNestingDepth: '@?',    // string [month|week|day] - defaults: month
+            bcDays: '@?',            // integer - default to 30 (used to create bcEndDate)
             bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
-            bcDateSelected: '&', // function will be called when a date is selected (tap/click)
+            bcDateSelected: '&',     // function will be called when a date is selected (tap/click)
+            bcShowHeader: '=?',      // determine if the weekdays header should be created
         },
         link: linkFunction,
         templateUrl: calendarTemplate,

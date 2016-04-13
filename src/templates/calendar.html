@@ -1,6 +1,6 @@
 <section class="bc-calendar">
 
-  <header class="bc-calendar__header">
+  <header class="bc-calendar__header" data-ng-if="vm.showHeader">
     <span
       class="bc-calendar__day  bc-calendar__day--header"
       data-ng-repeat="day in vm.weekdays track by $index"

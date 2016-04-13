@@ -49,6 +49,9 @@ export class bcCalendarConfig {
         // Should days be organized by week?
         this.organizeWeeks = true;
 
+        // Should the calendar's header be visible?
+        this.showHeader = true;
+
     }
 
 

@@ -44,14 +44,18 @@ export class CalendarController {
             this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
             this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
 
-        // Initially no date is selected
-        this.selectedDate = null;
-
         // Build array of days
         const days = this._buildDays(this.days, this.startDate);
 
         // Build the calendar JSON and expose to the DOM
         this._buildCalendar(days, this.nestingDepth);
+
+        // Initially no date is selected
+        this.selectedDate = null;
+
+        // Set the visibility of the calendar header
+        this.showHeader = typeof(this.bcShowHeader) === 'boolean' ?
+            this.bcShowHeader : this.bcCalendarConfig.showHeader;
 
     }
 
