@@ -20,14 +20,23 @@ export class CalendarController {
         // Define today's date
         this.today = moment(new Date()).startOf('day');
 
-        // DEFAULTS
-        this.startDate = this.startDate || this.bcCalendarConfig.startDate;
+        // Define the start date for the calendar
+        this.startDate = this.bcStartDate || this.bcCalendarConfig.startDate;
 
-        // Define how many days are needed
-        // TODO: this should be a fallback for when endDate isn't defined
-        this.days = parseInt(this.bcDays || this.bcCalendarConfig.days, 10);
+        // If the end date was defined
+        if (this.bcEndDate) {
 
-        // Define how deep to organize days
+            // Define how many days are needed using the end date
+            this.days = this.bcCalendarService.durationInDays(this.startDate, this.bcEndDate);
+
+        } else {
+
+            // Define how many days are needed from the count passed in or the config
+            this.days = parseInt(this.bcDays || this.bcCalendarConfig.days, 10);
+
+        }
+
+        // Define how deep to organize the calendar
         this.nestingDepth = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
 
         // Define the weekday headers format
@@ -35,31 +44,11 @@ export class CalendarController {
             this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
             this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
 
-        // Define the calendar duration (length)
-        this.calendarDuration =
-            moment.duration(this.days, this.bcCalendarConfig.interval);
-
-        // Get the full count of days
-        this.calendarDays = this.calendarDuration.asDays();
-
-        console.log('calendarDays: ', this.calendarDays);
-
-
         // Initially no date is selected
         this.selectedDate = null;
 
-        const JS_DATE = {
-            year: 2016,
-            month: 3,
-            day: 11,
-        };
-
+        // Build array of days
         const days = this._buildDays(this.days, this.startDate);
-
-        console.log('days: ', days);
-
-        console.log('this.bcCollection: ', this.bcCollection)
-
 
         // Build the calendar JSON and expose to the DOM
         this._buildCalendar(days, this.nestingDepth);
@@ -139,6 +128,13 @@ export class CalendarController {
     }
 
 
+    /**
+     * Build an array of days
+     *
+     * @param {Integer} limit - how many days to create
+     * @param {Date} start - the starting date
+     * @return {Array} days
+     */
     _buildDays(limit, start) {
         let counter = 0;
         const days = [];
@@ -153,13 +149,9 @@ export class CalendarController {
                 date: day,
             });
 
-            // Increment our counter
+            // Increment the counter
             counter = counter + 1;
         }
-
-        /*
-         *console.warn('build days: ', limit, start, days);
-         */
 
         return days;
     }

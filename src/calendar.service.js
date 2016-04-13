@@ -155,8 +155,7 @@ export class bcCalendarService {
         // If the last day is before Saturday
         if (lastDay < SATURDAY) {
             // Pad with blank tiles so that the last week's days are in the correct weekday column
-            days = this.padBlankTiles(days,this.WEEK_LENGTH - (lastDay + 1),
-                                                        'right');
+            days = this.padBlankTiles(days,this.WEEK_LENGTH - (lastDay + 1), 'right');
         }
 
         return this.chunk(days);
@@ -221,9 +220,7 @@ export class bcCalendarService {
             // If blank tiles are needed for the last week
             if (lastDay < SATURDAY) {
                 // Pad with blank tiles so that the first day is lined up in the correct column
-                month = this.padBlankTiles(month,
-                                                             this.WEEK_LENGTH - (lastDay + 1),
-                                                             'right');
+                month = this.padBlankTiles(month, this.WEEK_LENGTH - (lastDay + 1), 'right');
             }
 
             // Organize into weeks and add to the calendar array
@@ -236,6 +233,24 @@ export class bcCalendarService {
 
     }
 
+
+    /**
+     * Get the duration in days between two dates
+     *
+     * @param {Date} start
+     * @param {Date} end
+     * @return {Integer} days
+     */
+    durationInDays(start, end) {
+        const secondsInDay = 86400;
+        const secondsInYear = 31536000;
+
+        // Find the difference when converted to seconds
+        const diffence = moment(end).unix() - moment(start).unix();
+
+        // Convert the difference of seconds back into days
+        return Math.floor((diffence % secondsInYear) / secondsInDay);
+    }
 
 
 }
