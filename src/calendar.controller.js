@@ -1,10 +1,12 @@
 export class CalendarController {
 
     constructor(
+        $templateCache,
         bcCalendarConfig, bcCalendarService
     ) {
         'ngInject';
 
+        this.$templateCache = $templateCache;
         this.bcCalendarConfig = bcCalendarConfig;
         this.bcCalendarService = bcCalendarService;
 
@@ -56,6 +58,37 @@ export class CalendarController {
         // Set the visibility of the calendar header
         this.showHeader = typeof(this.bcShowHeader) === 'boolean' ?
             this.bcShowHeader : this.bcCalendarConfig.showHeader;
+
+        // Define the template for an individual day
+        // If the user defined a template on the directive
+        if (this.bcDayTemplate) {
+            // If the user defined a template in the provider
+            const templateLocation = 'userDayTemplate.html';
+
+            // Put the user template into the cache
+            this.$templateCache.put(templateLocation, this.bcDayTemplate);
+
+            // Expose the location to the directive
+            this.dayTemplate = templateLocation;
+
+        } else if (this.bcCalendarConfig.userDayTemplate) {
+
+            // If the user defined a template in the provider
+            const templateLocation = 'userDayTemplate.html';
+
+            // Put the user template into the cache
+            this.$templateCache.put(templateLocation, this.bcCalendarConfig.userDayTemplate);
+
+            // Expose the location to the directive
+            this.dayTemplate = templateLocation;
+
+        } else {
+            // no template from the user
+
+            // Expose the default template location to the directive
+            this.dayTemplate = this.bcCalendarConfig.dayTemplate;
+
+        }
 
     }
 

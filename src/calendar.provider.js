@@ -1,7 +1,10 @@
+import dayTemplate from './templates/day.inner.html';
+
 export class bcCalendarConfig {
 
     // Define defaults
     constructor() {
+        'ngInject';
 
         // The calendar will begin with today
         this.startDate = moment(new Date()).startOf('day').toISOString();
@@ -46,11 +49,16 @@ export class bcCalendarConfig {
         // Set the default word type (M vs Mon vs Monday)
         this.weekTitleFormat = 'abbreviation';
 
-        // Should days be organized by week?
-        this.organizeWeeks = true;
-
         // Should the calendar's header be visible?
         this.showHeader = true;
+
+        // Define the default template for a day
+        this.dayTemplate = dayTemplate;
+
+        // Allow the user to set a custom template
+        this.setDayTemplate = (template) => {
+            this.userDayTemplate = template;
+        }
 
     }
 

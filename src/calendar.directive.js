@@ -31,6 +31,7 @@ export function bcCalendarDirective(
             bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
             bcDateSelected: '&',     // function will be called when a date is selected (tap/click)
             bcShowHeader: '=?',      // determine if the weekdays header should be created
+            bcDayTemplate: '@?',
         },
         link: linkFunction,
         templateUrl: calendarTemplate,
