@@ -46,12 +46,6 @@ export class CalendarController {
             this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
             this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
 
-        // Build array of days
-        const days = this._buildDays(this.days, this.startDate);
-
-        // Build the calendar JSON and expose to the DOM
-        this._buildCalendar(days, this.nestingDepth);
-
         // Initially no date is selected
         this.selectedDate = null;
 
@@ -90,36 +84,18 @@ export class CalendarController {
 
         }
 
-    }
+        // Define the date format for the individual day
+        this.dateFormat = this.bcDateFormat || this.bcCalendarConfig.dateFormat;
 
+        // Build array of days
+        const days = this._buildDays(this.days, this.startDate);
 
-
-
-    /**
-     * Build the calendar JSON
-     *
-     * @param {Array} days
-     * @param {String} depth
-     * @return {Element} element
-     */
-    _buildCalendar(days, depth) {
-
-        // Call the correct organization method based on the nesting depth
-        if (depth === 'month') {
-
-            this.bcCollection = this.bcCalendarService.organizeMonths(days);
-
-        } else if (depth === 'week') {
-
-            this.bcCollection = this.bcCalendarService.organizeWeeks(days);
-
-        } else if (depth === 'day') {
-
-            this.bcCollection = days;
-
-        }
+        // Build the calendar JSON and expose to the DOM
+        this._buildCalendar(days, this.nestingDepth);
 
     }
+
+
 
 
     /**
@@ -160,6 +136,49 @@ export class CalendarController {
             this.bcDateSelected({
                 date: day.date,
             });
+        }
+
+    }
+
+
+    /**
+     * Format a date using moment
+     *
+     * @param {String} date
+     * @param {String} format
+     * @return {String} formattedDate
+     */
+    formatDate(date, format) {
+        if (!date) {
+            return false;
+        }
+
+        return moment(date).format(format);
+    }
+
+
+    /**
+     * Build the calendar JSON
+     *
+     * @param {Array} days
+     * @param {String} depth
+     * @return {Element} element
+     */
+    _buildCalendar(days, depth) {
+
+        // Call the correct organization method based on the nesting depth
+        if (depth === 'month') {
+
+            this.bcCollection = this.bcCalendarService.organizeMonths(days);
+
+        } else if (depth === 'week') {
+
+            this.bcCollection = this.bcCalendarService.organizeWeeks(days);
+
+        } else if (depth === 'day') {
+
+            this.bcCollection = days;
+
         }
 
     }
