@@ -9,22 +9,7 @@
   data-ng-repeat="day in vm.bcCollection track by $index"
 >
 
-  <time
-    class="bc-calendar__day-time"
-    datetime="{{ day.date | date:'MMMM Do, YYYY' }}"
-    title="{{ day.date }}"
-    data-ng-if="day.date && day.date.length > 3"
-  >
-    {{ day.date | date:'MM/dd/yy' }}
-    <small>
-      {{ day.date | date:'EEE' }}
-    </small>
-  </time>
-
-  <span
-    class="bc-calendar__day-time"
-    data-ng-if="!day.date"
-  ></span>
+  <ng-include src="vm.dayTemplate"></ng-include>
 
 </span>
 

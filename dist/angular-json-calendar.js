@@ -62,29 +62,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _calendar = __webpack_require__(1);
 	
-	var _calendar2 = __webpack_require__(2);
+	var _calendar2 = __webpack_require__(3);
 	
-	var _calendar3 = __webpack_require__(3);
+	var _calendar3 = __webpack_require__(4);
 	
-	var _month = __webpack_require__(10);
+	var _month = __webpack_require__(11);
 	
-	var _week = __webpack_require__(11);
+	var _week = __webpack_require__(12);
 	
-	var _day = __webpack_require__(12);
+	var _day = __webpack_require__(13);
 	
 	exports.default = angular.module('bc.JsonCalendar', []).provider('bcCalendarConfig', _calendar.bcCalendarConfig).service('bcCalendarService', _calendar2.bcCalendarService).directive('bcCalendar', _calendar3.bcCalendarDirective).directive('bcMonth', _month.bcMonthDirective).directive('bcWeek', _week.bcWeekDirective).directive('bcDay', _day.bcDayDirective);
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.bcCalendarConfig = undefined;
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _dayInner = __webpack_require__(2);
+	
+	var _dayInner2 = _interopRequireDefault(_dayInner);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -93,9 +100,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // Define defaults
 	
 	    function bcCalendarConfig() {
-	        _classCallCheck(this, bcCalendarConfig);
+	        'ngInject';
 	
 	        // The calendar will begin with today
+	
+	        var _this = this;
+	
+	        _classCallCheck(this, bcCalendarConfig);
+	
 	        this.startDate = moment(new Date()).startOf('day').toISOString();
 	
 	        // The default interval type [day|week|month]
@@ -114,11 +126,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Set the default word type (M vs Mon vs Monday)
 	        this.weekTitleFormat = 'abbreviation';
 	
-	        // Should days be organized by week?
-	        this.organizeWeeks = true;
-	
 	        // Should the calendar's header be visible?
 	        this.showHeader = true;
+	
+	        // Define the default template for a day
+	        this.dayTemplate = _dayInner2.default;
+	
+	        // Allow the user to set a custom template
+	        this.setDayTemplate = function (template) {
+	            _this.userDayTemplate = template;
+	        };
 	    }
 	
 	    _createClass(bcCalendarConfig, [{
@@ -133,6 +150,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/day.inner.html';
+	var html = "<div> <time class=bc-calendar__day-time datetime=\"{{ day.date | date:'MMMM Do, YYYY' }}\" title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> {{ day.date | date:'MM/dd/yy' }} <small> {{ day.date | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=!day.date></span> </div>";
+	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -419,7 +445,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -430,25 +456,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.bcCalendarDirective = bcCalendarDirective;
 	
-	var _calendar = __webpack_require__(4);
+	var _calendar = __webpack_require__(5);
 	
-	var _calendar2 = __webpack_require__(5);
+	var _calendar2 = __webpack_require__(6);
 	
 	var _calendar3 = _interopRequireDefault(_calendar2);
 	
-	var _year = __webpack_require__(6);
+	var _year = __webpack_require__(7);
 	
 	var _year2 = _interopRequireDefault(_year);
 	
-	var _month = __webpack_require__(7);
+	var _month = __webpack_require__(8);
 	
 	var _month2 = _interopRequireDefault(_month);
 	
-	var _week = __webpack_require__(8);
+	var _week = __webpack_require__(9);
 	
 	var _week2 = _interopRequireDefault(_week);
 	
-	var _day = __webpack_require__(9);
+	var _day = __webpack_require__(10);
 	
 	var _day2 = _interopRequireDefault(_day);
 	
@@ -477,8 +503,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcDays: '@?', // integer - default to 30 (used to create bcEndDate)
 	            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
 	            bcDateSelected: '&', // function will be called when a date is selected (tap/click)
-	            bcShowHeader: '=?' },
-	        // determine if the weekdays header should be created
+	            bcShowHeader: '=?', // determine if the weekdays header should be created
+	            bcDayTemplate: '@?'
+	        },
 	        link: linkFunction,
 	        templateUrl: _calendar3.default,
 	        controller: _calendar.CalendarController,
@@ -500,7 +527,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -514,12 +541,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var CalendarController = exports.CalendarController = function () {
-	    CalendarController.$inject = ["bcCalendarConfig", "bcCalendarService"];
-	    function CalendarController(bcCalendarConfig, bcCalendarService) {
+	    CalendarController.$inject = ["$templateCache", "bcCalendarConfig", "bcCalendarService"];
+	    function CalendarController($templateCache, bcCalendarConfig, bcCalendarService) {
 	        'ngInject';
 	
 	        _classCallCheck(this, CalendarController);
 	
+	        this.$templateCache = $templateCache;
 	        this.bcCalendarConfig = bcCalendarConfig;
 	        this.bcCalendarService = bcCalendarService;
 	
@@ -563,6 +591,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Set the visibility of the calendar header
 	            this.showHeader = typeof this.bcShowHeader === 'boolean' ? this.bcShowHeader : this.bcCalendarConfig.showHeader;
+	
+	            // Define the template for an individual day
+	            // If the user defined a template on the directive
+	            if (this.bcDayTemplate) {
+	                // If the user defined a template in the provider
+	                var templateLocation = 'userDayTemplate.html';
+	
+	                // Put the user template into the cache
+	                this.$templateCache.put(templateLocation, this.bcDayTemplate);
+	
+	                // Expose the location to the directive
+	                this.dayTemplate = templateLocation;
+	            } else if (this.bcCalendarConfig.userDayTemplate) {
+	
+	                // If the user defined a template in the provider
+	                var _templateLocation = 'userDayTemplate.html';
+	
+	                // Put the user template into the cache
+	                this.$templateCache.put(_templateLocation, this.bcCalendarConfig.userDayTemplate);
+	
+	                // Expose the location to the directive
+	                this.dayTemplate = _templateLocation;
+	            } else {
+	                // no template from the user
+	
+	                // Expose the default template location to the directive
+	                this.dayTemplate = this.bcCalendarConfig.dayTemplate;
+	            }
 	        }
 	
 	        /**
@@ -674,7 +730,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/calendar.html';
@@ -683,7 +739,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = path;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/year.html';
@@ -692,7 +748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = path;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/month.html';
@@ -701,7 +757,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = path;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/week.html';
@@ -710,16 +766,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = path;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/day.html';
-	var html = "<span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day.date),\n                   'bc-calendar__day--today': vm.isDayToday(day.date),\n                   'bc-calendar__day--even': $even,\n                   'bc-calendar__day--pad': !day.date,\n                   'bc-calendar__day--selected': day.date === vm.selectedDate.date }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in vm.bcCollection track by $index\"> <time class=bc-calendar__day-time datetime=\"{{ day.date | date:'MMMM Do, YYYY' }}\" title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> {{ day.date | date:'MM/dd/yy' }} <small> {{ day.date | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=!day.date></span> </span>";
+	var html = "<span class=bc-calendar__day data-ng-class=\"{ 'bc-calendar__day--disabled': vm.isBeforeToday(day.date),\n                   'bc-calendar__day--today': vm.isDayToday(day.date),\n                   'bc-calendar__day--even': $even,\n                   'bc-calendar__day--pad': !day.date,\n                   'bc-calendar__day--selected': day.date === vm.selectedDate.date }\" data-ng-click=vm.selectDate(day) data-ng-repeat=\"day in vm.bcCollection track by $index\"> <ng-include src=vm.dayTemplate></ng-include> </span>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -729,7 +785,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.bcMonthDirective = bcMonthDirective;
 	
-	var _month = __webpack_require__(7);
+	var _month = __webpack_require__(8);
 	
 	var _month2 = _interopRequireDefault(_month);
 	
@@ -754,7 +810,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -764,7 +820,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.bcWeekDirective = bcWeekDirective;
 	
-	var _week = __webpack_require__(8);
+	var _week = __webpack_require__(9);
 	
 	var _week2 = _interopRequireDefault(_week);
 	
@@ -789,23 +845,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
+	bcDayDirective.$inject = ["bcCalendarConfig"];
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.bcDayDirective = bcDayDirective;
 	
-	var _day = __webpack_require__(9);
+	var _day = __webpack_require__(10);
 	
 	var _day2 = _interopRequireDefault(_day);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function bcDayDirective() {
+	function bcDayDirective(bcCalendarConfig) {
 	    'ngInject';
 	
 	    var directive = {

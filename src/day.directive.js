@@ -1,6 +1,7 @@
-import dayTemplate from './templates/day.html';
+import dayWrapperTemplate from './templates/day.html';
 
 export function bcDayDirective(
+    bcCalendarConfig
 ) {
     'ngInject';
 
@@ -11,7 +12,7 @@ export function bcDayDirective(
         bindToController: {
             bcCollection: '=',
         },
-        templateUrl: dayTemplate,
+        templateUrl: dayWrapperTemplate,
         controller: () => {},
         controllerAs: 'vm',
     };
