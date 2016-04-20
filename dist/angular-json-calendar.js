@@ -120,7 +120,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.weekdayStyle = {
 	            letter: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
 	            abbreviation: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
-	            word: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satday']
+	            word: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 	        };
 	
 	        // Set the default word type (M vs Mon vs Monday)
@@ -137,7 +137,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            _this.userDayTemplate = template;
 	        };
 	
+	        // Define the default format for a day
 	        this.dateFormat = 'D';
+	
+	        // Define the default format for a month title
+	        this.monthTitleFormat = 'MMMM';
+	
+	        // Should month titles be shown by default?
+	        this.showMonthTitles = true;
 	    }
 	
 	    _createClass(bcCalendarConfig, [{
@@ -155,7 +162,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/day.inner.html';
-	var html = "<div> <time class=bc-calendar__day-time datetime=\"{{ day.date | date:'MMMM Do, YYYY' }}\" title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> <span data-ng-bind=\"vm.formatDate(day.date, vm.dateFormat)\"></span> </time> <span class=bc-calendar__day-time data-ng-if=!day.date></span> </div>";
+	var html = "<time datetime=\"{{ day.date | date:'yyyy-MM-dd' }}\" class=bc-calendar__day-time title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> <span data-ng-bind=\"vm.formatDate(day.date, vm.dateFormat)\"></span> </time>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -504,8 +511,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcNestingDepth: '@?', // string [month|week|day] - defaults: month
 	            bcDays: '@?', // integer - default to 30 (used to create bcEndDate)
 	            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
+	            bcMonthTitleFormat: '@?', // string - any valid Moment date format - default: MMMM
 	            bcDateSelected: '&', // function will be called when a date is selected (tap/click)
 	            bcShowHeader: '=?', // determine if the weekdays header should be created
+	            bcShowMonthTitles: '=?', // determine if the month titles should be visible
 	            bcDayTemplate: '@?', // overwrite the default 'day' template
 	            bcDateFormat: '@?' },
 	        // define a custom date format for the day
@@ -582,6 +591,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // Define the weekday headers format
 	            this.weekdays = this.bcWeekTitleFormat ? this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
+	
+	            // Define the format for the month title
+	            this.monthTitleFormat = this.bcMonthTitleFormat || this.bcCalendarConfig.monthTitleFormat;
+	
+	            // Define if month titles should be visible
+	            this.showMonthTitles = typeof this.bcShowMonthTitles === 'boolean' ? this.bcShowMonthTitles : this.bcCalendarConfig.showMonthTitles;
 	
 	            // Initially no date is selected
 	            this.selectedDate = null;
@@ -663,7 +678,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'selectDate',
 	        value: function selectDate(day) {
-	
 	            // Set the selected day
 	            this.selectedDate = day;
 	
@@ -720,6 +734,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        /**
 	         * Build an array of days
+	         * TODO: Move to service
 	         *
 	         * @param {Integer} limit - how many days to create
 	         * @param {Date} start - the starting date
@@ -776,7 +791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/month.html';
-	var html = "<div class=bc-calendar__month data-ng-repeat=\"month in vm.bcCollection track by $index\"> <bc-week bc-collection=month></bc-week> </div>";
+	var html = "<time datetime=\"{{ month[0][month[0].length - 1].date | date:'yyyy-MM' }}\" class=bc-calendar__month data-ng-repeat=\"month in vm.bcCollection track by $index\"> <span class=bc-calendar__month-title data-ng-bind=\"vm.formatDate(month[0][month[0].length - 1].date, vm.monthTitleFormat)\" data-ng-if=vm.showMonthTitles></span> <bc-week bc-collection=month></bc-week> </time>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -785,7 +800,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/week.html';
-	var html = "<div class=bc-calendar__week data-ng-repeat=\"week in vm.bcCollection track by $index\"> <bc-day bc-collection=week></bc-day> </div>";
+	var html = "<time datetime=\"{{ week[week.length - 1].date | date:'yyyy-ww' }}\" class=bc-calendar__week data-ng-repeat=\"week in vm.bcCollection track by $index\"> <bc-day bc-collection=week></bc-day> </time>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 

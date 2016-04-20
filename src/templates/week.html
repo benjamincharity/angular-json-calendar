@@ -1,6 +1,10 @@
-<div class="bc-calendar__week" data-ng-repeat="week in vm.bcCollection track by $index">
+<time
+  datetime="{{ week[week.length - 1].date | date:'yyyy-ww' }}"
+  class="bc-calendar__week"
+  data-ng-repeat="week in vm.bcCollection track by $index"
+>
 
   <bc-day bc-collection="week"></bc-day>
 
-</div>
+</time>
 

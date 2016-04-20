@@ -42,7 +42,7 @@ export class bcCalendarConfig {
                 'Wednesday',
                 'Thursday',
                 'Friday',
-                'Satday',
+                'Saturday',
             ],
         };
 
@@ -60,7 +60,14 @@ export class bcCalendarConfig {
             this.userDayTemplate = template;
         }
 
+        // Define the default format for a day
         this.dateFormat = 'D';
+
+        // Define the default format for a month title
+        this.monthTitleFormat = 'MMMM'
+
+        // Should month titles be shown by default?
+        this.showMonthTitles = true;
 
     }
 

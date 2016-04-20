@@ -1,6 +1,16 @@
-<div class="bc-calendar__month" data-ng-repeat="month in vm.bcCollection track by $index">
+<time
+  datetime="{{ month[0][month[0].length - 1].date | date:'yyyy-MM' }}"
+  class="bc-calendar__month"
+  data-ng-repeat="month in vm.bcCollection track by $index"
+>
+
+  <span
+    class="bc-calendar__month-title"
+    data-ng-bind="vm.formatDate(month[0][month[0].length - 1].date, vm.monthTitleFormat)"
+    data-ng-if="vm.showMonthTitles"
+  ></span>
 
   <bc-week bc-collection="month"></bc-week>
 
-</div>
+</time>
 

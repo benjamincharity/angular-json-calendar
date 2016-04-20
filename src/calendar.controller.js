@@ -46,6 +46,13 @@ export class CalendarController {
             this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
             this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
 
+        // Define the format for the month title
+        this.monthTitleFormat = this.bcMonthTitleFormat || this.bcCalendarConfig.monthTitleFormat;
+
+        // Define if month titles should be visible
+        this.showMonthTitles = typeof(this.bcShowMonthTitles) === 'boolean' ?
+            this.bcShowMonthTitles : this.bcCalendarConfig.showMonthTitles;
+
         // Initially no date is selected
         this.selectedDate = null;
 
@@ -127,7 +134,6 @@ export class CalendarController {
      * @param {Object} day
      */
     selectDate(day) {
-
         // Set the selected day
         this.selectedDate = day;
 
@@ -137,7 +143,6 @@ export class CalendarController {
                 date: day.date,
             });
         }
-
     }
 
 
@@ -186,6 +191,7 @@ export class CalendarController {
 
     /**
      * Build an array of days
+     * TODO: Move to service
      *
      * @param {Integer} limit - how many days to create
      * @param {Date} start - the starting date

@@ -1,18 +1,9 @@
-<div>
-
-  <time
-    class="bc-calendar__day-time"
-    datetime="{{ day.date | date:'MMMM Do, YYYY' }}"
-    title="{{ day.date }}"
-    data-ng-if="day.date && day.date.length > 3"
-  >
-    <span data-ng-bind="vm.formatDate(day.date, vm.dateFormat)"></span>
-  </time>
-
-  <span
-    class="bc-calendar__day-time"
-    data-ng-if="!day.date"
-  ></span>
-
-</div>
+<time
+  datetime="{{ day.date | date:'yyyy-MM-dd' }}"
+  class="bc-calendar__day-time"
+  title="{{ day.date }}"
+  data-ng-if="day.date && day.date.length > 3"
+>
+  <span data-ng-bind="vm.formatDate(day.date, vm.dateFormat)"></span>
+</time>
 

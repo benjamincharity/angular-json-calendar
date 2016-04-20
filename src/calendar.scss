@@ -10,6 +10,7 @@ $black: #000;
   }
 
   &__month {
+    display: block;
     margin-bottom: 2rem;
   }
 
@@ -47,9 +48,9 @@ $black: #000;
       }
     }
 
-    &--disabled {
-      opacity: .3;
-    }
+    //&--disabled {
+      //opacity: .3;
+    //}
 
     &--even {
       background-color: rgba($black, .1);

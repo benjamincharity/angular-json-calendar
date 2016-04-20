@@ -29,8 +29,10 @@ export function bcCalendarDirective(
             bcNestingDepth: '@?',    // string [month|week|day] - defaults: month
             bcDays: '@?',            // integer - default to 30 (used to create bcEndDate)
             bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
+            bcMonthTitleFormat: '@?',// string - any valid Moment date format - default: MMMM
             bcDateSelected: '&',     // function will be called when a date is selected (tap/click)
             bcShowHeader: '=?',      // determine if the weekdays header should be created
+            bcShowMonthTitles: '=?', // determine if the month titles should be visible
             bcDayTemplate: '@?',     // overwrite the default 'day' template
             bcDateFormat: '@?',      // define a custom date format for the day
         },

@@ -9,6 +9,7 @@
 }
 
 .bc-calendar__month {
+  display: block;
   margin-bottom: 2rem;
 }
 
@@ -54,10 +55,6 @@
 
 .bc-calendar__day--header::before {
   display: none;
-}
-
-.bc-calendar__day--disabled {
-  opacity: .3;
 }
 
 .bc-calendar__day--even {
