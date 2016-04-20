@@ -6,10 +6,7 @@
     title="{{ day.date }}"
     data-ng-if="day.date && day.date.length > 3"
   >
-    {{ day.date | date:'MM/dd/yy' }}
-    <small>
-      {{ day.date | date:'EEE' }}
-    </small>
+    <span data-ng-bind="vm.formatDate(day.date, vm.dateFormat)"></span>
   </time>
 
   <span

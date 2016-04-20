@@ -1,7 +1,3 @@
-.bc-calendar {
-  border: 1px solid #f00;
-}
-
 .bc-calendar__header {
   display: -webkit-box;
   display: -webkit-flex;
@@ -52,16 +48,12 @@
   padding-top: 80%;
 }
 
-.bc-calendar__day--header::before {
-  display: none;
+.bc-calendar__day--header {
+  line-height: 2em;
 }
 
-.bc-calendar__day--header time {
-  position: relative;
-  bottom: auto;
-  left: auto;
-  right: auto;
-  top: auto;
+.bc-calendar__day--header::before {
+  display: none;
 }
 
 .bc-calendar__day--disabled {
@@ -73,6 +65,21 @@
 }
 
 .bc-calendar__day-time {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-flex-flow: row nowrap;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   position: absolute;
   bottom: 0;
   left: 0;

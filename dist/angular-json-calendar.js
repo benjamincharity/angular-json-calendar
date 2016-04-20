@@ -136,6 +136,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.setDayTemplate = function (template) {
 	            _this.userDayTemplate = template;
 	        };
+	
+	        this.dateFormat = 'D';
 	    }
 	
 	    _createClass(bcCalendarConfig, [{
@@ -153,7 +155,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/day.inner.html';
-	var html = "<div> <time class=bc-calendar__day-time datetime=\"{{ day.date | date:'MMMM Do, YYYY' }}\" title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> {{ day.date | date:'MM/dd/yy' }} <small> {{ day.date | date:'EEE' }} </small> </time> <span class=bc-calendar__day-time data-ng-if=!day.date></span> </div>";
+	var html = "<div> <time class=bc-calendar__day-time datetime=\"{{ day.date | date:'MMMM Do, YYYY' }}\" title=\"{{ day.date }}\" data-ng-if=\"day.date && day.date.length > 3\"> <span data-ng-bind=\"vm.formatDate(day.date, vm.dateFormat)\"></span> </time> <span class=bc-calendar__day-time data-ng-if=!day.date></span> </div>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -504,8 +506,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
 	            bcDateSelected: '&', // function will be called when a date is selected (tap/click)
 	            bcShowHeader: '=?', // determine if the weekdays header should be created
-	            bcDayTemplate: '@?'
-	        },
+	            bcDayTemplate: '@?', // overwrite the default 'day' template
+	            bcDateFormat: '@?' },
+	        // define a custom date format for the day
 	        link: linkFunction,
 	        templateUrl: _calendar3.default,
 	        controller: _calendar.CalendarController,
@@ -580,12 +583,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Define the weekday headers format
 	            this.weekdays = this.bcWeekTitleFormat ? this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
 	
-	            // Build array of days
-	            var days = this._buildDays(this.days, this.startDate);
-	
-	            // Build the calendar JSON and expose to the DOM
-	            this._buildCalendar(days, this.nestingDepth);
-	
 	            // Initially no date is selected
 	            this.selectedDate = null;
 	
@@ -619,31 +616,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                // Expose the default template location to the directive
 	                this.dayTemplate = this.bcCalendarConfig.dayTemplate;
 	            }
-	        }
 	
-	        /**
-	         * Build the calendar JSON
-	         *
-	         * @param {Array} days
-	         * @param {String} depth
-	         * @return {Element} element
-	         */
+	            // Define the date format for the individual day
+	            this.dateFormat = this.bcDateFormat || this.bcCalendarConfig.dateFormat;
 	
-	    }, {
-	        key: '_buildCalendar',
-	        value: function _buildCalendar(days, depth) {
+	            // Build array of days
+	            var days = this._buildDays(this.days, this.startDate);
 	
-	            // Call the correct organization method based on the nesting depth
-	            if (depth === 'month') {
-	
-	                this.bcCollection = this.bcCalendarService.organizeMonths(days);
-	            } else if (depth === 'week') {
-	
-	                this.bcCollection = this.bcCalendarService.organizeWeeks(days);
-	            } else if (depth === 'day') {
-	
-	                this.bcCollection = days;
-	            }
+	            // Build the calendar JSON and expose to the DOM
+	            this._buildCalendar(days, this.nestingDepth);
 	        }
 	
 	        /**
@@ -691,6 +672,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.bcDateSelected({
 	                    date: day.date
 	                });
+	            }
+	        }
+	
+	        /**
+	         * Format a date using moment
+	         *
+	         * @param {String} date
+	         * @param {String} format
+	         * @return {String} formattedDate
+	         */
+	
+	    }, {
+	        key: 'formatDate',
+	        value: function formatDate(date, format) {
+	            if (!date) {
+	                return false;
+	            }
+	
+	            return moment(date).format(format);
+	        }
+	
+	        /**
+	         * Build the calendar JSON
+	         *
+	         * @param {Array} days
+	         * @param {String} depth
+	         * @return {Element} element
+	         */
+	
+	    }, {
+	        key: '_buildCalendar',
+	        value: function _buildCalendar(days, depth) {
+	
+	            // Call the correct organization method based on the nesting depth
+	            if (depth === 'month') {
+	
+	                this.bcCollection = this.bcCalendarService.organizeMonths(days);
+	            } else if (depth === 'week') {
+	
+	                this.bcCollection = this.bcCalendarService.organizeWeeks(days);
+	            } else if (depth === 'day') {
+	
+	                this.bcCollection = days;
 	            }
 	        }
 	
