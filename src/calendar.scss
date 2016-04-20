@@ -2,7 +2,6 @@ $color: #f00;
 $black: #000;
 
 .bc-calendar {
-  border: 1px solid $color;
 
   // container for heading row
   &__header {
@@ -41,16 +40,10 @@ $black: #000;
     }
 
     &--header {
+      line-height: 2em;
+
       &::before {
         display: none;
-      }
-
-      time {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        right: auto;
-        top: auto;
       }
     }
 
@@ -64,6 +57,10 @@ $black: #000;
 
     // <time> wrapper for actual datetime
     &-time {
+      display: flex;
+      align-items: center;
+      flex-flow: row nowrap;
+      justify-content: center;
       position: absolute;
       bottom: 0;
       left: 0;
