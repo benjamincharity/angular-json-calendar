@@ -60,7 +60,10 @@ export class bcCalendarConfig {
             this.userDayTemplate = template;
         }
 
+        this.dateFormat = 'D';
+
     }
+
 
 
 
