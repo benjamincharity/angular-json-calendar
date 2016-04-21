@@ -7,6 +7,7 @@
                    'bc-calendar__day--selected': day.date === vm.selectedDate.date }"
   data-ng-click="vm.selectDate(day)"
   data-ng-repeat="day in vm.bcCollection track by $index"
+  title="day.date"
 >
 
   <ng-include src="vm.dayTemplate"></ng-include>
