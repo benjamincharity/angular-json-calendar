@@ -4,13 +4,31 @@
   data-ng-repeat="month in vm.bcCollection track by $index"
 >
 
+
   <span
     class="bc-calendar__month-title"
     data-ng-bind="vm.formatDate(month[0][month[0].length - 1].date, vm.monthTitleFormat)"
     data-ng-if="vm.showMonthTitles"
   ></span>
 
+
+  <!-- Unfortunately we can't nest a <header> inside a <time> element -->
+  <span class="bc-calendar__weekdays" data-ng-if="vm.showWeekdays">
+    <span
+      class="bc-calendar__day  bc-calendar__day--weekdays"
+      data-ng-repeat="day in vm.weekdays track by $index"
+    >
+
+      <strong class="bc-calendar__day-title">
+        {{ day }}
+      </strong>
+
+    </span>
+  </span>
+
+
   <bc-week bc-collection="month"></bc-week>
+
 
 </time>
 

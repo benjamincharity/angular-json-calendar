@@ -1,4 +1,4 @@
-.bc-calendar__header {
+.bc-calendar__weekdays {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -49,11 +49,11 @@
   padding-top: 80%;
 }
 
-.bc-calendar__day--header {
+.bc-calendar__day--weekdays {
   line-height: 2em;
 }
 
-.bc-calendar__day--header::before {
+.bc-calendar__day--weekdays::before {
   display: none;
 }
 

@@ -1,8 +1,8 @@
 <section class="bc-calendar">
 
-  <header class="bc-calendar__header" data-ng-if="vm.showHeader">
+  <span class="bc-calendar__weekdays" data-ng-if="vm.showWeekdays && vm.nestingDepth === 'week'">
     <span
-      class="bc-calendar__day  bc-calendar__day--header"
+      class="bc-calendar__day  bc-calendar__day--weekdays"
       data-ng-repeat="day in vm.weekdays track by $index"
     >
 
@@ -11,7 +11,7 @@
       </strong>
 
     </span>
-  </header>
+  </span>
 
 
   <div data-ng-include="vm.getTemplateUrl()"></div>

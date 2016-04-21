@@ -10,6 +10,7 @@ export function bcMonthDirective(
         scope: {},
         bindToController: {
             bcCollection: '=',
+            bcWeekdaysHeader: '=',
         },
         templateUrl: monthTemplate,
         controller: () => {},
@@ -19,4 +20,6 @@ export function bcMonthDirective(
     return directive;
 
 }
+
+
 

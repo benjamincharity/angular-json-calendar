@@ -5,7 +5,6 @@ import monthTemplate from './templates/month.html';
 import weekTemplate from './templates/week.html';
 import dayTemplate from './templates/day.html';
 
-
 export function bcCalendarDirective(
     $compile
 ) {
@@ -31,7 +30,7 @@ export function bcCalendarDirective(
             bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
             bcMonthTitleFormat: '@?',// string - any valid Moment date format - default: MMMM
             bcDateSelected: '&',     // function will be called when a date is selected (tap/click)
-            bcShowHeader: '=?',      // determine if the weekdays header should be created
+            bcShowWeekdays: '=?',      // determine if the weekdays header should be created
             bcShowMonthTitles: '=?', // determine if the month titles should be visible
             bcDayTemplate: '@?',     // overwrite the default 'day' template
             bcDateFormat: '@?',      // define a custom date format for the day

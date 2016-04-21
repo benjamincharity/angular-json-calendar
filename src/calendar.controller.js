@@ -56,9 +56,9 @@ export class CalendarController {
         // Initially no date is selected
         this.selectedDate = null;
 
-        // Set the visibility of the calendar header
-        this.showHeader = typeof(this.bcShowHeader) === 'boolean' ?
-            this.bcShowHeader : this.bcCalendarConfig.showHeader;
+        // Set the visibility of the calendar weekdays headers
+        this.showWeekdays = typeof(this.bcShowWeekdays) === 'boolean' ?
+            this.bcShowWeekdays : this.bcCalendarConfig.showWeekdays;
 
         // Define the template for an individual day
         // If the user defined a template on the directive
@@ -101,6 +101,7 @@ export class CalendarController {
         this._buildCalendar(days, this.nestingDepth);
 
     }
+
 
 
 

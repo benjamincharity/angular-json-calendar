@@ -126,8 +126,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Set the default word type (M vs Mon vs Monday)
 	        this.weekTitleFormat = 'abbreviation';
 	
-	        // Should the calendar's header be visible?
-	        this.showHeader = true;
+	        // Should the calendar show the weekday names above each column?
+	        this.showWeekdays = true;
 	
 	        // Define the default template for a day
 	        this.dayTemplate = _dayInner2.default;
@@ -513,7 +513,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
 	            bcMonthTitleFormat: '@?', // string - any valid Moment date format - default: MMMM
 	            bcDateSelected: '&', // function will be called when a date is selected (tap/click)
-	            bcShowHeader: '=?', // determine if the weekdays header should be created
+	            bcShowWeekdays: '=?', // determine if the weekdays header should be created
 	            bcShowMonthTitles: '=?', // determine if the month titles should be visible
 	            bcDayTemplate: '@?', // overwrite the default 'day' template
 	            bcDateFormat: '@?' },
@@ -601,8 +601,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Initially no date is selected
 	            this.selectedDate = null;
 	
-	            // Set the visibility of the calendar header
-	            this.showHeader = typeof this.bcShowHeader === 'boolean' ? this.bcShowHeader : this.bcCalendarConfig.showHeader;
+	            // Set the visibility of the calendar weekdays headers
+	            this.showWeekdays = typeof this.bcShowWeekdays === 'boolean' ? this.bcShowWeekdays : this.bcCalendarConfig.showWeekdays;
 	
 	            // Define the template for an individual day
 	            // If the user defined a template on the directive
@@ -773,7 +773,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/calendar.html';
-	var html = "<section class=bc-calendar> <header class=bc-calendar__header data-ng-if=vm.showHeader> <span class=\"bc-calendar__day bc-calendar__day--header\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </header> <div data-ng-include=vm.getTemplateUrl()></div> </section>";
+	var html = "<section class=bc-calendar> <span class=bc-calendar__weekdays data-ng-if=\"vm.showWeekdays && vm.nestingDepth === 'week'\"> <span class=\"bc-calendar__day bc-calendar__day--weekdays\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </span> <div data-ng-include=vm.getTemplateUrl()></div> </section>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -782,7 +782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/year.html';
-	var html = "<div class=bc-calendar__year data-ng-repeat=\"year in vm.bcCollection track by $index\"> <bc-month bc-collection=year></bc-month> </div>";
+	var html = "<div class=bc-calendar__year data-ng-repeat=\"year in vm.bcCollection track by $index\"> <bc-month bc-collection=year bc-weeks-header=vm.weekdaysHeader></bc-month> </div>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -791,7 +791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/month.html';
-	var html = "<time datetime=\"{{ month[0][month[0].length - 1].date | date:'yyyy-MM' }}\" class=bc-calendar__month data-ng-repeat=\"month in vm.bcCollection track by $index\"> <span class=bc-calendar__month-title data-ng-bind=\"vm.formatDate(month[0][month[0].length - 1].date, vm.monthTitleFormat)\" data-ng-if=vm.showMonthTitles></span> <bc-week bc-collection=month></bc-week> </time>";
+	var html = "<time datetime=\"{{ month[0][month[0].length - 1].date | date:'yyyy-MM' }}\" class=bc-calendar__month data-ng-repeat=\"month in vm.bcCollection track by $index\"> <span class=bc-calendar__month-title data-ng-bind=\"vm.formatDate(month[0][month[0].length - 1].date, vm.monthTitleFormat)\" data-ng-if=vm.showMonthTitles></span> <span class=bc-calendar__weekdays data-ng-if=vm.showWeekdays> <span class=\"bc-calendar__day bc-calendar__day--weekdays\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </span> <bc-week bc-collection=month></bc-week> </time>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -838,7 +838,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        replace: true,
 	        scope: {},
 	        bindToController: {
-	            bcCollection: '='
+	            bcCollection: '=',
+	            bcWeekdaysHeader: '='
 	        },
 	        templateUrl: _month2.default,
 	        controller: function controller() {},

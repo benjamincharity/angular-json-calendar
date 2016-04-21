@@ -49,8 +49,8 @@ export class bcCalendarConfig {
         // Set the default word type (M vs Mon vs Monday)
         this.weekTitleFormat = 'abbreviation';
 
-        // Should the calendar's header be visible?
-        this.showHeader = true;
+        // Should the calendar show the weekday names above each column?
+        this.showWeekdays = true;
 
         // Define the default template for a day
         this.dayTemplate = dayTemplate;
@@ -70,7 +70,6 @@ export class bcCalendarConfig {
         this.showMonthTitles = true;
 
     }
-
 
 
 
