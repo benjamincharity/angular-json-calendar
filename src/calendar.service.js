@@ -246,7 +246,8 @@ export class bcCalendarService {
         const secondsInYear = 31536000;
 
         // Find the difference when converted to seconds
-        const diffence = moment(end).unix() - moment(start).unix();
+        // Add an extra days worth of seconds so that our calculation includes the end day
+        const diffence = (moment(end).unix() + secondsInDay) - moment(start).unix();
 
         // Convert the difference of seconds back into days
         return Math.floor((diffence % secondsInYear) / secondsInDay);
