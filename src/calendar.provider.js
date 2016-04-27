@@ -47,7 +47,7 @@ export class bcCalendarConfig {
         };
 
         // Set the default word type (M vs Mon vs Monday)
-        this.weekTitleFormat = 'abbreviation';
+        this.dayTitleFormat = 'abbreviation';
 
         // Should the calendar show the weekday names above each column?
         this.showWeekdays = true;

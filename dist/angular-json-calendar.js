@@ -124,7 +124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	
 	        // Set the default word type (M vs Mon vs Monday)
-	        this.weekTitleFormat = 'abbreviation';
+	        this.dayTitleFormat = 'abbreviation';
 	
 	        // Should the calendar show the weekday names above each column?
 	        this.showWeekdays = true;
@@ -511,7 +511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcEndDate: '@?', // date - if not present, use create using bcDays
 	            bcNestingDepth: '@?', // string [month|week|day] - defaults: month
 	            bcDays: '@?', // integer - default to 30 (used to create bcEndDate)
-	            bcWeekTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
+	            bcDayTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
 	            bcMonthTitleFormat: '@?', // string - any valid Moment date format - default: MMMM
 	            bcDateSelected: '&', // function will be called when a date is selected (tap/click)
 	            bcShowWeekdays: '=?', // determine if the weekdays header should be created
@@ -591,7 +591,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.nestingDepth = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
 	
 	            // Define the weekday headers format
-	            this.weekdays = this.bcWeekTitleFormat ? this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
+	            this.weekdays = this.bcDayTitleFormat ? this.bcCalendarConfig.weekdayStyle[this.bcDayTitleFormat] : this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.dayTitleFormat];
 	
 	            // Define the format for the month title
 	            this.monthTitleFormat = this.bcMonthTitleFormat || this.bcCalendarConfig.monthTitleFormat;

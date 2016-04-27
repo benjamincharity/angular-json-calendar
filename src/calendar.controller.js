@@ -42,9 +42,9 @@ export class CalendarController {
         this.nestingDepth = this.bcNestingDepth || this.bcCalendarConfig.nestingDepth;
 
         // Define the weekday headers format
-        this.weekdays = this.bcWeekTitleFormat ?
-            this.bcCalendarConfig.weekdayStyle[this.bcWeekTitleFormat] :
-            this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.weekTitleFormat];
+        this.weekdays = this.bcDayTitleFormat ?
+            this.bcCalendarConfig.weekdayStyle[this.bcDayTitleFormat] :
+            this.bcCalendarConfig.weekdayStyle[this.bcCalendarConfig.dayTitleFormat];
 
         // Define the format for the month title
         this.monthTitleFormat = this.bcMonthTitleFormat || this.bcCalendarConfig.monthTitleFormat;
