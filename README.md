@@ -68,10 +68,10 @@ bower install angular-json-calendar --save
 ```
 
 
-#### `bc-week-title-format`
+#### `bc-day-title-format`
 
 ```
-<bc-calendar bc-week-title-format="word"></bc-calendar>
+<bc-calendar bc-day-title-format="word"></bc-calendar>
 ```
 
 
