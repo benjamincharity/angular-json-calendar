@@ -56,6 +56,14 @@ bower install angular-json-calendar --save
 
 #### `bc-nesting-depth`
 
+The nesting depth refers to how the days will be wrapped. When set to 'day' the calendar will simply
+be many day elements inside a single containing element. If the nesting depth is changed to 'week'
+then the calendar will be a container filled with weeks that in turn are filled with days. If
+changed to 'month' then your calendar would be a container filled with months, filled with weeks,
+filled with days.
+
+Try changing it and inspecting the DOM!
+
 ```
 <bc-calendar bc-nesting-depth="week"></bc-calendar>
 ```
@@ -133,4 +141,11 @@ bower install angular-json-calendar --save
 [issues]: https://github.com/benjamincharity/angular-json-calendar/issues
 [angular_date]: https://docs.angularjs.org/api/ng/filter/date
 [moment_format]: http://momentjs.com/docs/#/displaying/format/
+
+[demo_callback]: http://plnkr.co/edit/EIxsl7?p=preview
+[demo_custom_titles]: http://plnkr.co/edit/IZblC1?p=preview
+[demo_custom_template]: http://plnkr.co/edit/rs86Pt?p=preview
+[demo_custom_dates]: http://plnkr.co/edit/PLjpxZ?p=preview
+[demo_simple]: http://plnkr.co/edit/U4eJ9n?p=preview
+[demo_provider_weekday]: http://plnkr.co/edit/kfUK3O?p=preview
 

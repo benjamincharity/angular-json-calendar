@@ -449,6 +449,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Convert the difference of seconds back into days
 	            return Math.floor(diffence % secondsInYear / secondsInDay);
 	        }
+	
+	        /**
+	         * Build an array of days
+	         *
+	         * @param {Integer} limit - how many days to create
+	         * @param {Date} start - the starting date
+	         * @return {Array} days
+	         */
+	
+	    }, {
+	        key: 'buildDays',
+	        value: function buildDays(limit, start) {
+	            var counter = 0;
+	            var days = [];
+	            var day = void 0;
+	
+	            while (counter < limit) {
+	                // Create the day
+	                day = moment(start).add(counter, 'days').toISOString();
+	
+	                // Add to the array
+	                days.push({
+	                    date: day
+	                });
+	
+	                // Increment the counter
+	                counter = counter + 1;
+	            }
+	
+	            return days;
+	        }
 	    }]);
 	
 	    return bcCalendarService;
@@ -637,7 +668,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.dateFormat = this.bcDateFormat || this.bcCalendarConfig.dateFormat;
 	
 	            // Build array of days
-	            var days = this._buildDays(this.days, this.startDate);
+	            var days = this.bcCalendarService.buildDays(this.days, this.startDate);
 	
 	            // Build the calendar JSON and expose to the DOM
 	            this._buildCalendar(days, this.nestingDepth);
@@ -731,38 +762,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                this.bcCollection = days;
 	            }
-	        }
-	
-	        /**
-	         * Build an array of days
-	         * TODO: Move to service
-	         *
-	         * @param {Integer} limit - how many days to create
-	         * @param {Date} start - the starting date
-	         * @return {Array} days
-	         */
-	
-	    }, {
-	        key: '_buildDays',
-	        value: function _buildDays(limit, start) {
-	            var counter = 0;
-	            var days = [];
-	            var day = void 0;
-	
-	            while (counter < limit) {
-	                // Create the day
-	                day = moment(start).add(counter, 'days').toISOString();
-	
-	                // Add to the array
-	                days.push({
-	                    date: day
-	                });
-	
-	                // Increment the counter
-	                counter = counter + 1;
-	            }
-	
-	            return days;
 	        }
 	    }]);
 	

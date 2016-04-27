@@ -254,5 +254,34 @@ export class bcCalendarService {
     }
 
 
+    /**
+     * Build an array of days
+     *
+     * @param {Integer} limit - how many days to create
+     * @param {Date} start - the starting date
+     * @return {Array} days
+     */
+    buildDays(limit, start) {
+        let counter = 0;
+        const days = [];
+        let day;
+
+        while (counter < limit) {
+            // Create the day
+            day = moment(start).add(counter, 'days').toISOString();
+
+            // Add to the array
+            days.push({
+                date: day,
+            });
+
+            // Increment the counter
+            counter = counter + 1;
+        }
+
+        return days;
+    }
+
+
 }
 

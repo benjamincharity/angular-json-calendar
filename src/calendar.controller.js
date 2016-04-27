@@ -95,7 +95,7 @@ export class CalendarController {
         this.dateFormat = this.bcDateFormat || this.bcCalendarConfig.dateFormat;
 
         // Build array of days
-        const days = this._buildDays(this.days, this.startDate);
+        const days = this.bcCalendarService.buildDays(this.days, this.startDate);
 
         // Build the calendar JSON and expose to the DOM
         this._buildCalendar(days, this.nestingDepth);
@@ -188,40 +188,6 @@ export class CalendarController {
         }
 
     }
-
-
-    /**
-     * Build an array of days
-     * TODO: Move to service
-     *
-     * @param {Integer} limit - how many days to create
-     * @param {Date} start - the starting date
-     * @return {Array} days
-     */
-    _buildDays(limit, start) {
-        let counter = 0;
-        const days = [];
-        let day;
-
-        while (counter < limit) {
-            // Create the day
-            day = moment(start).add(counter, 'days').toISOString();
-
-            // Add to the array
-            days.push({
-                date: day,
-            });
-
-            // Increment the counter
-            counter = counter + 1;
-        }
-
-        return days;
-    }
-
-
-
-
 
 
 }
