@@ -1,6 +1,6 @@
 <time
-  datetime="{{ month[0][month[0].length - 1].date | date:'yyyy-MM' }}"
   class="bc-calendar__month"
+  datetime="{{ month[0][month[0].length - 1].date | date:'yyyy-MM' }}"
   data-ng-repeat="month in vm.bcCollection track by $index"
 >
 
