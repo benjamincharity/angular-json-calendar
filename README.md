@@ -13,7 +13,7 @@ _[Comments and Pull Requests welcome!][issues]_
 
 - [Installation](#installation)
 - [Dependencies](#dependencies)
-- [Directive Usage](#directive-usage)
+- [Directive](#directive)
     - [`bc-start-date`](#bc-start-date)
     - [`bc-end-date`](#bc-end-date)
     - [`bc-nesting-depth`](#bc-nesting-depth)
@@ -73,7 +73,7 @@ bower install angular-json-calendar --save
 - Moment.js (~2.13.0)
 
 
-## Directive Usage
+## Directive
 
 [Plunker Demo][demo_simple]
 
