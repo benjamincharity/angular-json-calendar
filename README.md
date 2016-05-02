@@ -1,6 +1,9 @@
 # angular-json-calendar
 
-This is pre pre alpha so don't even think about it.
+- Had to create 3 calendars over the past couple years.
+- Always needed a custom design which didn't work with existing calendar directives.
+- Wanted to create something that took off the load of building out the calendar data without
+    forcing me into a specific design solution (paginated months/etc)
 
 
 _[Comments and Pull Requests welcome!][issues]_
@@ -11,20 +14,39 @@ _[Comments and Pull Requests welcome!][issues]_
 - [Installation](#installation)
 - [Dependencies](#dependencies)
 - [Directive Usage](#directive-usage)
-  - [Attributes](#attributes)
-      - [`bc-start-date`](#bc-start-date)
-      - [`bc-end-date`](#bc-end-date)
-      - [`bc-nesting-depth`](#bc-nesting-depth)
-      - [`bc-days`](#bc-days)
-      - [`bc-day-title-format`](#bc-day-title-format)
-      - [`bc-month-title-format`](#bc-month-title-format)
-      - [`bc-date-selected`](#bc-date-selected)
-      - [`bc-show-month-titles`](#bc-show-month-titles)
-      - [`bc-show-weekdays`](#bc-show-weekdays)
-      - [`bc-day-template`](#bc-day template)
-      - [`bc-date-format`](#bc-date-format)
+    - [`bc-start-date`](#bc-start-date)
+    - [`bc-end-date`](#bc-end-date)
+    - [`bc-nesting-depth`](#bc-nesting-depth)
+    - [`bc-days`](#bc-days)
+    - [`bc-day-title-format`](#bc-day-title-format)
+    - [`bc-month-title-format`](#bc-month-title-format)
+    - [`bc-date-selected`](#bc-date-selected)
+    - [`bc-show-month-titles`](#bc-show-month-titles)
+    - [`bc-show-weekdays`](#bc-show-weekdays)
+    - [`bc-day-template`](#bc-day template)
+    - [`bc-date-format`](#bc-date-format)
 - [Service](#service)
+    - [`dateIsBeforeToday`](#dateIsBeforeToday)
+    - [`isDayToday`](#isDayToday)
+    - [`integerToArray`](#integerToArray)
+    - [`padDaysLeft`](#padDaysLeft)
+    - [`padBlankTiles`](#padBlankTiles)
+    - [`chunk`](#chunk)
+    - [`organizeWeeks`](#organizeWeeks)
+    - [`organizeMonths`](#organizeMonths)
+    - [`durationInDays`](#durationInDays)
+    - [`buildDays`](#buildDays)
+    - [`chunk`](#chunk)
 - [Provider](#provider)
+    - [`startDate`](#startDate)
+    - [`nestingDepth`](#nestingDepth)
+    - [`weekdayStyle`](#weekdayStyle)
+    - [`dayTitleFormat`](#dayTitleFormat)
+    - [`showWeekdays`](#showWeekdays)
+    - [`setDayTemplate`](#setDayTemplate)
+    - [`dateFormat`](#dateFormat)
+    - [`monthTitleFormat`](#monthTitleFormat)
+    - [`showMonthTitles`](#showMonthTitles)
 - [Styling](#styling)
     - [Theme](#theme)
     - [Classes](#classes)
@@ -62,7 +84,6 @@ bower install angular-json-calendar --save
 This will generate a basic calendar using the [default settings][TODO].
 
 
-### Attributes
 
 #### `bc-start-date`
 
@@ -242,6 +263,39 @@ default date is output.
 
 [Plunker Demo][demo_service]
 
+#### `dateIsBeforeToday`
+
+
+#### `isDayToday`
+
+
+#### `integerToArray`
+
+
+#### `padDaysLeft`
+
+
+#### `padBlankTiles`
+
+
+#### `chunk`
+
+
+#### `organizeWeeks`
+
+
+#### `organizeMonths`
+
+
+#### `durationInDays`
+
+
+#### `buildDays`
+
+
+#### `chunk`
+
+
 ```
 // 'day' output:
 [ // collection
@@ -281,9 +335,37 @@ default date is output.
 
 [Plunker Demo][demo_provider_weekday]
 
+#### `startDate`
+
+
+#### `nestingDepth`
+
+
+#### `weekdayStyle`
+
+
+#### `dayTitleFormat`
+
+
+#### `showWeekdays`
+
+
+#### `setDayTemplate`
+
+
+#### `dateFormat`
+
+
+#### `monthTitleFormat`
+
+
+#### `showMonthTitles`
+
 
 ## Styling
 
+- Purposefully no real style.
+- Couple lean themes so it can be 'plug n play'
 
 ### Theme
 
