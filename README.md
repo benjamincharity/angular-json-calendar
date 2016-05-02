@@ -23,6 +23,8 @@ _[Comments and Pull Requests welcome!][issues]_
       - [`bc-show-weekdays`](#bc-show-weekdays)
       - [`bc-day-template`](#bc-day template)
       - [`bc-date-format`](#bc-date-format)
+- [Service](#service)
+- [Provider](#provider)
 - [Styling](#styling)
     - [Theme](#theme)
     - [Classes](#classes)
