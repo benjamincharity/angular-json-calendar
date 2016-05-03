@@ -26,7 +26,7 @@ _[Comments and Pull Requests welcome!][issues]_
     - [`bc-day-template`](#bc-day template)
     - [`bc-date-format`](#bc-date-format)
 - [Service](#service)
-    - [`dateIsBeforeToday`](#dateIsBeforeToday)
+    - [`dateIsBeforeToday()`](#dateIsBeforeToday)
     - [`isDayToday`](#isDayToday)
     - [`integerToArray`](#integerToArray)
     - [`padDaysLeft`](#padDaysLeft)
@@ -299,11 +299,12 @@ angular.module('myModule')
 [Using the service Plunker demo][demo_service]
 
 
-#### `dateIsBeforeToday`
+#### `dateIsBeforeToday()`
 
 A simple check to see if the passed in date occurred before the current date.
 
-- `@param {String} date`
+- `@param {String} date` **Required**
+  - Any string representing a [valid date][moment_parsing] accepted by Moment.js
 - `@return {Bool} isBefore`
 
 ```javascript
@@ -314,11 +315,13 @@ bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
 
 #### `isDayToday`
 
-A simple check to see if the passed in date is the same **day** as the current date.
-
-- `@param {String} date`
-- `@param {String} date2`
+- `@param {String} date` **Required**
+  - Any string representing a [valid date][moment_parsing] accepted by Moment.js
+- `@param {String} date2` **Required**
+  - Any string representing a [valid date][moment_parsing] accepted by Moment.js
 - `@return {Bool} isToday`
+
+A simple check to see if the passed in date is the same **day** as the current date.
 
 ```javascript
 bcCalendarService.isDayToday('2016-05-01T00:00:00.027Z');
@@ -328,10 +331,11 @@ bcCalendarService.isDayToday('2016-05-01T00:00:00.027Z');
 
 #### `integerToArray`
 
-Turn a integer (e.g. 6) into an array: '[1,2,3,4,5,6]'
+- `@param {Integer} count` **Required**
+  - The number of array items needed.
+- `@return {Array} days`
 
-`@param {Integer}` count
-`@return {Array}` days
+Turn a integer (e.g. 6) into an array: '[1,2,3,4,5,6]'
 
 ```javascript
 bcCalendarService.integerToArray(4);
@@ -341,9 +345,49 @@ bcCalendarService.integerToArray(4);
 
 #### `padDaysLeft`
 
+- `@param {String} startDate` **Required**
+  - Any string representing a [valid date][moment_parsing] accepted by Moment.js
+- `@param {Integer} count` **Required**
+  - The number of days that should be created.
+- `@return {Array} days`
+
+Pad the beginning of a week.
+
+If the calendar's nesting depth is set to week or month and the start
+date is not at the beginning of the week, you can backfill that week's missing days.
+
+```javascript
+bcCalendarService.padDaysLeft('2016-05-18T00:00:00.027Z', 3);
+// returns:
+[
+   {
+      "date":"2016-05-15T00:00:00.027Z"
+   },
+   {
+      "date":"2016-05-16T00:00:00.027Z"
+   },
+   {
+      "date":"2016-05-17T00:00:00.027Z"
+   }
+]
+```
+
 
 #### `padBlankTiles`
 
+- `@param {Array} collection` **Required**
+  - The array that needs blank tiles.
+- `@param {Integer} count` **Required**
+  - The number of blank tiles needed.
+- `@param {String} direction` **Optional**
+  - Valid values: `left`, `right`.
+  - Default value: `left`.
+  - Determines if the tiles are added to the beginning or end of the collection.
+- `@return {Array} paddedCollection`
+
+Pad a collection with blank tiles.
+
+If you are generating a classic calendar month and the first day of the month isn't the first 
 
 #### `chunk`
 
@@ -464,6 +508,7 @@ bcCalendarService.integerToArray(4);
 [issues]: https://github.com/benjamincharity/angular-json-calendar/issues
 [angular_date]: https://docs.angularjs.org/api/ng/filter/date
 [moment_format]: http://momentjs.com/docs/#/displaying/format/
+[moment_parsing]: http://momentjs.com/docs/#/parsing/string/
 [source_day_template]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/templates/day.inner.html
 [source_service]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.service.js
 
