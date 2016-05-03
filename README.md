@@ -32,11 +32,10 @@ _[Comments and Pull Requests welcome!][issues]_
     - [`padDaysLeft`](#padDaysLeft)
     - [`padBlankTiles`](#padBlankTiles)
     - [`chunk`](#chunk)
+    - [`durationInDays`](#durationInDays)
     - [`organizeWeeks`](#organizeWeeks)
     - [`organizeMonths`](#organizeMonths)
-    - [`durationInDays`](#durationInDays)
     - [`buildDays`](#buildDays)
-    - [`chunk`](#chunk)
 - [Provider](#provider)
     - [`startDate`](#startDate)
     - [`nestingDepth`](#nestingDepth)
@@ -380,43 +379,122 @@ bcCalendarService.padDaysLeft('2016-05-18T00:00:00.027Z', 3);
 - `@param {Integer} count` **Required**
   - The number of blank tiles needed.
 - `@param {String} direction` **Optional**
+  - Determines if the tiles are added to the beginning or end of the collection.
   - Valid values: `left`, `right`.
   - Default value: `left`.
-  - Determines if the tiles are added to the beginning or end of the collection.
 - `@return {Array} paddedCollection`
 
 Pad a collection with blank tiles.
 
-If you are generating a classic calendar month and the first day of the month isn't the first 
+If you are generating a classic calendar month and the first day of the month isn't the first day of
+the week, then your vertical alignment will be off (meaning your first day may be a Wednesday, but
+it is sitting underneath the Sunday label).
+
+```javascript
+const collection = [{date: '2016-05-17T00:00:00.027Z'}];
+
+bcCalendarService.padBlankTiles(collection, 2);
+// returns:
+[
+   {
+      "date":null
+   },
+   {
+      "date":null
+   },
+   {
+      "date":"2016-05-17T00:00:00.027Z"
+   }
+]
+
+
+bcCalendarService.padBlankTiles(collection, 2, 'right');
+// returns:
+[
+   {
+      "date":"2016-05-17T00:00:00.027Z"
+   },
+   {
+      "date":null
+   },
+   {
+      "date":null
+   }
+]
+```
+
 
 #### `chunk`
 
+- `@param {Array} group` **Required**
+  - The array that needs blank tiles.
+- `@param {Integer} groupSize` **Optional**
+  - How many items each 'chunk' should hold
+  - Default value: `7`
+- `@return {Array} chunks`
 
-#### `organizeWeeks`
+This is an implementation of the `_.chunk()` method you may know from libraries such as Underscore
+and Lodash. It will take an array of items and return an array of arrays, each holding the number of
+items specified by `groupSize`.
 
+```javascript
+const collection = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
-#### `organizeMonths`
+bcCalendarService.chunk(collection, 4);
+// returns:
+[
+   [
+      1,
+      2,
+      3,
+      4
+   ],
+   [
+      5,
+      6,
+      7,
+      8
+   ],
+   [
+      9,
+      0
+   ]
+]
+```
 
 
 #### `durationInDays`
 
+- `@param {String} date` **Required**
+  - The first date to begin the measurement from.
+  - Any string representing a [valid date][moment_parsing] accepted by Moment.js
+- `@param {String} date` **Required**
+  - The second date to measure to.
+  - Any string representing a [valid date][moment_parsing] accepted by Moment.js
+- `@return {Integer} days`
 
-#### `buildDays`
+Get the duration in days between two dates **including** both the start and end date.
 
+```javascript
+const start = '2016-04-05T04:00:00.000Z';
+const end = '2016-04-12T04:00:00.000Z';
 
-#### `chunk`
-
-
+bcCalendarService.durationInDays(start, end);
+// returns: 9
 ```
-// 'day' output:
-[ // collection
-  { // day
-    date: '2016-04-05T04:00:00.000Z',
-  },
-  ... // more days
-]
 
-// 'week' output:
+
+#### `organizeWeeks`
+
+- `@param {Array} days` **Required**
+  - The array of days that needs to be organized into weeks.
+- `@return {Array} collection`
+
+This method takes a collection of days and organizes them by week, padding any days as needed.
+
+```javascript
+bcCalendarService.organizeWeeks(days);
+// returns:
 [ // collection
   [ // week
     { // day
@@ -426,8 +504,21 @@ If you are generating a classic calendar month and the first day of the month is
   ],
   ... // more weeks
 ]
+```
 
-// 'month' output
+
+#### `organizeMonths`
+
+- `@param {Array} days` **Required**
+  - The array of days that needs to be organized into months.
+- `@return {Array} collection`
+
+This method takes a collection of days and organizes them by weeks and months, padding any days as
+needed.
+
+```javascript
+bcCalendarService.organizeMonths(days);
+// returns:
 [ // collection
   [ // month
     [ // week
@@ -438,7 +529,35 @@ If you are generating a classic calendar month and the first day of the month is
     ],
     ... // more weeks
   ],
-  ... // more months...
+  ... // more months
+]
+```
+
+
+#### `buildDays`
+
+- `@param {Integer} limit` **Required**
+  - The number of days to create
+- `@param {String} start` **Optional**
+  - Any string representing a [valid date][moment_parsing] accepted by Moment.js
+  - Default value: `new Date()`
+- `@return {Array} collection`
+
+Build an array with a specific number of days starting from the date specified.
+
+```javascript
+bcCalendarService.buildDays(3, '2016-04-12T04:00:00.000Z');
+// returns:
+[
+   {
+      "date":"2016-04-12T04:00:00.000Z"
+   },
+   {
+      "date":"2016-04-13T04:00:00.000Z"
+   },
+   {
+      "date":"2016-04-14T04:00:00.000Z"
+   }
 ]
 ```
 

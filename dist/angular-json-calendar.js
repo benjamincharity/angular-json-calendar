@@ -193,8 +193,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Check to see if the day is prior to the current date
 	     * This is used to disable the unselectable days
 	     *
-	     * @param {Date} day
-	     * @return {Bool}
+	     * @param {String} date
+	     * @return {Bool} isBefore
 	     */
 	
 	
@@ -207,15 +207,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /**
 	         * Check to see if the day matches the current date
 	         *
-	         * @param {Date} date
-	         * @param {Date} startDate
-	         * @return {Bool}
+	         * @param {String} date
+	         * @param {String} date2
+	         * @return {Bool} isToday
 	         */
 	
 	    }, {
 	        key: 'isDayToday',
-	        value: function isDayToday(date, startDate) {
-	            return moment(date).isSame(startDate);
+	        value: function isDayToday(date, date2) {
+	            return moment(date).isSame(date2);
 	        }
 	
 	        /**
@@ -270,7 +270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        /**
-	         * Pad a collection with blank tiles at the beginning
+	         * Pad a collection with blank tiles
 	         *
 	         * @param {Array} collection
 	         * @param {Integer} count
@@ -325,6 +325,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	
 	            return sets;
+	        }
+	
+	        /**
+	         * Get the duration in days between two dates INCLUDING both dates
+	         *
+	         * @param {String} start
+	         * @param {String} end
+	         * @return {Integer} days
+	         */
+	
+	    }, {
+	        key: 'durationInDays',
+	        value: function durationInDays(start, end) {
+	            var secondsInDay = 86400;
+	            var secondsInYear = 31536000;
+	
+	            // Add a day so the end date is included in the calculation
+	            var unixEnd = moment(end).add(1, 'days').unix();
+	
+	            // Subtract a day so the start date is included in the calculation
+	            var unixStart = moment(start).subtract(1, 'days').unix();
+	
+	            // Find the difference when converted to seconds
+	            var diffence = unixEnd - unixStart;
+	
+	            // Convert the difference of seconds back into days
+	            return Math.floor(diffence % secondsInYear / secondsInDay);
 	        }
 	
 	        /**
@@ -429,38 +456,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        /**
-	         * Get the duration in days between two dates
-	         *
-	         * @param {Date} start
-	         * @param {Date} end
-	         * @return {Integer} days
-	         */
-	
-	    }, {
-	        key: 'durationInDays',
-	        value: function durationInDays(start, end) {
-	            var secondsInDay = 86400;
-	            var secondsInYear = 31536000;
-	
-	            // Find the difference when converted to seconds
-	            // Add an extra days worth of seconds so that our calculation includes the end day
-	            var diffence = moment(end).unix() + secondsInDay - moment(start).unix();
-	
-	            // Convert the difference of seconds back into days
-	            return Math.floor(diffence % secondsInYear / secondsInDay);
-	        }
-	
-	        /**
 	         * Build an array of days
 	         *
 	         * @param {Integer} limit - how many days to create
-	         * @param {Date} start - the starting date
+	         * @param {String} start - the starting date
 	         * @return {Array} days
 	         */
 	
 	    }, {
 	        key: 'buildDays',
-	        value: function buildDays(limit, start) {
+	        value: function buildDays(limit) {
+	            var start = arguments.length <= 1 || arguments[1] === undefined ? new Date() : arguments[1];
+	
 	            var counter = 0;
 	            var days = [];
 	            var day = void 0;
@@ -791,7 +798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/month.html';
-	var html = "<time datetime=\"{{ month[0][month[0].length - 1].date | date:'yyyy-MM' }}\" class=bc-calendar__month data-ng-repeat=\"month in vm.bcCollection track by $index\"> <span class=bc-calendar__month-title data-ng-bind=\"vm.formatDate(month[0][month[0].length - 1].date, vm.monthTitleFormat)\" data-ng-if=vm.showMonthTitles></span> <span class=bc-calendar__weekdays data-ng-if=vm.showWeekdays> <span class=\"bc-calendar__day bc-calendar__day--weekdays\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </span> <bc-week bc-collection=month></bc-week> </time>";
+	var html = "<time class=bc-calendar__month datetime=\"{{ month[0][month[0].length - 1].date | date:'yyyy-MM' }}\" data-ng-repeat=\"month in vm.bcCollection track by $index\"> <span class=bc-calendar__month-title data-ng-bind=\"vm.formatDate(month[0][month[0].length - 1].date, vm.monthTitleFormat)\" data-ng-if=vm.showMonthTitles></span> <span class=bc-calendar__weekdays data-ng-if=vm.showWeekdays> <span class=\"bc-calendar__day bc-calendar__day--weekdays\" data-ng-repeat=\"day in vm.weekdays track by $index\"> <strong class=bc-calendar__day-title> {{ day }} </strong> </span> </span> <bc-week bc-collection=month></bc-week> </time>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
