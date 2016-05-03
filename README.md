@@ -759,13 +759,13 @@ bcCalendarConfigProvider.showMonthTitles = false;
 
 ### Classes
 
-`section.bc-calendar` Primary container.
-`span.bc-calendar__month-title` Container for the month name.
-`span.bc-calendar__weekday` Container for the weekday titles (M, W, T, etc).
-`time.bc-calendar__month` Month element.
-`time.bc-calendar__week` week element.
-`span.bc-calendar__day` day element.
-`time.bc-calendar__day-time` inner day element.
+- `section.bc-calendar` Primary container.
+- `span.bc-calendar__month-title` Container for the month name.
+- `span.bc-calendar__weekday` Container for the weekday titles (M, W, T, etc).
+- `time.bc-calendar__month` Month element.
+- `time.bc-calendar__week` week element.
+- `span.bc-calendar__day` day element.
+- `time.bc-calendar__day-time` inner day element.
 
 
 
