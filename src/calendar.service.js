@@ -134,6 +134,31 @@ export class bcCalendarService {
 
 
     /**
+     * Get the duration in days between two dates INCLUDING both dates
+     *
+     * @param {String} start
+     * @param {String} end
+     * @return {Integer} days
+     */
+    durationInDays(start, end) {
+        const secondsInDay = 86400;
+        const secondsInYear = 31536000;
+
+        // Add a day so the end date is included in the calculation
+        const unixEnd = moment(end).add(1, 'days').unix();
+
+        // Subtract a day so the start date is included in the calculation
+        const unixStart = moment(start).subtract(1, 'days').unix();
+
+        // Find the difference when converted to seconds
+        const diffence = unixEnd - unixStart;
+
+        // Convert the difference of seconds back into days
+        return Math.floor((diffence % secondsInYear) / secondsInDay);
+    }
+
+
+    /**
      * Organize a collection of days into sub collections of weeks
      *
      * @param {Array} days - array of days
@@ -235,38 +260,13 @@ export class bcCalendarService {
 
 
     /**
-     * Get the duration in days between two dates INCLUDING both dates
-     *
-     * @param {String} start
-     * @param {String} end
-     * @return {Integer} days
-     */
-    durationInDays(start, end) {
-        const secondsInDay = 86400;
-        const secondsInYear = 31536000;
-
-        // Add a day so the end date is included in the calculation
-        const unixEnd = moment(end).add(1, 'days').unix();
-
-        // Subtract a day so the start date is included in the calculation
-        const unixStart = moment(start).subtract(1, 'days').unix();
-
-        // Find the difference when converted to seconds
-        const diffence = unixEnd - unixStart;
-
-        // Convert the difference of seconds back into days
-        return Math.floor((diffence % secondsInYear) / secondsInDay);
-    }
-
-
-    /**
      * Build an array of days
      *
      * @param {Integer} limit - how many days to create
      * @param {String} start - the starting date
      * @return {Array} days
      */
-    buildDays(limit, start) {
+    buildDays(limit, start = new Date()) {
         let counter = 0;
         const days = [];
         let day;
