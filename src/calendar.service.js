@@ -15,8 +15,8 @@ export class bcCalendarService {
      * Check to see if the day is prior to the current date
      * This is used to disable the unselectable days
      *
-     * @param {String} day
-     * @return {Bool}
+     * @param {String} date
+     * @return {Bool} isBefore
      */
     dateIsBeforeToday(date) {
         return moment(date).isBefore(this.startDate);
@@ -27,11 +27,11 @@ export class bcCalendarService {
      * Check to see if the day matches the current date
      *
      * @param {String} date
-     * @param {String} startDate
-     * @return {Bool}
+     * @param {String} date2
+     * @return {Bool} isToday
      */
-    isDayToday(date, startDate) {
-        return moment(date).isSame(startDate);
+    isDayToday(date, date2) {
+        return moment(date).isSame(date2);
     }
 
 
