@@ -27,18 +27,19 @@ _[Comments and Pull Requests welcome!][issues]_
     - [`bc-date-format`](#bc-date-format)
 - [Service](#service)
     - [`dateIsBeforeToday()`](#dateisbeforetoday)
-    - [`isDayToday`](#isdaytoday)
-    - [`integerToArray`](#integertoarray)
-    - [`padDaysLeft`](#paddaysleft)
-    - [`padBlankTiles`](#padblanktiles)
-    - [`chunk`](#chunk)
-    - [`durationInDays`](#durationindays)
-    - [`organizeWeeks`](#organizeweeks)
-    - [`organizeMonths`](#organizemonths)
-    - [`buildDays`](#builddays)
+    - [`isDayToday()`](#isdaytoday)
+    - [`integerToArray()`](#integertoarray)
+    - [`padDaysLeft()`](#paddaysleft)
+    - [`padBlankTiles()`](#padblanktiles)
+    - [`chunk()`](#chunk)
+    - [`durationInDays()`](#durationindays)
+    - [`organizeWeeks()`](#organizeweeks)
+    - [`organizeMonths()`](#organizemonths)
+    - [`buildDays()`](#builddays)
 - [Provider](#provider)
     - [`startDate`](#startdate)
     - [`nestingDepth`](#nestingdepth)
+    - [`days`](#days)
     - [`weekdayStyle`](#weekdaystyle)
     - [`dayTitleFormat`](#daytitleformat)
     - [`showWeekdays`](#showweekdays)
@@ -286,7 +287,7 @@ export class MyController {
 }
 
 // ES5 example
-angular.module('myModule')
+angular.module('myModule', ['bc.JsonCalendar'])
     .controller('MyController', (bcCalendarService) => {
 
           bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
@@ -312,7 +313,7 @@ bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
 ```
 
 
-#### `isDayToday`
+#### `isDayToday()`
 
 - `@param {String} date` **Required**
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
@@ -328,7 +329,7 @@ bcCalendarService.isDayToday('2016-05-01T00:00:00.027Z');
 ```
 
 
-#### `integerToArray`
+#### `integerToArray()`
 
 - `@param {Integer} count` **Required**
   - The number of array items needed.
@@ -342,7 +343,7 @@ bcCalendarService.integerToArray(4);
 ```
 
 
-#### `padDaysLeft`
+#### `padDaysLeft()`
 
 - `@param {String} startDate` **Required**
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
@@ -372,7 +373,7 @@ bcCalendarService.padDaysLeft('2016-05-18T00:00:00.027Z', 3);
 ```
 
 
-#### `padBlankTiles`
+#### `padBlankTiles()`
 
 - `@param {Array} collection` **Required**
   - The array that needs blank tiles.
@@ -424,7 +425,7 @@ bcCalendarService.padBlankTiles(collection, 2, 'right');
 ```
 
 
-#### `chunk`
+#### `chunk()`
 
 - `@param {Array} group` **Required**
   - The array that needs blank tiles.
@@ -463,7 +464,7 @@ bcCalendarService.chunk(collection, 4);
 ```
 
 
-#### `durationInDays`
+#### `durationInDays()`
 
 - `@param {String} date` **Required**
   - The first date to begin the measurement from.
@@ -484,7 +485,7 @@ bcCalendarService.durationInDays(start, end);
 ```
 
 
-#### `organizeWeeks`
+#### `organizeWeeks()`
 
 - `@param {Array} days` **Required**
   - The array of days that needs to be organized into weeks.
@@ -507,7 +508,7 @@ bcCalendarService.organizeWeeks(days);
 ```
 
 
-#### `organizeMonths`
+#### `organizeMonths()`
 
 - `@param {Array} days` **Required**
   - The array of days that needs to be organized into months.
@@ -534,7 +535,7 @@ bcCalendarService.organizeMonths(days);
 ```
 
 
-#### `buildDays`
+#### `buildDays()`
 
 - `@param {Integer} limit` **Required**
   - The number of days to create
@@ -563,16 +564,93 @@ bcCalendarService.buildDays(3, '2016-04-12T04:00:00.000Z');
 
 ## Provider
 
-[Plunker Demo][demo_provider_weekday]
+The provider allows you to change default settings for every instance of the calendar within your
+project.
+
+> Note: Don't be afraid to go look at the [source][source_provider]! It isn't too complicated and has plenty of
+comments!
+
+Inject the provider into your config function to use it:
+
+```javascript
+// ES6 example
+export function myConfig(
+    bcCalendarConfigProvider
+) {
+    'ngInject';
+
+    bcCalendarConfigProvider.showHeader = false;
+
+}
+
+
+// ES5 example
+angular.module('demo.calendar', ['bc.JsonCalendar'])
+    .config(myConfig);
+
+function myConfig(bcCalendarConfigProvider) {
+    bcCalendarConfigProvider.showHeader = false;
+}
+```
+
+[Provider Plunker demo][demo_provider_weekday]
+
 
 #### `startDate`
 
+- `{String}`
+  - Any [valid date][moment_parsing] accepted by Moment.js
+
+Define the default starting date for all calendars. Default is the current day.
+
+```javascript
+bcCalendarConfigProvider.startDate = '2010-09-20T00:00:00.027Z';
+```
 
 #### `nestingDepth`
+
+- `{String}`
+  - Valid values: `day`, `week`, `month`
+
+Define the default nesting depth for all calendars. Default is `month`. Learn more about nesting
+depth in the directive attribute documentation: [`bc-nesting-depth`](#bc-nesting-depth)
+
+```javascript
+bcCalendarConfigProvider.nestingDepth = 'week';
+```
+
+### `days`
+
+- `{Integer}`
+  - The number of days to be included in each calendar when no [`bc-end-date`](#bc-end-date) is
+    defined.
 
 
 #### `weekdayStyle`
 
+- `{String}`
+    - Collections: `letter`, `abbreviation`, `word`
+
+Weekdays can be output in [three formats](#bc-day-title-format). The values for each of these
+formats (or all of them) can be overwritten with translations or other custom values.
+
+```javascript
+// You can overwrite the entire `weekdayStyle` object or just a subset:
+bcCalendarConfigProvider.weekdayStyle.abbreviation = [
+    'SU',
+    'MO',
+    'TU',
+    'WE',
+    'TH',
+    'FR',
+    'SA',
+];
+
+// Defaults:
+// letter       : S, M, ...
+// abbreviation : Sun, Mon, ...
+// word         : Sunday, Monday, ...
+```
 
 #### `dayTitleFormat`
 
@@ -580,7 +658,7 @@ bcCalendarService.buildDays(3, '2016-04-12T04:00:00.000Z');
 #### `showWeekdays`
 
 
-#### `setDayTemplate`
+#### `setDayTemplate()`
 
 
 #### `dateFormat`
@@ -630,6 +708,7 @@ bcCalendarService.buildDays(3, '2016-04-12T04:00:00.000Z');
 [moment_parsing]: http://momentjs.com/docs/#/parsing/string/
 [source_day_template]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/templates/day.inner.html
 [source_service]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.service.js
+[source_provider]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.provider.js
 
 [demo_callback]: http://plnkr.co/edit/EIxsl7?p=preview
 [demo_custom_titles]: http://plnkr.co/edit/IZblC1?p=preview
