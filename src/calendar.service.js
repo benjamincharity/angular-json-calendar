@@ -15,7 +15,7 @@ export class bcCalendarService {
      * Check to see if the day is prior to the current date
      * This is used to disable the unselectable days
      *
-     * @param {Date} day
+     * @param {String} day
      * @return {Bool}
      */
     dateIsBeforeToday(date) {
@@ -26,8 +26,8 @@ export class bcCalendarService {
     /**
      * Check to see if the day matches the current date
      *
-     * @param {Date} date
-     * @param {Date} startDate
+     * @param {String} date
+     * @param {String} startDate
      * @return {Bool}
      */
     isDayToday(date, startDate) {
@@ -237,8 +237,8 @@ export class bcCalendarService {
     /**
      * Get the duration in days between two dates
      *
-     * @param {Date} start
-     * @param {Date} end
+     * @param {String} start
+     * @param {String} end
      * @return {Integer} days
      */
     durationInDays(start, end) {
@@ -258,7 +258,7 @@ export class bcCalendarService {
      * Build an array of days
      *
      * @param {Integer} limit - how many days to create
-     * @param {Date} start - the starting date
+     * @param {String} start - the starting date
      * @return {Array} days
      */
     buildDays(limit, start) {

@@ -234,9 +234,9 @@ of each month. Default is `true`.
 **Optional:** `String`
 
 This attribute accepts an HTML template as a string. When a template is passed in, it will be used
-in place of the [default inner-day template][inner-day-template]. You will have access to one item
-to use in the template. Use `vm.day.date` to output the date. Don't forget, you can use the [Angular
-date filter][angular_date] in your template.
+in place of the [default inner-day template][source_day_template]. You will have access
+to one item to use in the template. Use `vm.day.date` to output the date. Don't forget, you can use
+the [Angular date filter][angular_date] in your template.
 
 ```html
 <bc-calendar bc-day-template="<span>{{ vm.day.date }}</span>"></bc-calendar>
@@ -261,15 +261,82 @@ default date is output.
 
 ## Service
 
-[Plunker Demo][demo_service]
+Most calendar implementations should be able to simply use the directive. But one of the reasons
+this module was created was to give the end user more control over the calendar data itself without
+always being tied to HTML output. So the services that I use internally are all exposed so that you
+can build a completely custom calendar.
+
+> Note: Don't be afraid to go look at the [source][source_service]! It isn't too complicated and has plenty of
+comments!
+
+Inject the service into your controller to use:
+
+```javascript
+// ES6 example
+export class MyController {
+
+    constructor(
+        bcCalendarService
+    ) {
+        'ngInject';
+
+        bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
+
+    }
+
+}
+
+// ES5 example
+angular.module('myModule')
+    .controller('MyController', (bcCalendarService) => {
+
+          bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
+
+    })
+;
+```
+
+[Using the service Plunker demo][demo_service]
+
 
 #### `dateIsBeforeToday`
+
+A simple check to see if the passed in date occurred before the current date.
+
+- `@param {String} date`
+- `@return {Bool} isBefore`
+
+```javascript
+bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
+// returns true
+```
 
 
 #### `isDayToday`
 
+A simple check to see if the passed in date is the same **day** as the current date.
+
+- `@param {String} date`
+- `@param {String} date2`
+- `@return {Bool} isToday`
+
+```javascript
+bcCalendarService.isDayToday('2016-05-01T00:00:00.027Z');
+// returns false
+```
+
 
 #### `integerToArray`
+
+Turn a integer (e.g. 6) into an array: '[1,2,3,4,5,6]'
+
+`@param {Integer}` count
+`@return {Array}` days
+
+```javascript
+bcCalendarService.integerToArray(4);
+// returns [1, 2, 3, 4]
+```
 
 
 #### `padDaysLeft`
@@ -397,7 +464,8 @@ default date is output.
 [issues]: https://github.com/benjamincharity/angular-json-calendar/issues
 [angular_date]: https://docs.angularjs.org/api/ng/filter/date
 [moment_format]: http://momentjs.com/docs/#/displaying/format/
-[inner-day-template]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/templates/day.inner.html
+[source_day_template]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/templates/day.inner.html
+[source_service]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.service.js
 
 [demo_callback]: http://plnkr.co/edit/EIxsl7?p=preview
 [demo_custom_titles]: http://plnkr.co/edit/IZblC1?p=preview
