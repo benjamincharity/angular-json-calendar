@@ -3,6 +3,13 @@ $black: #000;
 
 .bc-calendar {
 
+  // target days that have no wrapper
+  >div>.bc-calendar__day {
+    display: inline-block;
+    height: 150px;
+    width: 150px;
+  }
+
   // container for heading row
   &__weekdays {
     display: flex;
@@ -23,6 +30,11 @@ $black: #000;
     &:nth-of-type(even) {
       background-color: rgba($black, .1);
     }
+
+    // target day only inside week
+    .bc-calendar__day {
+      width: calc((100% / 7) - 6.25rem);
+    }
   }
 
   // <span> individual day
@@ -31,7 +43,6 @@ $black: #000;
     flex: 1 1 auto;
     position: relative;
     text-align: center;
-    width: calc((100% / 7) - 6.25rem);
 
     &::before {
       content: '';
