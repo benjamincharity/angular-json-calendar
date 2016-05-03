@@ -83,7 +83,7 @@ export class bcCalendarService {
 
 
     /**
-     * Pad a collection with blank tiles at the beginning
+     * Pad a collection with blank tiles
      *
      * @param {Array} collection
      * @param {Integer} count
@@ -235,7 +235,7 @@ export class bcCalendarService {
 
 
     /**
-     * Get the duration in days between two dates
+     * Get the duration in days between two dates INCLUDING both dates
      *
      * @param {String} start
      * @param {String} end
@@ -245,9 +245,14 @@ export class bcCalendarService {
         const secondsInDay = 86400;
         const secondsInYear = 31536000;
 
+        // Add a day so the end date is included in the calculation
+        const unixEnd = moment(end).add(1, 'days').unix();
+
+        // Subtract a day so the start date is included in the calculation
+        const unixStart = moment(start).subtract(1, 'days').unix();
+
         // Find the difference when converted to seconds
-        // Add an extra days worth of seconds so that our calculation includes the end day
-        const diffence = (moment(end).unix() + secondsInDay) - moment(start).unix();
+        const diffence = unixEnd - unixStart;
 
         // Convert the difference of seconds back into days
         return Math.floor((diffence % secondsInYear) / secondsInDay);
