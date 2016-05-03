@@ -600,8 +600,9 @@ function myConfig(bcCalendarConfigProvider) {
 
 - `{String}`
   - Any [valid date][moment_parsing] accepted by Moment.js
+  - Default value: the current day
 
-Define the default starting date for all calendars. Default is the current day.
+Define the default starting date for all calendars.
 
 ```javascript
 bcCalendarConfigProvider.startDate = '2010-09-20T00:00:00.027Z';
@@ -611,9 +612,10 @@ bcCalendarConfigProvider.startDate = '2010-09-20T00:00:00.027Z';
 
 - `{String}`
   - Valid values: `day`, `week`, `month`
+  - Default value: `month`
 
-Define the default nesting depth for all calendars. Default is `month`. Learn more about nesting
-depth in the directive attribute documentation: [`bc-nesting-depth`](#bc-nesting-depth)
+Define the default nesting depth for all calendars. Learn more about nesting depth in the directive
+attribute documentation: [`bc-nesting-depth`](#bc-nesting-depth)
 
 ```javascript
 bcCalendarConfigProvider.nestingDepth = 'week';
@@ -624,7 +626,11 @@ bcCalendarConfigProvider.nestingDepth = 'week';
 - `{Integer}`
   - The number of days to be included in each calendar when no [`bc-end-date`](#bc-end-date) is
     defined.
+  - Default value: `30`
 
+```javascript
+bcCalendarConfigProvider.days = 12;
+```
 
 #### `weekdayStyle`
 
@@ -654,20 +660,93 @@ bcCalendarConfigProvider.weekdayStyle.abbreviation = [
 
 #### `dayTitleFormat`
 
+- `{String}`
+    - Valid values: `letter`, `abbreviation`, `word`
+    - Default value: `abbreviation`
+
+Define the default format for weekday names.
+
+```javascript
+bcCalendarConfigProvider.dayTitleFormat = `letter`;
+```
 
 #### `showWeekdays`
 
+- `{Bool}`
+    - Default value: `true`
+
+Define the visibility of the weekdays header. This is only applicable if
+[`bc-nesting-depth`](#bc-nesting-depth) is set to `week` or `month`.
+
+```javascript
+bcCalendarConfigProvider.showWeekdays = false;
+```
 
 #### `setDayTemplate()`
 
+- `@param {String} template` **Required**
+
+Pass in a template string to be used in place of the default day template. The passed template will
+be put into the `$templateCache` with the other templates.
+
+You have access to one item inside this template: `day`. This is an object with a single item. If
+the day is a valid day, `day.date` will contain a date formatted like so:
+`2016-05-01T00:00:00.027Z`. If the day is simply padding for a week or month, `day.date` will be
+`null`.
+
+```javascript
+// Don't forget, you can use the Angular date filter:
+const template = '<span ng-if="day.date">TODAY: {{day.date | date:"d"}}</span>';
+
+bcCalendarConfigProvider.setDayTemplate(myTemplate);
+```
+
+```html
+<!-- Default day template -->
+<time
+  datetime="{{ day.date | date:'yyyy-MM-dd' }}"
+  class="bc-calendar__day-time"
+  title="{{ day.date }}"
+  data-ng-if="day.date"
+>
+  <span data-ng-bind="vm.formatDate(day.date, vm.dateFormat)"></span>
+</time>
+```
 
 #### `dateFormat`
 
+- `{String}`
+    - Any valid Angular [date filter format][angular_date]
+    - Default value: `D`
+
+Define the default date format for every day.
+
+```javascript
+bcCalendarConfigProvider.dateFormat = 'EEE, d';
+```
 
 #### `monthTitleFormat`
 
+- `{String}`
+    - Any valid Angular [date filter format][angular_date]
+    - Default value: `MMMM`
+
+Define the default format for the month titles.
+
+```javascript
+bcCalendarConfigProvider.monthTitleFormat = 'M';
+```
 
 #### `showMonthTitles`
+
+- `{Bool}`
+    - Default value: `true`
+
+Define the default visibility of month titles.
+
+```javascript
+bcCalendarConfigProvider.showMonthTitles = false;
+```
 
 
 ## Styling
