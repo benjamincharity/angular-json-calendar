@@ -1,89 +1,286 @@
-$color: #f00;
+
+$gray: #999;
+$blue: #add8e6;
 $black: #000;
+$deep_blue: #246b86;
+
 
 .bc-calendar {
 
-  // target days that have no wrapper
-  >div>.bc-calendar__day {
-    display: inline-block;
-    height: 150px;
-    width: 150px;
-  }
-
-  // container for heading row
-  &__weekdays {
-    display: flex;
-    flex-flow: row nowrap;
-  }
-
-  &__month {
-    display: block;
-    margin-bottom: 2rem;
-  }
-
-  // <div> container for week
-  &__week {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-
-    &:nth-of-type(even) {
-      background-color: rgba($black, .1);
-    }
-
-    // target day only inside week
-    .bc-calendar__day {
-      width: calc((100% / 7) - 6.25rem);
-    }
-  }
-
-  // <span> individual day
-  &__day {
-    display: block;
-    flex: 1 1 auto;
-    position: relative;
-    text-align: center;
-
-    &::before {
-      content: '';
+  //
+  // Months
+  //
+  &--months {
+    .bc-calendar__month {
       display: block;
-      height: 0;
-      padding-top: 80%;
-    }
+      margin-bottom: 2rem;
 
-    &--weekdays {
-      line-height: 2em;
-
-      &::before {
-        display: none;
+      .bc-calendar__month-title {
+        display: block;
+        font-size: 2rem;
+        padding: 1rem;
+        text-align: center;
       }
     }
 
-    //&--disabled {
-      //opacity: .3;
-    //}
-
-    &--even {
-      background-color: rgba($black, .1);
+    // container for heading row
+    .bc-calendar__weekdays {
+      border-bottom: 1px solid rgba($black, .05);
+      color: $gray;
+      display: flex;
+      flex-flow: row nowrap;
     }
 
-    // <time> wrapper for actual datetime
-    &-time {
+    // <div> container for week
+    .bc-calendar__week {
       display: flex;
-      align-items: center;
       flex-flow: row nowrap;
-      justify-content: center;
+      justify-content: space-between;
+
+      &:nth-of-type(odd) {
+        .bc-calendar__day:nth-of-type(odd) {
+          background-color: rgba($black, .05);
+        }
+
+        .bc-calendar__day--pad:nth-of-type(odd) {
+          background-color: transparent;
+        }
+      }
+
+      &:nth-of-type(even) {
+        .bc-calendar__day:nth-of-type(even) {
+          background-color: rgba($black, .05);
+        }
+
+        .bc-calendar__day--pad:nth-of-type(even) {
+          background-color: transparent;
+        }
+
+        .bc-calendar__day:nth-of-type(odd) {
+          border: 1px solid rgba($black, .05);
+        }
+      }
+    }
+
+    .bc-calendar__day {
+      flex: 1 1 auto;
+      position: relative;
+      text-align: center;
+      width: calc((100% / 7) - 6.25rem);
+
+      &::before {
+        content: '';
+        display: block;
+        height: 0;
+        padding-top: 100%;
+      }
+
+      &--weekdays {
+        line-height: 2em;
+
+        &::before {
+          display: none;
+        }
+      }
+
+      // <time> wrapper for actual datetime
+      &-time {
+        align-items: center;
+        display: flex;
+        flex-flow: row nowrap;
+        font-size: 12px;
+        justify-content: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+
+        small {
+          display: block;
+        }
+      }
+
+      // class from our custom day template
+      .week--date {
+        color: $gray;
+        font-size: .8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        position: absolute;
+        top: .4em;
+        left: .4em;
+      }
+
+      // class from our custom day template
+      .month {
+        font-size: .6rem;
+        font-weight: 600;
+        letter-spacing: .1em;
+        opacity: .2;
+        text-transform: uppercase;
+        position: absolute;
+        bottom: .2em;
+        left: 0;
+        right: 0;
+      }
+    }
+  }
+
+
+  //
+  // Simple days
+  //
+  &--days {
+    // container for heading row
+    .bc-calendar__weekdays {
+      border-bottom: 2px solid $deep_blue;
+      display: flex;
+      flex-flow: row nowrap;
+    }
+
+    // <div> container for week
+    .bc-calendar__week {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+
+      &:nth-of-type(odd) {
+        .bc-calendar__day:nth-of-type(odd) {
+          background-color: rgba($black, .05);
+        }
+
+        .bc-calendar__day--pad:nth-of-type(odd) {
+          background-color: transparent;
+        }
+      }
+
+      &:nth-of-type(even) {
+        .bc-calendar__day:nth-of-type(even) {
+          background-color: rgba($black, .05);
+        }
+
+        .bc-calendar__day--pad:nth-of-type(even) {
+          background-color: transparent;
+        }
+
+        .bc-calendar__day:nth-of-type(odd) {
+          border: 1px solid rgba($black, .05);
+        }
+      }
+    }
+
+    .bc-calendar__day {
+      flex: 1 1 auto;
+      position: relative;
+      text-align: center;
+      width: calc((100% / 7) - 6.25rem);
+
+      &::before {
+        content: '';
+        display: block;
+        height: 0;
+        padding-top: 100%;
+      }
+
+      &--weekdays {
+        line-height: 2em;
+
+        &::before {
+          display: none;
+        }
+      }
+
+      // <time> wrapper for actual datetime
+      &-time {
+        align-items: center;
+        display: flex;
+        flex-flow: row nowrap;
+        font-size: 12px;
+        justify-content: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+
+        small {
+          display: block;
+        }
+      }
+
+      // class from our custom day template
+      .week--date {
+        color: $deep_blue;
+        font-size: .8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        position: absolute;
+        top: .4em;
+        left: .4em;
+      }
+
+      // class from our custom day template
+      .month {
+        font-size: .6rem;
+        font-weight: 600;
+        letter-spacing: .1em;
+        opacity: .2;
+        text-transform: uppercase;
+        position: absolute;
+        bottom: .2em;
+        left: 0;
+        right: 0;
+      }
+    }
+  }
+
+
+  //
+  // Sidescroll
+  //
+  &--sidescroll {
+    overflow-x: scroll;
+    white-space: nowrap;
+
+    .bc-calendar__day {
+      border: 1px solid $blue;
+      display: inline-block;
+      position: relative;
+      text-align: center;
+      width: 8rem;
+
+      &::before {
+        content: '';
+        display: block;
+        height: 0;
+        padding-top: 80%;
+      }
+
+      &-time {
+        align-items: center;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    // class from our custom day template
+    .week--day {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: .5;
+      text-transform: uppercase;
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      top: 0;
-
-      small {
-        display: block;
-      }
     }
   }
-
 }
 

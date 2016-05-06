@@ -754,6 +754,9 @@ bcCalendarConfigProvider.showMonthTitles = false;
 - Purposefully no real style.
 - Couple lean themes so it can be 'plug n play'
 
+[Sidescrolling calendar Plunker theme][demo_style_sidescroller]
+
+
 ### Theme
 
 
@@ -797,4 +800,7 @@ bcCalendarConfigProvider.showMonthTitles = false;
 [demo_nesting_depth]: http://plnkr.co/edit/sas4yl?p=preview
 [demo_provider_weekday]: http://plnkr.co/edit/kfUK3O?p=preview
 [demo_service]: http://plnkr.co/edit/ILCxI3?p=preview
+[demo_style_sidescroller]: http://plnkr.co/edit/dhZL1y?p=preview
+[demo_style_weeks]: http://plnkr.co/edit/6YQ5u8?p=preview
+[demo_style_months]: http://plnkr.co/edit/q7mzZU?p=preview
 
