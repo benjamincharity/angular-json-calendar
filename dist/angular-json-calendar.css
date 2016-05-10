@@ -1,14 +1,3 @@
-.bc-calendar--months .bc-calendar__day.bc-calendar__day--pad + .bc-calendar__day:not(.bc-calendar__day--pad)::after {
-  background-color: #999;
-  content: '';
-  display: block;
-  position: absolute;
-  bottom: -1px;
-  left: -1px;
-  top: -1px;
-  width: 1px;
-}
-
 .bc-calendar--months .bc-calendar__month {
   display: block;
   margin-bottom: 2rem;
@@ -22,7 +11,6 @@
 }
 
 .bc-calendar--months .bc-calendar__weekdays {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   color: #999;
   display: -webkit-box;
   display: -webkit-flex;
@@ -33,7 +21,14 @@
           flex-flow: row nowrap;
 }
 
+.bc-calendar--months .bc-calendar__weekdays .bc-calendar__day,
+.bc-calendar--months .bc-calendar__weekdays .bc-calendar__day:first-of-type,
+.bc-calendar--months .bc-calendar__weekdays .bc-calendar__day:first-of-type:not(.bc-calendar__day--pad) {
+  border: 0;
+}
+
 .bc-calendar--months .bc-calendar__week {
+  border-top: 1px solid #999;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -47,34 +42,57 @@
           justify-content: space-between;
 }
 
-.bc-calendar--months .bc-calendar__week:nth-of-type(odd) .bc-calendar__day:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.05);
+.bc-calendar--months .bc-calendar__week:first-of-type {
+  border-top: 0;
 }
 
-.bc-calendar--months .bc-calendar__week:nth-of-type(odd) .bc-calendar__day--pad:nth-of-type(odd) {
-  background-color: transparent;
+.bc-calendar--months .bc-calendar__week:first-of-type .bc-calendar__day {
+  border-top: 1px solid #999;
+}
+
+.bc-calendar--months .bc-calendar__week:first-of-type .bc-calendar__day--pad {
+  border-top: 0;
+}
+
+.bc-calendar--months .bc-calendar__week:first-of-type .bc-calendar__day--pad:last-child {
+  border-right: 1px solid #999;
+}
+
+.bc-calendar--months .bc-calendar__week:last-of-type .bc-calendar__day {
+  border-bottom: 1px solid #999;
+}
+
+.bc-calendar--months .bc-calendar__week:nth-of-type(odd) .bc-calendar__day:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.bc-calendar--months .bc-calendar__week:nth-of-type(odd) .bc-calendar__day.bc-calendar__day--pad {
+  background: transparent;
+  border-color: transparent;
 }
 
 .bc-calendar--months .bc-calendar__week:nth-of-type(even) .bc-calendar__day:nth-of-type(even) {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .bc-calendar--months .bc-calendar__week:nth-of-type(even) .bc-calendar__day--pad:nth-of-type(even) {
   background-color: transparent;
 }
 
-.bc-calendar--months .bc-calendar__week:nth-of-type(even) .bc-calendar__day:nth-of-type(odd) {
-  border: 1px solid rgba(0, 0, 0, 0.05);
+.bc-calendar--months .bc-calendar__week:nth-of-type(even) .bc-calendar__day.bc-calendar__day--pad {
+  background: transparent;
+  border: 0;
 }
 
 .bc-calendar--months .bc-calendar__day {
+  border-right: 1px solid #999;
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   position: relative;
   text-align: center;
-  width: calc((100% / 7) - 6.25rem);
+  width: calc(((100% / 7) - 2px) - 6.25rem);
 }
 
 .bc-calendar--months .bc-calendar__day::before {
@@ -84,12 +102,27 @@
   padding-top: 100%;
 }
 
+.bc-calendar--months .bc-calendar__day:first-of-type:not(.bc-calendar__day--pad) {
+  border-left: 1px solid #999;
+}
+
 .bc-calendar--months .bc-calendar__day--weekdays {
   line-height: 2em;
 }
 
 .bc-calendar--months .bc-calendar__day--weekdays::before {
   display: none;
+}
+
+.bc-calendar--months .bc-calendar__day.bc-calendar__day--pad + .bc-calendar__day:not(.bc-calendar__day--pad)::after {
+  background-color: #999;
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  top: -1px;
+  width: 1px;
 }
 
 .bc-calendar--months .bc-calendar__day-time {

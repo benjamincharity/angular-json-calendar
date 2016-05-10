@@ -12,24 +12,12 @@ $deep_blue: #246b86;
   //
   &--months {
 
-    // add a left border to the first real day of the month
-    .bc-calendar__day.bc-calendar__day--pad + .bc-calendar__day:not(.bc-calendar__day--pad) {
-      &::after {
-        background-color: $gray;
-        content: '';
-        display: block;
-        position: absolute;
-        bottom: -1px;
-        left: -1px;
-        top: -1px;
-        width: 1px;
-      }
-    }
-
+    // container for a month
     .bc-calendar__month {
       display: block;
       margin-bottom: 2rem;
 
+      // the month name
       .bc-calendar__month-title {
         display: block;
         font-size: 2rem;
@@ -38,50 +26,85 @@ $deep_blue: #246b86;
       }
     }
 
-    // container for heading row
+    // container for heading row (M, T, W, T...)
     .bc-calendar__weekdays {
-      border-bottom: 1px solid rgba($black, .05);
       color: $gray;
       display: flex;
       flex-flow: row nowrap;
+
+      .bc-calendar__day,
+      .bc-calendar__day:first-of-type,
+      .bc-calendar__day:first-of-type:not(.bc-calendar__day--pad) {
+        border: 0;
+      }
     }
 
     // <div> container for week
     .bc-calendar__week {
+      border-top: 1px solid $gray;
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
 
-      &:nth-of-type(odd) {
-        .bc-calendar__day:nth-of-type(odd) {
-          background-color: rgba($black, .05);
+      // target first week
+      &:first-of-type {
+        border-top: 0;
+
+        .bc-calendar__day {
+          border-top: 1px solid $gray;
         }
 
-        .bc-calendar__day--pad:nth-of-type(odd) {
-          background-color: transparent;
+        .bc-calendar__day--pad {
+          border-top: 0;
+
+          &:last-child {
+            border-right: 1px solid $gray;
+          }
         }
       }
 
+      // target last week
+      &:last-of-type {
+        .bc-calendar__day {
+          border-bottom: 1px solid $gray;
+        }
+      }
+
+      // target all odd weeks/rows
+      &:nth-of-type(odd) {
+        .bc-calendar__day:nth-of-type(odd) {
+          background-color: rgba($black, .03);
+        }
+
+        .bc-calendar__day.bc-calendar__day--pad {
+          background: transparent;
+          border-color: transparent;
+        }
+      }
+
+      // target all even weeks/rows
       &:nth-of-type(even) {
         .bc-calendar__day:nth-of-type(even) {
-          background-color: rgba($black, .05);
+          background-color: rgba($black, .03);
         }
 
         .bc-calendar__day--pad:nth-of-type(even) {
           background-color: transparent;
         }
 
-        .bc-calendar__day:nth-of-type(odd) {
-          border: 1px solid rgba($black, .05);
+        .bc-calendar__day.bc-calendar__day--pad {
+          background: transparent;
+          border: 0;
         }
       }
     }
 
     .bc-calendar__day {
+      border-right: 1px solid $gray;
       flex: 1 1 auto;
       position: relative;
       text-align: center;
-      width: calc((100% / 7) - 6.25rem);
+      width: calc(((100% / 7) - 2px) - 6.25rem);
 
       &::before {
         content: '';
@@ -90,11 +113,29 @@ $deep_blue: #246b86;
         padding-top: 100%;
       }
 
+      &:first-of-type:not(.bc-calendar__day--pad) {
+        border-left: 1px solid $gray;
+      }
+
       &--weekdays {
         line-height: 2em;
 
         &::before {
           display: none;
+        }
+      }
+
+      // add a left border to the first real day of the month
+      &.bc-calendar__day--pad + .bc-calendar__day:not(.bc-calendar__day--pad) {
+        &::after {
+          background-color: $gray;
+          content: '';
+          display: block;
+          position: absolute;
+          bottom: -1px;
+          left: -1px;
+          top: -1px;
+          width: 1px;
         }
       }
 
