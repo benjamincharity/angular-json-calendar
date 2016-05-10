@@ -11,6 +11,21 @@ $deep_blue: #246b86;
   // Months
   //
   &--months {
+
+    // add a left border to the first real day of the month
+    .bc-calendar__day.bc-calendar__day--pad + .bc-calendar__day:not(.bc-calendar__day--pad) {
+      &::after {
+        background-color: $gray;
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: -1px;
+        left: -1px;
+        top: -1px;
+        width: 1px;
+      }
+    }
+
     .bc-calendar__month {
       display: block;
       margin-bottom: 2rem;
