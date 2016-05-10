@@ -1,3 +1,14 @@
+.bc-calendar--months .bc-calendar__day.bc-calendar__day--pad + .bc-calendar__day:not(.bc-calendar__day--pad)::after {
+  background-color: #999;
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  top: -1px;
+  width: 1px;
+}
+
 .bc-calendar--months .bc-calendar__month {
   display: block;
   margin-bottom: 2rem;
