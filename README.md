@@ -208,8 +208,8 @@ bc-day-title-format="word"
 
 **Optional:** `String`
 
-This customizes the month name format. Any valid Angular [date filter format][angular_date] can be
-used. Default is `MMMM` which will output the full month name eg `February`.
+This customizes the format of the month name. Any valid Angular [date filter format][angular_date]
+can be used. Default is `MMMM` which will output the full month name: `February`.
 
 [Custom titles Plunker demo][demo_custom_titles]
 
@@ -246,7 +246,7 @@ myMethod(date) {
 
 **Optional:** `Bool`
 
-This boolean value determines if the month titles will be visible. If set to true, The month name
+This boolean value determines if the month titles will be visible. If set to true, the month name
 will be output before each month.
 
 ```html
@@ -276,16 +276,15 @@ of each month.
 
 This attribute accepts an HTML template as a string. When a template is passed in, it will be used
 in place of the [default inner-day template][source_day_template]. You will have access
-to one item to use in the template. Use `vm.day.date` to output the date. Don't forget, you can use
+to one item to use in the template. Use `day.date` to output the date. Don't forget, you can use
 the [Angular date filter][angular_date] in your template.
 
 ```html
 <!-- Default template can be seen here: /src/templates/day.inner.html -->
-<bc-calendar bc-day-template="<span>{{ vm.day.date }}</span>"></bc-calendar>
+<bc-calendar bc-day-template="<span>{{ day.date }}</span>"></bc-calendar>
 
 <!-- You can use the Angular date filter inside your template -->
-<bc-calendar bc-day-template="<span>{{ vm.day.date | date:'d / M / yy' }}</span>">
-</bc-calendar>
+<bc-calendar bc-day-template="<span>{{ day.date | date:'d / M / yy' }}</span>"></bc-calendar>
 ```
 
 
@@ -294,7 +293,7 @@ the [Angular date filter][angular_date] in your template.
 **Optional:** `String`
 
 Pass in a string representing a valid [Angular date filter format][angular_date] to change how the
-default date is output.
+default date is output in the default day template.
 
 ```html
 <!-- Default is 'D' -->
@@ -306,8 +305,8 @@ default date is output.
 
 Most calendar implementations should be able to simply use the directive. But one of the reasons
 this module was created was to give the end user more control over the calendar data itself without
-always being tied to HTML output. So the services that I use internally are all exposed so that you
-can build a completely custom calendar.
+always being tied to HTML output. So the services that I use internally are all exposed to enable
+you to create a completely custom calendar.
 
 > Note: Don't be afraid to go look at the [source][source_service]! It isn't too complicated and has plenty of
 comments!
