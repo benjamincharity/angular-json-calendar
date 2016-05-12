@@ -1,10 +1,30 @@
 # angular-json-calendar
 
-- Had to create 3 calendars over the past couple years.
-- Always needed a custom design which didn't work with existing calendar directives.
-- Wanted to create something that took off the load of building out the calendar data without
-    forcing me into a specific design solution (paginated months/etc)
+A calendar module that focuses on providing the data needed to construct a calendar without
+being constrained to specific styles and layouts.
 
+---
+
+Over the span of a year and a half, 3 separate projects I was on needed a calendar. Each time I
+searched through the popular calendar and date modules (and there are a _lot_) hoping to find
+something. I mean, who really wants to deal with dates? Repeatedly, due to design or functional
+constraints, each calendar was knocked off the list of possibilities. Any time a calendar supported
+advanced functionality it almost always came with explicit constraints on the markup and layout of
+the calendar.
+
+Once the third time rolled around I decided to write something to scratch my own itch. I wanted
+something that would accept a few parameters and simply generate the calendar markup for me or allow
+me to generate the calendar in pure JSON to do with as I pleased.
+
+A few examples:
+
+- [Simple demo][demo_simple]
+- [Custom start and end dates][demo_custom_dates]
+- [Custom nesting depth][demo_nesting_depth]
+- [Using the service][demo_service]
+- [Side-scrolling theme][demo_style_sidescroller]
+
+---
 
 _[Comments and Pull Requests welcome!][issues]_
 
@@ -50,6 +70,7 @@ _[Comments and Pull Requests welcome!][issues]_
 - [Styling](#styling)
     - [Themes](#themes)
     - [Classes](#classes)
+- [Demos](#demos)
 - [Development](#development)
 
 
@@ -956,6 +977,21 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 .bc-calendar__day-time {}
 
 ```
+
+
+## Demos
+
+- [Simple demo][demo_simple]
+- [Custom start and end dates][demo_custom_dates]
+- [Custom nesting depth][demo_nesting_depth]
+- [Setting custom titles][demo_custom_titles]
+- [Using the callback][demo_callback]
+- [Custom day template][demo_custom_template]
+- [Using the service][demo_service]
+- [Using the provider][demo_provider_weekday]
+- [Side-scrolling theme][demo_style_sidescroller]
+- [Weeks-style vertical calendar theme][demo_style_weeks]
+- [Classic months-style theme][demo_style_months]
 
 
 ## Development
