@@ -7,10 +7,10 @@ being constrained to specific styles and layouts.
 
 Over the span of a year and a half, 3 separate projects I was on needed a calendar. Each time I
 searched through the popular calendar and date modules (and there are a _lot_) hoping to find
-something. I mean, who really wants to deal with dates? Repeatedly, due to design or functional
-constraints, each calendar was knocked off the list of possibilities. Any time a calendar supported
-advanced functionality it almost always came with explicit constraints on the markup and layout of
-the calendar.
+something. I mean, who really wants to deal with date and time? Repeatedly, due to design or
+functional constraints, each calendar was knocked off the list of possibilities. Any time a calendar
+supported advanced functionality it almost always came with explicit constraints on the markup and
+layout of the calendar.
 
 Once the third time rolled around I decided to write something to scratch my own itch. I wanted
 something that would accept a few parameters and simply generate the calendar markup for me or allow
