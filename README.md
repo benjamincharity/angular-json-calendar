@@ -67,6 +67,18 @@ npm install angular-json-calendar --save
 bower install angular-json-calendar --save
 ```
 
+#### Manual
+
+```html
+<!-- Include the styles (if you need them) -->
+<link rel="stylesheet" href="path/to/lib/dist/angular-json-calendar.min.css" />
+
+<!-- Include the module -->
+<script src="path/to/lib/dist/angular-json-calendar.min.js"></script>
+
+```
+
+
 ## Dependencies
 
 - Angular.js (~1.4.0)
