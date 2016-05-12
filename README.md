@@ -5,16 +5,16 @@ being constrained to specific styles and layouts.
 
 ---
 
-Over the span of a year and a half, 3 separate projects I was on needed a calendar. Each time I
+Over the span of a year and a half, three separate projects I was on needed a calendar. Each time I
 searched through the popular calendar and date modules (and there are a _lot_) hoping to find
-something. I mean, who really wants to deal with date and time? Repeatedly, due to design or
-functional constraints, each calendar was knocked off the list of possibilities. Any time a calendar
-supported advanced functionality it almost always came with explicit constraints on the markup and
-layout of the calendar.
+something. I mean, who really wants to deal with date and time? Unfortunately, on each occasion,
+due to design or functional constraints each calendar was knocked off the list of possibilities. Any
+time a calendar module supported advanced functionality it almost always came with explicit
+constraints on the markup and/or layout of the calendar.
 
 Once the third time rolled around I decided to write something to scratch my own itch. I wanted
-something that would accept a few parameters and simply generate the calendar markup for me or allow
-me to generate the calendar in pure JSON to do with as I pleased.
+to build something that would accept a few parameters and simply generate the calendar markup for me
+free of styles. Or allow me to generate the calendar in pure JSON to build out however I needed.
 
 A few examples:
 
@@ -108,14 +108,13 @@ bower install angular-json-calendar --save
 
 ## Directive
 
-[Plunker Demo][demo_simple]
+This will generate a basic calendar using the [default settings](#provider).
 
-```
+```html
 <bc-calendar></bc-calendar>
 ```
 
-This will generate a basic calendar using the [default settings][TODO].
-
+[Plunker Demo][demo_simple]
 
 
 #### `bc-start-date`
@@ -127,7 +126,7 @@ day.
 
 [Custom dates Plunker demo][demo_custom_dates]
 
-```
+```html
 <bc-calendar bc-start-date="2016-04-24T00:00:00.027Z"></bc-calendar>
 ```
 
@@ -141,7 +140,8 @@ the length of the calendar and **override** `bc-days` if it is also set.
 
 [Custom dates Plunker demo][demo_custom_dates]
 
-```
+```html
+<!-- Not set by default -->
 <bc-calendar bc-end-date="2016-08-11T00:00:00.027Z"></bc-calendar>
 ```
 
@@ -160,7 +160,8 @@ Try changing the nesting depth and inspecting the DOM!
 
 [Nesting depth Plunker demo][demo_nesting_depth]
 
-```
+```html
+<!-- Default is 'month' -->
 <bc-calendar bc-nesting-depth="week"></bc-calendar>
 ```
 
@@ -172,7 +173,8 @@ Try changing the nesting depth and inspecting the DOM!
 This determines how many days will be output in the calendar. This defaults to `30` and can be
 overridden by setting `bc-end-date`.
 
-```
+```html
+<!-- Default is 30 -->
 <bc-calendar bc-days="45"></bc-calendar>
 ```
 
@@ -183,7 +185,7 @@ overridden by setting `bc-end-date`.
 
 This allows you to change the format of the weekday titles. Default is `abbreviation`;
 
-```
+```javascript
 bc-day-title-format="letter"
 // output: [S, M, T, W, T, F, S]
 
@@ -196,7 +198,8 @@ bc-day-title-format="word"
 
 [Plunker Demo][demo_custom_titles]
 
-```
+```html
+<!-- Default is 'abbreviation' -->
 <bc-calendar bc-day-title-format="word"></bc-calendar>
 ```
 
@@ -210,7 +213,8 @@ used. Default is `MMMM` which will output the full month name eg `February`.
 
 [Custom titles Plunker demo][demo_custom_titles]
 
-```
+```html
+<!-- Default is 'MMMM' -->
 <bc-calendar bc-month-title-format="MMMM"></bc-calendar>
 ```
 
@@ -224,14 +228,16 @@ method only passes in one parameter `date`. This will be the selected date in IS
 
 [Date selected Plunker demo][demo_callback]
 
-```
+```javascript
 // In your controller:
 myMethod(date) {
   console.log('User selected: ', date);
   // output: 2016-08-11T00:00:00.027Z
 }
+```
 
-// In the dom:
+```html
+<!-- In the DOM -->
 <bc-calendar bc-date-selected="vm.myMethod(date)"></bc-calendar>
 ```
 
@@ -241,9 +247,10 @@ myMethod(date) {
 **Optional:** `Bool`
 
 This boolean value determines if the month titles will be visible. If set to true, The month name
-will be output before each month. Default is `true`.
+will be output before each month.
 
-```
+```html
+<!-- Default is true -->
 <bc-calendar bc-show-month-titles="false"></bc-calendar>
 ```
 
@@ -255,9 +262,10 @@ will be output before each month. Default is `true`.
 This boolean value determines if the weekday titles will be visible. When `bc-nesting-depth` is set
 to `day` or `week`, a single header element will be output above the calendar containing the weekday
 names. If `bc-nesting-depth` is set to `month` then a header element will be output at the beginning
-of each month. Default is `true`.
+of each month.
 
-```
+```html
+<!-- Default is true -->
 <bc-calendar bc-show-weekdays="false"></bc-calendar>
 ```
 
@@ -272,9 +280,10 @@ to one item to use in the template. Use `vm.day.date` to output the date. Don't 
 the [Angular date filter][angular_date] in your template.
 
 ```html
+<!-- Default template can be seen here: /src/templates/day.inner.html -->
 <bc-calendar bc-day-template="<span>{{ vm.day.date }}</span>"></bc-calendar>
 
-<!-- Using the date filter -->
+<!-- You can use the Angular date filter inside your template -->
 <bc-calendar bc-day-template="<span>{{ vm.day.date | date:'d / M / yy' }}</span>">
 </bc-calendar>
 ```
@@ -287,7 +296,8 @@ the [Angular date filter][angular_date] in your template.
 Pass in a string representing a valid [Angular date filter format][angular_date] to change how the
 default date is output.
 
-```
+```html
+<!-- Default is 'D' -->
 <bc-calendar bc-date-format="MMM d, yyyy"></bc-calendar>
 ```
 
