@@ -48,7 +48,7 @@ _[Comments and Pull Requests welcome!][issues]_
     - [`monthTitleFormat`](#monthtitleformat)
     - [`showMonthTitles`](#showmonthtitles)
 - [Styling](#styling)
-    - [Theme](#theme)
+    - [Themes](#themes)
     - [Classes](#classes)
 - [Development](#development)
 
@@ -751,25 +751,199 @@ bcCalendarConfigProvider.showMonthTitles = false;
 
 ## Styling
 
-- Purposefully no real style.
-- Couple lean themes so it can be 'plug n play'
+One of the primary goals of this project was to create a calendar free of styles and constraints.
+Because of this, there are no styles applied by default. But, as a user of open-source modules, I
+really appreciate when I can get a simple version up and running without investing too much time.
+For that reason there are three _very_ minimal themes included.
 
-[Sidescrolling calendar Plunker theme][demo_style_sidescroller]
+There are also plenty of clearly defined [classes](#classes) which allow for the creation of custom
+themes.
+
+**Note:** If you are not using a package manager such as bower or npm you will need to make sure
+that the styles are included in your page:
+
+```html
+<link rel="stylesheet" href="path/to/angular-json-calendar/dist/angular-json-calendar.min.css" />
+```
 
 
-### Theme
+### Themes
+
+These very minimal themes were created to hopefully spark your creativity rather than to use
+directly in production apps. (unless of course you need something very, very minimal)
+
+To enable a theme, add the corresponding class name to the directive element. Note that the theme may
+require a [custom template](#bc-day-template) for the day which adds specific elements and classes
+for the theme.
+
+```javascript
+<bc-calendar
+  class="bc-calendar--days"
+  bc-nesting-depth="week"
+  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+></bc-calendar>
+```
+
+
+#### `.bc-calendar--months`
+
+A classic month by month calendar.
+
+- Nesting depth should be set to `month`
+- Custom day template should be used
+
+[Months theme Plunker demo][demo_style_months]
+
+```html
+<bc-calendar
+  class="bc-calendar--months"
+  bc-nesting-depth="month"
+  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+></bc-calendar>
+
+<!-- Note: Since 'month' is the default nesting depth, you can also leave it
+     off as long as the default has not been overwritten using the provider -->
+<bc-calendar
+  class="bc-calendar--months"
+  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+></bc-calendar>
+```
+
+**Custom Day Template:**
+
+```html
+<time
+  class="bc-calendar__day-time"
+  datetime="{{ day.date | date:'yyyy-MM-dd' }}"
+  title="{{ day.date }}"
+  data-ng-if="day.date"
+>
+  <span class="week--date">{{ day.date | date:"d"}}</span>
+  <span class="month">{{ day.date | date:"MMMM"}}</span>
+</time>
+```
+
+
+#### `.bc-calendar--days`
+
+A modern vertical calendar comprised of weeks.
+
+- Nesting depth should be set to `week`
+- Custom day template should be used
+
+[Days theme Plunker demo][demo_style_weeks]
+
+```html
+<bc-calendar
+  class="bc-calendar--days"
+  bc-nesting-depth="week"
+  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+></bc-calendar>
+```
+
+**Custom Day Template:**
+
+```html
+<time
+  class="bc-calendar__day-time"
+  datetime="{{ day.date | date:'yyyy-MM-dd' }}"
+  title="{{ day.date }}"
+  data-ng-if="day.date"
+>
+  <span class="week--date">{{ day.date | date:"d"}}</span>
+  <span class="month">{{ day.date | date:"MMMM"}}</span>
+</time>
+```
+
+
+#### `.bc-calendar--sidescroll`
+
+A side-scrolling calendar of days.
+
+- Nesting depth should be set to `day`
+- Custom day template should be used
+
+[Side-scroll theme Plunker demo][demo_style_sidescroller]
+
+```html
+<bc-calendar
+  class="bc-calendar--sidescroll"
+  bc-nesting-depth="day"
+  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+  bc-days="12"
+></bc-calendar>
+```
+
+**Custom Day Template:**
+
+```html
+<time
+  class="bc-calendar__day-time"
+  datetime="{{ day.date | date:'yyyy-MM-dd' }}"
+  title="{{ day.date }}"
+  data-ng-if="day.date"
+>
+  <span class="week--date">{{ day.date | date:"d"}}th</span>
+  <span class="week--day">{{ day.date | date:"EEEE"}}</span>
+</time>
+```
 
 
 ### Classes
 
-- `section.bc-calendar` Primary container.
-- `span.bc-calendar__month-title` Container for the month name.
-- `span.bc-calendar__weekday` Container for the weekday titles (M, W, T, etc).
-- `time.bc-calendar__month` Month element.
-- `time.bc-calendar__week` week element.
-- `span.bc-calendar__day` day element.
-- `time.bc-calendar__day-time` inner day element.
+Easiest way to get aquainted with the classes is to check out [one][demo_style_sidescroller] of
+the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
+```scss
+// <section> Primary container for the calendar
+.bc-calendar {}
+
+// <time> The container for a month
+.bc-calendar__month {}
+
+// <span> The month title 'March'
+.bc-calendar__month-title {}
+
+// <span> Container for the weekday titles 'S M T W T F S'
+.bc-calendar__weekdays {}
+
+// <section> The container for a day
+.bc-calendar__day {}
+
+// <section> Secondary class added to a day when inside the weekdays header
+.bc-calendar__day--weekdays {}
+
+// <strong> The weekday title
+.bc-calendar__day-title {}
+
+// <time> The container for a week
+.bc-calendar__week {}
+
+// Class added to a day if it is before today's date
+.bc-calendar__day--disabled {}
+
+// Class added to day if it is the current day
+.bc-calendar__day--today {}
+
+// Class added to even days (2nd, 4th, etc)
+.bc-calendar__day--even {}
+
+// Class added to odd days (1st, 3rd, etc)
+.bc-calendar__day--odd {}
+
+// Class added to day when it is a 'filler' day rather than a valid day
+.bc-calendar__day--pad {}
+
+// Class added to day when it is a valid day
+.bc-calendar__day--valid {}
+
+// Class added to day when it is the currently selected day
+.bc-calendar__day--selected {}
+
+// <span> The inner wrapper for the date in the default day template
+.bc-calendar__day-time {}
+
+```
 
 
 ## Development
