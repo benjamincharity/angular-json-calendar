@@ -323,6 +323,7 @@ export class MyController {
         'ngInject';
 
         bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
+        // returns true
 
     }
 
@@ -333,21 +334,22 @@ angular.module('myModule', ['bc.JsonCalendar'])
     .controller('MyController', (bcCalendarService) => {
 
           bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
+          // returns true
 
     })
 ;
 ```
 
-[Using the service Plunker demo][demo_service]
+[Service example Plunker demo][demo_service]
 
 
 #### `dateIsBeforeToday()`
 
-A simple check to see if the passed in date occurred before the current date.
+Check to see if the passed in date occurred before the current date.
 
 - `@param {String} date` **Required**
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
-- `@return {Bool} isBefore`
+- `@return {Bool}`
 
 ```javascript
 bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
@@ -359,15 +361,19 @@ bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
 
 - `@param {String} date` **Required**
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
-- `@param {String} date2` **Required**
+- `@param {String} date2` **Optional**
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
-- `@return {Bool} isToday`
+- `@return {Bool}`
 
-A simple check to see if the passed in date is the same **day** as the current date.
+Check to see if the passed in date is the same **day** as the current date. You can also pass in a
+second date which will be used to check against in place of the current day.
 
 ```javascript
 bcCalendarService.isDayToday('2016-05-01T00:00:00.027Z');
 // returns false
+
+bcCalendarService.isDayToday('2016-05-01T00:00:00.027Z', '2016-05-01T00:00:00.027Z');
+// returns true
 ```
 
 
@@ -377,7 +383,7 @@ bcCalendarService.isDayToday('2016-05-01T00:00:00.027Z');
   - The number of array items needed.
 - `@return {Array} days`
 
-Turn a integer (e.g. 6) into an array: '[1,2,3,4,5,6]'
+Turn a integer (`6`) into an array: `[1,2,3,4,5,6]`
 
 ```javascript
 bcCalendarService.integerToArray(4);
@@ -393,7 +399,7 @@ bcCalendarService.integerToArray(4);
   - The number of days that should be created.
 - `@return {Array} days`
 
-Pad the beginning of a week.
+Pad the beginning of a week with any missing days.
 
 If the calendar's nesting depth is set to week or month and the start
 date is not at the beginning of the week, you can backfill that week's missing days.
@@ -519,10 +525,7 @@ bcCalendarService.chunk(collection, 4);
 Get the duration in days between two dates **including** both the start and end date.
 
 ```javascript
-const start = '2016-04-05T04:00:00.000Z';
-const end = '2016-04-12T04:00:00.000Z';
-
-bcCalendarService.durationInDays(start, end);
+bcCalendarService.durationInDays('2016-04-05T04:00:00.000Z', '2016-04-12T04:00:00.000Z');
 // returns: 9
 ```
 
@@ -583,10 +586,12 @@ bcCalendarService.organizeMonths(days);
   - The number of days to create
 - `@param {String} start` **Optional**
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
-  - Default value: `new Date()`
+  - Default value: The current day
 - `@return {Array} collection`
 
-Build an array with a specific number of days starting from the date specified.
+Build an array with a specific number of days starting from the date specified or the current date.
+Although there is only one item, each day is an object so that you can easily add custom properties
+to support any features needed.
 
 ```javascript
 bcCalendarService.buildDays(3, '2016-04-12T04:00:00.000Z');
@@ -606,8 +611,8 @@ bcCalendarService.buildDays(3, '2016-04-12T04:00:00.000Z');
 
 ## Provider
 
-The provider allows you to change default settings for every instance of the calendar within your
-project.
+The provider allows you to change the default settings for every instance of the calendar within
+your project.
 
 > Note: Don't be afraid to go look at the [source][source_provider]! It isn't too complicated and has plenty of
 comments!
@@ -621,13 +626,14 @@ export function myConfig(
 ) {
     'ngInject';
 
+    // Now every calendar in your project with default to having the header hidden
     bcCalendarConfigProvider.showHeader = false;
 
 }
 
 
 // ES5 example
-angular.module('demo.calendar', ['bc.JsonCalendar'])
+angular.module('myModule', ['bc.JsonCalendar'])
     .config(myConfig);
 
 function myConfig(bcCalendarConfigProvider) {
@@ -635,7 +641,7 @@ function myConfig(bcCalendarConfigProvider) {
 }
 ```
 
-[Provider Plunker demo][demo_provider_weekday]
+[Using the provider Plunker demo][demo_provider_weekday]
 
 
 #### `startDate`
@@ -694,7 +700,7 @@ bcCalendarConfigProvider.weekdayStyle.abbreviation = [
     'SA',
 ];
 
-// Defaults:
+// Default formats:
 // letter       : S, M, ...
 // abbreviation : Sun, Mon, ...
 // word         : Sunday, Monday, ...
@@ -718,7 +724,7 @@ bcCalendarConfigProvider.dayTitleFormat = `letter`;
     - Default value: `true`
 
 Define the visibility of the weekdays header. This is only applicable if
-[`bc-nesting-depth`](#bc-nesting-depth) is set to `week` or `month`.
+[`nestingDepth`](#nestingdepth) is set to `week` or `month`.
 
 ```javascript
 bcCalendarConfigProvider.showWeekdays = false;
@@ -728,17 +734,16 @@ bcCalendarConfigProvider.showWeekdays = false;
 
 - `@param {String} template` **Required**
 
-Pass in a template string to be used in place of the default day template. The passed template will
-be put into the `$templateCache` with the other templates.
+Pass in a template string to be used in place of the default day template. The passed in template
+will be put into the [$templateCache][angular_template_cache] with the other templates.
 
 You have access to one item inside this template: `day`. This is an object with a single item. If
-the day is a valid day, `day.date` will contain a date formatted like so:
-`2016-05-01T00:00:00.027Z`. If the day is simply padding for a week or month, `day.date` will be
-`null`.
+the day is a valid day, `day.date` will contain a date formatted as an ISO string:
+`2016-05-01T00:00:00.027Z`. If the day is padding for a week or month, `day.date` will be `null`.
 
 ```javascript
-// Don't forget, you can use the Angular date filter:
-const template = '<span ng-if="day.date">TODAY: {{day.date | date:"d"}}</span>';
+// Don't forget, you can use the Angular date filter inside the template:
+const myTemplate = '<span data-ng-if="day.date">TODAY: {{day.date | date:"d"}}</span>';
 
 bcCalendarConfigProvider.setDayTemplate(myTemplate);
 ```
@@ -765,6 +770,7 @@ Define the default date format for every day.
 
 ```javascript
 bcCalendarConfigProvider.dateFormat = 'EEE, d';
+// output: Sun, 1
 ```
 
 #### `monthTitleFormat`
@@ -776,7 +782,8 @@ bcCalendarConfigProvider.dateFormat = 'EEE, d';
 Define the default format for the month titles.
 
 ```javascript
-bcCalendarConfigProvider.monthTitleFormat = 'M';
+bcCalendarConfigProvider.monthTitleFormat = 'MMM';
+// output: Jan
 ```
 
 #### `showMonthTitles`
@@ -784,7 +791,8 @@ bcCalendarConfigProvider.monthTitleFormat = 'M';
 - `{Bool}`
     - Default value: `true`
 
-Define the default visibility of month titles.
+Define the default visibility of the month names before each month when
+[nestingDepth](#nestingdepth) is set to `month`.
 
 ```javascript
 bcCalendarConfigProvider.showMonthTitles = false;
@@ -795,34 +803,27 @@ bcCalendarConfigProvider.showMonthTitles = false;
 
 One of the primary goals of this project was to create a calendar free of styles and constraints.
 Because of this, there are no styles applied by default. But, as a user of open-source modules, I
-really appreciate when I can get a simple version up and running without investing too much time.
+really value when I can get a simple version up and running without investing too much time.
 For that reason there are three _very_ minimal themes included.
 
-There are also plenty of clearly defined [classes](#classes) which allow for the creation of custom
-themes.
-
-**Note:** If you are not using a package manager such as bower or npm you will need to make sure
-that the styles are included in your page:
-
-```html
-<link rel="stylesheet" href="path/to/angular-json-calendar/dist/angular-json-calendar.min.css" />
-```
+There are also plenty of clearly defined [classes](#classes) which allow for the easy creation of
+custom themes.
 
 
 ### Themes
 
 These very minimal themes were created to hopefully spark your creativity rather than to use
-directly in production apps. (unless of course you need something very, very minimal)
+directly in production apps (unless of course you need something very, very minimal).
 
 To enable a theme, add the corresponding class name to the directive element. Note that the theme may
 require a [custom template](#bc-day-template) for the day which adds specific elements and classes
-for the theme.
+for the theme. You can expand on these examples to build your own custom day and theme.
 
 ```javascript
 <bc-calendar
   class="bc-calendar--days"
   bc-nesting-depth="week"
-  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+  bc-day-template="{{ vm.customDayTemplate }}"
 ></bc-calendar>
 ```
 
@@ -840,14 +841,14 @@ A classic month by month calendar.
 <bc-calendar
   class="bc-calendar--months"
   bc-nesting-depth="month"
-  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+  bc-day-template="{{ vm.customDayTemplate }}"
 ></bc-calendar>
 
 <!-- Note: Since 'month' is the default nesting depth, you can also leave it
      off as long as the default has not been overwritten using the provider -->
 <bc-calendar
   class="bc-calendar--months"
-  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+  bc-day-template="{{ vm.customDayTemplate }}"
 ></bc-calendar>
 ```
 
@@ -911,7 +912,7 @@ A side-scrolling calendar of days.
 <bc-calendar
   class="bc-calendar--sidescroll"
   bc-nesting-depth="day"
-  bc-day-template="{{ vm.yourCustomDayTemplate }}"
+  bc-day-template="{{ vm.customDayTemplate }}"
   bc-days="12"
 ></bc-calendar>
 ```
@@ -933,7 +934,7 @@ A side-scrolling calendar of days.
 
 ### Classes
 
-Easiest way to get aquainted with the classes is to check out [one][demo_style_sidescroller] of
+The easiest way to get acquainted with the classes is to check out [one][demo_style_sidescroller] of
 the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
 ```scss
@@ -949,13 +950,13 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 // <span> Container for the weekday titles 'S M T W T F S'
 .bc-calendar__weekdays {}
 
-// <section> The container for a day
+// <section> The container for an individual day
 .bc-calendar__day {}
 
 // <section> Secondary class added to a day when inside the weekdays header
 .bc-calendar__day--weekdays {}
 
-// <strong> The weekday title
+// <strong> Wrapper for the text inside a day within the weekdays header
 .bc-calendar__day-title {}
 
 // <time> The container for a week
@@ -964,7 +965,7 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 // Class added to a day if it is before today's date
 .bc-calendar__day--disabled {}
 
-// Class added to day if it is the current day
+// Class added to a day if it is the current day
 .bc-calendar__day--today {}
 
 // Class added to even days (2nd, 4th, etc)
@@ -973,13 +974,13 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 // Class added to odd days (1st, 3rd, etc)
 .bc-calendar__day--odd {}
 
-// Class added to day when it is a 'filler' day rather than a valid day
+// Class added to a day when it is a 'filler' day rather than a valid day
 .bc-calendar__day--pad {}
 
-// Class added to day when it is a valid day
+// Class added to a day when it is a valid day
 .bc-calendar__day--valid {}
 
-// Class added to day when it is the currently selected day
+// Class added to a day when it is the currently selected day
 .bc-calendar__day--selected {}
 
 // <span> The inner wrapper for the date in the default day template
@@ -1017,6 +1018,7 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
 [issues]: https://github.com/benjamincharity/angular-json-calendar/issues
 [angular_date]: https://docs.angularjs.org/api/ng/filter/date
+[angular_template_cache]: https://docs.angularjs.org/api/ng/service/$templateCache
 [moment_format]: http://momentjs.com/docs/#/displaying/format/
 [moment_parsing]: http://momentjs.com/docs/#/parsing/string/
 [source_day_template]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/templates/day.inner.html
