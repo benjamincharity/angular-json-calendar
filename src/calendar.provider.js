@@ -7,7 +7,7 @@ export class bcCalendarConfig {
         'ngInject';
 
         // The calendar will begin with today
-        this.startDate = moment(new Date()).startOf('day').toISOString();
+        this.startDate = moment(new Date()).startOf('day').format();
 
         // The default interval type [day|week|month]
         this.nestingDepth = 'month';
