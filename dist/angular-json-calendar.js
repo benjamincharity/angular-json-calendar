@@ -108,7 +108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        _classCallCheck(this, bcCalendarConfig);
 	
-	        this.startDate = moment(new Date()).startOf('day').toISOString();
+	        this.startDate = moment(new Date()).startOf('day').format();
 	
 	        // The default interval type [day|week|month]
 	        this.nestingDepth = 'month';
@@ -214,7 +214,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    }, {
 	        key: 'isDayToday',
-	        value: function isDayToday(date, date2) {
+	        value: function isDayToday(date) {
+	            var date2 = arguments.length <= 1 || arguments[1] === undefined ? new Date().toISOString() : arguments[1];
+	
 	            return moment(date).isSame(date2);
 	        }
 	
@@ -807,7 +809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	var path = '/Users/bc/Code/open-source/angular-json-calendar/src/templates/week.html';
-	var html = "<time datetime=\"{{ week[week.length - 1].date | date:'yyyy-ww' }}\" class=bc-calendar__week data-ng-repeat=\"week in vm.bcCollection track by $index\"> <bc-day bc-collection=week></bc-day> </time>";
+	var html = "<time class=bc-calendar__week datetime=\"{{ week[week.length - 1].date | date:'yyyy-ww' }}\" data-ng-repeat=\"week in vm.bcCollection track by $index\"> <bc-day bc-collection=week></bc-day> </time>";
 	window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
