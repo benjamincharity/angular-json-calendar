@@ -39,8 +39,11 @@ module.exports = function(config) {
         'src/calendar.service.spec.js': [ 'webpack', 'sourcemap' ]
     },
 
+
     webpack: WebpackConf,
 
+
+    // Don't spam the browser console
     webpackServer: {
         noInfo: true
     },
