@@ -2,7 +2,7 @@ describe('bcCalendarService', () => {
     let bcCalendarService;
 
     // Include the module
-    beforeEach(module('bc.JsonCalendar'));
+    beforeEach(angular.mock.module('bc.JsonCalendar'));
 
     // Inject the service
     beforeEach(inject((_bcCalendarService_) => {
