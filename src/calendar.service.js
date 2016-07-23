@@ -32,7 +32,7 @@ export class bcCalendarService {
      * @param {String} date2
      * @return {Bool} isToday
      */
-    isDayToday(date, date2 = new Date().format()) {
+    isDayToday(date, date2 = moment(new Date()).format()) {
         return moment(date).isSame(date2);
     }
 
