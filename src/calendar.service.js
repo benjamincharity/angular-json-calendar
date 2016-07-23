@@ -19,7 +19,9 @@ export class bcCalendarService {
      * @return {Bool} isBefore
      */
     dateIsBeforeToday(date) {
-        return moment(date).isBefore(this.startDate);
+        const today = moment(new Date()).startOf('day').format();
+
+        return moment(date).isBefore(today);
     }
 
 
