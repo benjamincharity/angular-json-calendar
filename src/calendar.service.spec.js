@@ -9,6 +9,8 @@ describe('bcCalendarService', () => {
         bcCalendarService = _bcCalendarService_;
     }));
 
+
+
     describe('dateIsBeforeToday', () => {
         const pastDate = '2016-05-01T00:00:00.027Z';
 
@@ -17,5 +19,18 @@ describe('bcCalendarService', () => {
         });
 
     });
+
+
+    describe('isDayToday', () => {
+        const date1 = moment('2013-02-08').format();
+        const date2 = moment('2013-02-08').format();
+
+        it('should verify that the date is today', () => {
+            expect(bcCalendarService.isDayToday(date1, date2)).toEqual(true);
+        });
+
+    });
+
+
 });
 
