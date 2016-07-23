@@ -21,7 +21,7 @@ module.exports = function(config) {
         'node_modules/angular/angular.js',
         'node_modules/angular-mocks/angular-mocks.js',
         'bower_components/moment/moment.js',
-        'dist/angular-json-calendar.js',
+        'src/index.js',
         'src/calendar.service.spec.js'
     ],
 
@@ -35,7 +35,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        'src/calendar.service.spec.js': [ 'webpack', 'sourcemap' ],
+        'src/index.js': ['webpack'],
+        'src/calendar.service.spec.js': [ 'webpack', 'sourcemap' ]
     },
 
     webpack: WebpackConf,
