@@ -363,6 +363,7 @@ bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
 - `@param {String} date2` **Optional**
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
+  - Default is the current day.
 - `@return {Bool}`
 
 Check to see if the passed in date is the same **day** as the current date. You can also pass in a
