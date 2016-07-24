@@ -143,20 +143,11 @@ export class bcCalendarService {
      * @return {Integer} days
      */
     durationInDays(start, end) {
-        const secondsInDay = 86400;
-        const secondsInYear = 31536000;
-
+        const newStart = moment(start).startOf('day');
         // Add a day so the end date is included in the calculation
-        const unixEnd = moment(end).add(1, 'days').unix();
+        const newEnd = moment(end).startOf('day').add(1, 'days');
 
-        // Subtract a day so the start date is included in the calculation
-        const unixStart = moment(start).subtract(1, 'days').unix();
-
-        // Find the difference when converted to seconds
-        const diffence = unixEnd - unixStart;
-
-        // Convert the difference of seconds back into days
-        return Math.floor((diffence % secondsInYear) / secondsInDay);
+        return newEnd.diff(newStart,  'days');
     }
 
 
