@@ -25,24 +25,32 @@ describe('bcCalendarDirective', () => {
     });
 
 
-    // TODO: Why can't I get the damn controller scope?
     describe('controllerExists', () => {
+        let $scope;
+        let element;
+        let vm;
 
+        beforeEach(inject(() => {
 
-        let scope;
-        scope = {};
+            $scope = $rootScope.$new();
 
-        beforeEach(inject(function() {
-            let element;
-            element = angular.element('<bc-calendar/>');
-            element = $compile(element)($rootScope);
-            $rootScope.$digest();
-            scope = element.data('$scope');
-            console.info(scope);
+            element = '<bc-calendar bc-start-date="2016-04-20T00:00:00.027Z"></bc-calendar>';
+
+            // Create the directive
+            element = $compile(element)($scope);
+
+            // Activate the $digest cycle
+            $scope.$apply();
+
+            // Save reference to vm
+            vm = element.isolateScope().vm;
+
+            //console.log('VM: ', vm);
+
         }));
 
-        it('should be there', () => {
-            expect(scope).toBeDefined();
+        it('should have a $scope property for the start date', () => {
+            expect(vm.bcStartDate).toBeDefined();
         });
 
     });
