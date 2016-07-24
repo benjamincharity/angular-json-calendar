@@ -1,5 +1,7 @@
 describe('bcCalendarService', () => {
+    const ALL_DAYS_COUNT = 60;
     let bcCalendarService;
+    let ALL_DAYS;
 
     // Include the module
     beforeEach(angular.mock.module('bc.JsonCalendar'));
@@ -7,6 +9,9 @@ describe('bcCalendarService', () => {
     // Inject the service
     beforeEach(inject((_bcCalendarService_) => {
         bcCalendarService = _bcCalendarService_;
+
+        // Create large array of days for all tests to use
+        ALL_DAYS = bcCalendarService.buildDays(ALL_DAYS_COUNT);
     }));
 
 
@@ -78,14 +83,11 @@ describe('bcCalendarService', () => {
         const PADDED_LENGTH = 5;
         const DIRECTION = 'right';
         const COUNT = 2;
+        const DAYS_NEEDED = 3;
         let array;
 
         beforeEach(() => {
-            array = [
-                { date: '2016-11-03T04:00:00.000Z' },
-                { date: '2016-11-04T04:00:00.000Z' },
-                { date: '2016-11-05T04:00:00.000Z' },
-            ];
+            array = ALL_DAYS.slice(0, DAYS_NEEDED);
         });
 
         afterEach(() => {
@@ -114,6 +116,104 @@ describe('bcCalendarService', () => {
 
     });
 
+
+    describe('chunk', () => {
+        const SIZE = 3;
+        const DAYS_NEEDED = 8;
+        let splitGroup;
+        let group;
+
+        beforeEach(() => {
+            group = ALL_DAYS.slice(0, DAYS_NEEDED);
+
+            splitGroup = bcCalendarService.chunk(group, SIZE);
+        });
+
+        afterEach(() => {
+            splitGroup = null;
+        });
+
+        it('should be a group of arrays the length of SIZE', () => {
+            expect(splitGroup[0].length).toEqual(SIZE);
+        });
+
+    });
+
+
+    // TODO: This is coming out as 6 for some reason
+    describe('durationInDays', () => {
+        const DAYS_NEEDED = 4;
+        const END_VALUE = 5;
+        let duration;
+        let START;
+        let END;
+
+        beforeEach(() => {
+            START = ALL_DAYS[0].date;
+            END = ALL_DAYS[DAYS_NEEDED].date;
+
+            duration = bcCalendarService.durationInDays(START, END);
+        });
+
+        afterEach(() => {
+            duration = null;
+        });
+
+        it('should have a duration of END_VALUE', () => {
+            expect(duration).toEqual(END_VALUE);
+        });
+
+    });
+
+
+    describe('organizeWeeks', () => {
+        const WEEK_LENGTH = 7;
+        const DAYS_NEEDED = 22;
+        let weeks;
+
+        beforeEach(() => {
+            const days = ALL_DAYS.slice(0, DAYS_NEEDED);
+
+            weeks = bcCalendarService.organizeWeeks(days);
+        });
+
+        afterEach(() => {
+            weeks = null;
+        });
+
+        it('should be organized into arrays the length of WEEK_LENGTH', () => {
+            expect(weeks[0].length).toEqual(WEEK_LENGTH);
+        });
+
+    });
+
+
+
+
+
+
+
+    describe('buildDays', () => {
+        const LIMIT = 6;
+        let days;
+
+        beforeEach(() => {
+            days = bcCalendarService.buildDays(LIMIT);
+        });
+
+        afterEach(() => {
+            days = null;
+        });
+
+        it('should be an array the length of LIMIT', () => {
+            expect(days.length).toEqual(LIMIT);
+        });
+
+        it('should have a date on each item', () => {
+            expect(days[0].date).toBeDefined();
+        });
+
+    });
 
 });
 
