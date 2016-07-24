@@ -74,5 +74,46 @@ describe('bcCalendarService', () => {
     });
 
 
+    describe('padBlankTiles', () => {
+        const PADDED_LENGTH = 5;
+        const DIRECTION = 'right';
+        const COUNT = 2;
+        let array;
+
+        beforeEach(() => {
+            array = [
+                { date: '2016-11-03T04:00:00.000Z' },
+                { date: '2016-11-04T04:00:00.000Z' },
+                { date: '2016-11-05T04:00:00.000Z' },
+            ];
+        });
+
+        afterEach(() => {
+            array = null;
+        });
+
+        it('should contain the correct number of objects', () => {
+            array = bcCalendarService.padBlankTiles(array, COUNT);
+
+            expect(array.length).toEqual(PADDED_LENGTH);
+        });
+
+        it('should have a blank date at the start and real date at the end', () => {
+            array = bcCalendarService.padBlankTiles(array, COUNT);
+
+            expect(array[0].date).toBe(null);
+            expect(array[array.length - 1].date).not.toBe(null);
+        });
+
+        it('should have a real date at the start and a blank date at the end', () => {
+            array = bcCalendarService.padBlankTiles(array, COUNT, DIRECTION);
+
+            expect(array[0].date).not.toBe(null);
+            expect(array[array.length - 1].date).toBe(null);
+        });
+
+    });
+
+
 });
 
