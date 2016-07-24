@@ -21,6 +21,7 @@ module.exports = function(config) {
         'node_modules/angular/angular.js',
         'node_modules/angular-mocks/angular-mocks.js',
         'bower_components/moment/moment.js',
+        'src/templates/*.html',
         'src/index.js',
         'src/*.spec.js'
     ],
@@ -35,8 +36,9 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        'src/index.js': ['webpack', 'coverage'],
-        'src/*.spec.js': [ 'webpack', 'sourcemap' ]
+        'src/*!(spec).js': ['webpack', 'coverage'],
+        'src/*.spec.js': [ 'webpack', 'sourcemap' ],
+        'src/templates/*.html': ['ng-html2js']
     },
 
 
@@ -49,10 +51,15 @@ module.exports = function(config) {
     },
 
 
+    ngHtml2JsPreprocessor: {
+        moduleName: 'templates'
+    },
+
+
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'/*, 'coveralls'*/],
+    reporters: ['spec', 'coverage', 'coveralls'],
 
 
     // web server port
