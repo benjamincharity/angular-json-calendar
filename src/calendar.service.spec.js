@@ -129,10 +129,6 @@ describe('bcCalendarService', () => {
             splitGroup = bcCalendarService.chunk(group, SIZE);
         });
 
-        afterEach(() => {
-            splitGroup = null;
-        });
-
         it('should be a group of arrays the length of SIZE', () => {
             expect(splitGroup[0].length).toEqual(SIZE);
         });
@@ -140,7 +136,6 @@ describe('bcCalendarService', () => {
     });
 
 
-    // TODO: This is coming out as 6 for some reason
     describe('durationInDays', () => {
         const DAYS_NEEDED = 4;
         const END_VALUE = 5;
@@ -153,10 +148,6 @@ describe('bcCalendarService', () => {
             END = ALL_DAYS[DAYS_NEEDED].date;
 
             duration = bcCalendarService.durationInDays(START, END);
-        });
-
-        afterEach(() => {
-            duration = null;
         });
 
         it('should have a duration of END_VALUE', () => {
@@ -177,10 +168,6 @@ describe('bcCalendarService', () => {
             weeks = bcCalendarService.organizeWeeks(days);
         });
 
-        afterEach(() => {
-            weeks = null;
-        });
-
         it('should be organized into arrays the length of WEEK_LENGTH', () => {
             expect(weeks[0].length).toEqual(WEEK_LENGTH);
         });
@@ -188,9 +175,20 @@ describe('bcCalendarService', () => {
     });
 
 
+    describe('organizeMonths', () => {
+        let allDays;
+        let months;
 
+        beforeEach(() => {
+            allDays = ALL_DAYS;
 
+            months = bcCalendarService.organizeMonths(allDays);
+        });
 
+        it('should be an array of objects', () => {
+            expect(months[0]).toBeDefined();
+        });
+    });
 
 
     describe('buildDays', () => {
