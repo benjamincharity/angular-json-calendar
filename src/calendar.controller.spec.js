@@ -71,6 +71,33 @@ describe('CalendarController', () => {
     });
 
 
+    describe('formatDate', () => {
+        let $scope;
+        let element;
+        let vm;
+        let date;
+        const FORMAT = 'DD/MM/YYYY'
+
+        beforeEach(() => {
+            $scope = $rootScope.$new();
+            element = angular.element(
+                `<bc-calendar></bc-calendar>`
+            );
+            element = $compile(element)($scope);
+            $scope.$apply();
+            vm = element.isolateScope().vm;
+
+            date = '2016-05-01T00:00:00.027Z';
+        });
+
+        it('should format the date', () => {
+            const prettyDate = vm.formatDate(date, FORMAT);
+            expect(/\d{2}\/\d{2}\/\d{4}/.test(prettyDate)).toBe(true);
+        });
+
+    });
+
+
 
 });
 
