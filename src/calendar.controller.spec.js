@@ -36,8 +36,41 @@ describe('CalendarController', () => {
             expect(element.find('span')[0]).toBeDefined();
         });
 
+    });
 
+
+    describe('selectDate', () => {
+        let $scope;
+        let element;
+        let vm;
+
+        beforeEach(() => {
+            $scope = $rootScope.$new();
+            element = angular.element(
+                `<bc-calendar></bc-calendar>`
+            );
+            element = $compile(element)($scope);
+            $scope.$apply();
+            vm = element.isolateScope().vm;
+        });
+
+        afterEach(() => {
+            vm.selectedDate = null;
+        });
+
+        it('should not initially have a selected date', () => {
+            expect(vm.selectedDate).toBeNull();
+        });
+
+        it('should set the selected date', () => {
+            const today = element[0].querySelectorAll('.bc-calendar__day--today')[0];
+            angular.element(today).triggerHandler('click');
+            expect(vm.selectedDate).toBeDefined();
+        });
 
     });
 
+
+
 });
+
