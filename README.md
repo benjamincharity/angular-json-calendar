@@ -3,6 +3,8 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
+[![Coverage Status](https://coveralls.io/repos/github/benjamincharity/angular-json-calendar/badge.svg?branch=add-tests-13)](https://coveralls.io/github/benjamincharity/angular-json-calendar?branch=add-tests-13)
+
 ---
 
 Over the span of a year and a half, three separate projects I was on needed a calendar. Each time I
