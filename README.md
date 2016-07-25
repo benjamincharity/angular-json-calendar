@@ -3,6 +3,8 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
+[![Coverage Status](coverage_image)](coverage_url)
+
 ---
 
 Over the span of a year and a half, three separate projects I was on needed a calendar. Each time I
@@ -363,6 +365,7 @@ bcCalendarService.dateIsBeforeToday('2016-05-01T00:00:00.027Z');
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
 - `@param {String} date2` **Optional**
   - Any string representing a [valid date][moment_parsing] accepted by Moment.js
+  - Default is the current day.
 - `@return {Bool}`
 
 Check to see if the passed in date is the same **day** as the current date. You can also pass in a
@@ -1036,4 +1039,7 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 [demo_style_sidescroller]: http://plnkr.co/edit/dhZL1y?p=preview
 [demo_style_weeks]: http://plnkr.co/edit/6YQ5u8?p=preview
 [demo_style_months]: http://plnkr.co/edit/q7mzZU?p=preview
+
+[coverage_image]: https://coveralls.io/repos/github/benjamincharity/angular-json-calendar/badge.svg?branch=master
+[coverage_url]: https://coveralls.io/github/benjamincharity/angular-json-calendar?branch=master
 

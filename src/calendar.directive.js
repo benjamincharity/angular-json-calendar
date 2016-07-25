@@ -6,7 +6,6 @@ import weekTemplate from './templates/week.html';
 import dayTemplate from './templates/day.html';
 
 export function bcCalendarDirective(
-    $compile
 ) {
     'ngInject';
 
@@ -27,7 +26,7 @@ export function bcCalendarDirective(
             bcEndDate: '@?',         // date - if not present, use create using bcDays
             bcNestingDepth: '@?',    // string [month|week|day] - defaults: month
             bcDays: '@?',            // integer - default to 30 (used to create bcEndDate)
-            bcDayTitleFormat: '@?', // string [word|abbreviation|letter] - default: abbreviation
+            bcDayTitleFormat: '@?',  // string [word|abbreviation|letter] - default: abbreviation
             bcMonthTitleFormat: '@?',// string - any valid Moment date format - default: MMMM
             bcDateSelected: '&',     // function will be called when a date is selected (tap/click)
             bcShowWeekdays: '=?',    // determine if the weekdays header should be created

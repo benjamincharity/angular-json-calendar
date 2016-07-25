@@ -63,7 +63,7 @@ export class CalendarController {
         // Define the template for an individual day
         // If the user defined a template on the directive
         if (this.bcDayTemplate) {
-            // If the user defined a template in the provider
+            // Name the template location
             const templateLocation = 'userDayTemplate.html';
 
             // Put the user template into the cache
@@ -73,8 +73,9 @@ export class CalendarController {
             this.dayTemplate = templateLocation;
 
         } else if (this.bcCalendarConfig.userDayTemplate) {
-
             // If the user defined a template in the provider
+
+            // Name the template location
             const templateLocation = 'userDayTemplate.html';
 
             // Put the user template into the cache
