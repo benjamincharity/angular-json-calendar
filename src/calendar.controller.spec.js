@@ -138,7 +138,6 @@ describe('CalendarController', () => {
         });
 
         it('should have a custom template in the cache', () => {
-            console.log('Item: ', $templateCache.get('userDayTemplate.html'));
             expect($templateCache.get('userDayTemplate.html')).toBeDefined();
         });
 
