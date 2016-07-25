@@ -3,7 +3,7 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
-[![Coverage Status](https://coveralls.io/repos/github/benjamincharity/angular-json-calendar/badge.svg?branch=add-tests-13)](https://coveralls.io/github/benjamincharity/angular-json-calendar?branch=add-tests-13)
+[![Coverage Status](coverage_image)](coverage_url)
 
 ---
 
@@ -1039,4 +1039,7 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 [demo_style_sidescroller]: http://plnkr.co/edit/dhZL1y?p=preview
 [demo_style_weeks]: http://plnkr.co/edit/6YQ5u8?p=preview
 [demo_style_months]: http://plnkr.co/edit/q7mzZU?p=preview
+
+[coverage_image]: https://coveralls.io/repos/github/benjamincharity/angular-json-calendar/badge.svg?branch=master
+[coverage_url]: https://coveralls.io/github/benjamincharity/angular-json-calendar?branch=master
 
