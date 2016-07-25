@@ -3,7 +3,7 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
-[![Coverage Status](coverage_image)](coverage_url)
+[![Coverage Status][coverage_image]](coverage_url)
 
 ---
 
