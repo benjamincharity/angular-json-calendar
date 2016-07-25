@@ -1,14 +1,16 @@
 describe('CalendarController', () => {
     let $compile;
     let $rootScope;
+    let $templateCache;
 
     // Include the module
     beforeEach(angular.mock.module('bc.JsonCalendar'));
 
     // Inject the service
-    beforeEach(inject((_$compile_, _$rootScope_) => {
+    beforeEach(inject((_$compile_, _$rootScope_, _$templateCache_) => {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
+        $templateCache = _$templateCache_;
     }));
 
 
@@ -115,6 +117,29 @@ describe('CalendarController', () => {
 
         it('should have created a collection', () => {
             expect(vm.bcCollection).toBeDefined();
+        });
+
+    });
+
+
+    describe('templateCache', () => {
+        let $scope;
+        let element;
+        let vm;
+
+        beforeEach(() => {
+            $scope = $rootScope.$new();
+            element = angular.element(
+                `<bc-calendar bc-day-template="<span>{{day.date}}</span>"></bc-calendar>`
+            );
+            element = $compile(element)($scope);
+            $scope.$apply();
+            vm = element.isolateScope().vm;
+        });
+
+        it('should have a custom template in the cache', () => {
+            console.log('Item: ', $templateCache.get('userDayTemplate.html'));
+            expect($templateCache.get('userDayTemplate.html')).toBeDefined();
         });
 
     });
