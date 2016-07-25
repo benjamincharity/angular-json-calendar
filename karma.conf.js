@@ -21,7 +21,6 @@ module.exports = function(config) {
         'node_modules/angular/angular.js',
         'node_modules/angular-mocks/angular-mocks.js',
         'bower_components/moment/moment.js',
-        'src/templates/*.html',
         'src/index.js',
         'src/*.spec.js'
     ],
@@ -37,8 +36,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
         'src/*!(spec).js': ['webpack', 'coverage'],
-        'src/*.spec.js': [ 'webpack', 'sourcemap' ],
-        'src/templates/*.html': ['ng-html2js']
+        'src/*.spec.js': [ 'webpack', 'sourcemap' ]
     },
 
 
