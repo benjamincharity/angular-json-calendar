@@ -98,6 +98,27 @@ describe('CalendarController', () => {
     });
 
 
+    describe('_buildCalendar', () => {
+        let $scope;
+        let element;
+        let vm;
+
+        beforeEach(() => {
+            $scope = $rootScope.$new();
+            element = angular.element(
+                `<bc-calendar></bc-calendar>`
+            );
+            element = $compile(element)($scope);
+            $scope.$apply();
+            vm = element.isolateScope().vm;
+        });
+
+        it('should have created a collection', () => {
+            expect(vm.bcCollection).toBeDefined();
+        });
+
+    });
+
 
 });
 
