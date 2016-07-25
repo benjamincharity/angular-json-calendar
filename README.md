@@ -3,8 +3,8 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
-[![Coverage Status][coverage_image]][coverage_url]
-[![MIT License][license_image]][license_url]
+[![Coverage Status][coverage_image]][coverage_url] [![MIT License][license_image]][license_url]
+
 ---
 
 Over the span of a year and a half, three separate projects I was on needed a calendar. Each time I
