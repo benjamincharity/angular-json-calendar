@@ -13,10 +13,9 @@ describe('bcCalendarConfig', () => {
 
 
     describe('startDate', () => {
-        const today = moment(new Date()).startOf('day').format();
 
-        it('should have a start date of today', () => {
-            expect(bcCalendarConfig.startDate).toEqual(today);
+        it('should have a valid start date', () => {
+            expect(moment(bcCalendarConfig.startDate).isValid()).toEqual(true);
         });
 
     });
