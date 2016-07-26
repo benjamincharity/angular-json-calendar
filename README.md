@@ -1043,6 +1043,6 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 [coverage_url]: https://coveralls.io/github/benjamincharity/angular-json-calendar
 [license_image]: http://img.shields.io/badge/license-MIT-blue.svg
 [license_url]: LICENSE
-[npm_url]: https://npmjs.org/package/moment
+[npm_url]: https://npmjs.org/package/angular-json-calendar
 [npm_version_image]: http://img.shields.io/npm/v/angular-json-calendar.svg
 
