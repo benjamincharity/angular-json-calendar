@@ -1044,6 +1044,6 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 [license_image]: http://img.shields.io/badge/license-MIT-blue.svg
 [license_url]: LICENSE
 [npm_url]: https://npmjs.org/package/moment
-[npm_version_image]: http://img.shields.io/npm/benjamincharity/angular-json-calendar.svg
-[npm_downloads_image]: http://img.shields.io/npm/benjamincharity/angular-json-calendar.svg
+[npm_version_image]: http://img.shields.io/npm/dt/angular-json-calendar.svg
+[npm_downloads_image]: http://img.shields.io/npm/dt/angular-json-calendar.svg
 
