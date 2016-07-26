@@ -3,7 +3,7 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
-[![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url] [![NPM version][npm_version_image]][npm_url] [![NPM downloads][npm_downloads_image]][npm_url]
+[![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url] [![NPM version][npm_version_image]][npm_url]
 ---
 
 Over the span of a year and a half, three separate projects I was on needed a calendar. Each time I
@@ -1045,5 +1045,4 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 [license_url]: LICENSE
 [npm_url]: https://npmjs.org/package/moment
 [npm_version_image]: http://img.shields.io/npm/v/angular-json-calendar.svg
-[npm_downloads_image]: http://img.shields.io/npm/dt/angular-json-calendar.svg
 
