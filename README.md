@@ -3,7 +3,7 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
-[![Coverage Status][coverage_image]][coverage_url]
+[![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url]
 
 ---
 
@@ -1042,4 +1042,5 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
 [coverage_image]: https://coveralls.io/repos/github/benjamincharity/angular-json-calendar/badge.svg
 [coverage_url]: https://coveralls.io/github/benjamincharity/angular-json-calendar
-
+[license_image]: http://img.shields.io/badge/license-MIT-blue.svg
+[license_url]: LICENSE
