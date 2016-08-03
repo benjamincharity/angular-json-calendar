@@ -2,8 +2,6 @@
 
 <img src="https://cloud.githubusercontent.com/assets/270193/17381800/d28f0a98-599b-11e6-8ac5-b6307cefe388.png" align="right" alt="angular-json-calendar">
 
-
-
 [![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url] [![NPM version][npm_version_image]][npm_url]
 
 A calendar module that focuses on providing the data needed to construct a calendar without
