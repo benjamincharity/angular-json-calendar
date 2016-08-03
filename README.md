@@ -1,7 +1,6 @@
 # angular-json-calendar
 
-<img src="http://cdn.benjamincharity.com/open_source/angular-json-calendar/json-bracket-logo.png" style="width:24rem;float:right;"
-alt="angular-json-calendar">
+<img src="http://cdn.benjamincharity.com/open_source/angular-json-calendar/json-bracket-logo-small.png" align="right" alt="angular-json-calendar">
 
 [![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url] [![NPM version][npm_version_image]][npm_url]
 
