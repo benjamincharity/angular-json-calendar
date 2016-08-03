@@ -7,7 +7,6 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
-
 Over the span of a year and a half, three separate projects I was on needed a calendar. Each time I
 searched through the popular calendar and date modules (and there are a _lot_) hoping to find
 something. I mean, who really wants to deal with date and time? Unfortunately, on each occasion,
