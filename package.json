@@ -34,10 +34,11 @@
     "url": "https://github.com/benjamincharity/angular-json-calendar.git"
   },
   "dependencies": {
-    "webpack-dev-server": "^1.14.1"
+    "angular": "^1.4.0",
+    "moment": "^2.13.0"
   },
   "devDependencies": {
-    "angular": "^1.5.8",
+    "angular": "^1.4.0",
     "angular-mocks": "^1.5.8",
     "autoprefixer": "^6.3.3",
     "babel": "6.3.13",
@@ -49,6 +50,7 @@
     "eslint": "1.7.2",
     "eslint-config-moment": "^1.5.0",
     "eslint-loader": "1.1.0",
+    "eslint-plugin-angular": "^1.4.1",
     "html-loader": "^0.4.2",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
@@ -75,6 +77,7 @@
     "sass-loader": "^3.1.2",
     "source-map": "^0.5.3",
     "webpack": "1.12.9",
+    "webpack-dev-server": "^1.14.1",
     "yargs": "3.32.0"
   }
 }
