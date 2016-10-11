@@ -19,7 +19,7 @@ export function bcCalendarDirective(
 
     const directive = {
         restrict: 'E',
-        replace: true,
+        //replace: true,
         scope: {},
         bindToController: {
             bcStartDate: '@?',       // date - default to today
