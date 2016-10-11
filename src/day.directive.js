@@ -13,7 +13,9 @@ export function bcDayDirective(
             bcCollection: '=',
         },
         templateUrl: dayWrapperTemplate,
-        controller: () => {},
+        controller: function() {
+            console.log('in DAY directive: ', this.bcCollection);
+        },
         controllerAs: 'vm',
     };
 

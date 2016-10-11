@@ -13,7 +13,9 @@ export function bcMonthDirective(
             bcWeekdaysHeader: '=',
         },
         templateUrl: monthTemplate,
-        controller: () => {},
+        controller: function() {
+            console.log('in MONTH directive: ', this.bcCollection);
+        },
         controllerAs: 'vm',
     };
 

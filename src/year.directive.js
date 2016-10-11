@@ -1,6 +1,6 @@
-import weekTemplate from './templates/week.html';
+import yearTemplate from './templates/year.html';
 
-export function bcWeekDirective(
+export function bcYearDirective(
 ) {
     'ngInject';
 
@@ -9,11 +9,11 @@ export function bcWeekDirective(
         replace: true,
         scope: {},
         bindToController: {
-            bcCollection: '=',
+            bcCollection: '='
         },
-        templateUrl: weekTemplate,
+        templateUrl: yearTemplate,
         controller: function() {
-            console.log('in WEEK directive: ', this.bcCollection);
+            console.log('in YEAR directive: ', this.bcCollection);
         },
         controllerAs: 'vm',
     };
@@ -21,4 +21,6 @@ export function bcWeekDirective(
     return directive;
 
 }
+
+
 

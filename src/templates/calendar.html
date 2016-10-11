@@ -14,7 +14,12 @@
   </span>
 
 
-  <div data-ng-include="vm.getTemplateUrl()"></div>
+  <!--<div data-ng-include="vm.getTemplateUrl()"></div>-->
+
+  <bc-year bc-collection="vm.bcCollection" data-ng-if="vm.nestingDepth === 'year'"></bc-year>
+  <bc-month bc-collection="vm.bcCollection" data-ng-if="vm.nestingDepth === 'month'"></bc-month>
+  <bc-week bc-collection="vm.bcCollection" data-ng-if="vm.nestingDepth === 'week'"></bc-week>
+  <bc-day bc-collection="vm.bcCollection" data-ng-if="vm.nestingDepth === 'day'"></bc-day>
 
 
 </section>
