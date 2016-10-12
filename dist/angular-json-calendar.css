@@ -50,7 +50,7 @@
 }
 
 .bc-calendar--months .bc-calendar__week:first-of-type .bc-calendar__day--pad {
-  border-top: 0;
+  border-top-color: transparent;
 }
 
 .bc-calendar--months .bc-calendar__week:first-of-type .bc-calendar__day--pad:last-child {
@@ -80,7 +80,7 @@
 
 .bc-calendar--months .bc-calendar__week:nth-of-type(even) .bc-calendar__day.bc-calendar__day--pad {
   background: transparent;
-  border: 0;
+  border-color: transparent;
 }
 
 .bc-calendar--months .bc-calendar__day-wrapper {

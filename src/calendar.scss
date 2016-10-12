@@ -60,7 +60,7 @@ $deep_blue: #246b86;
         }
 
         .bc-calendar__day--pad {
-          border-top: 0;
+          border-top-color: transparent;
 
           &:last-child {
             border-right: 1px solid $gray;
@@ -99,7 +99,7 @@ $deep_blue: #246b86;
 
         .bc-calendar__day.bc-calendar__day--pad {
           background: transparent;
-          border: 0;
+          border-color: transparent;
         }
       }
     }
