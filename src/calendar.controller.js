@@ -60,36 +60,32 @@ export class CalendarController {
         this.showWeekdays = typeof(this.bcShowWeekdays) === 'boolean' ?
             this.bcShowWeekdays : this.bcCalendarConfig.showWeekdays;
 
-        // Define the template for an individual day
-        // If the user defined a template on the directive
-        if (this.bcDayTemplate) {
+
+        // If a custom day template has been set in either location (attribute or provider)
+        if (this.bcDayTemplate || this.bcCalendarConfig.userDayTemplate) {
             // Name the template location
             const templateLocation = 'userDayTemplate.html';
 
-            // Put the user template into the cache
-            this.$templateCache.put(templateLocation, this.bcDayTemplate);
+            // If the user set a template via the directive attribute
+            if (this.bcDayTemplate) {
+                // Put the user template into the cache
+                this.$templateCache.put(templateLocation, this.bcDayTemplate);
+            }
 
-            // Expose the location to the directive
-            this.dayTemplate = templateLocation;
+            // If the user defined a template using the provider
+            if (this.bcCalendarConfig.userDayTemplate) {
+                // Put the user template into the cache
+                this.$templateCache.put(templateLocation, this.bcCalendarConfig.userDayTemplate);
+            }
 
-        } else if (this.bcCalendarConfig.userDayTemplate) {
-            // If the user defined a template in the provider
-
-            // Name the template location
-            const templateLocation = 'userDayTemplate.html';
-
-            // Put the user template into the cache
-            this.$templateCache.put(templateLocation, this.bcCalendarConfig.userDayTemplate);
-
-            // Expose the location to the directive
-            this.dayTemplate = templateLocation;
+            // Store the inner-day template on the service
+            this.bcCalendarService.storeDayTemplate(templateLocation);
 
         } else {
-            // no template from the user
+            // No custom template was defined
 
-            // Expose the default template location to the directive
-            this.dayTemplate = this.bcCalendarConfig.dayTemplate;
-
+            // Store the inner-day template on the service
+            this.bcCalendarService.storeDayTemplate(this.bcCalendarConfig.dayTemplate);
         }
 
         // Define the date format for the individual day
