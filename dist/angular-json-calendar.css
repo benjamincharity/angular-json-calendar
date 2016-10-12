@@ -25,6 +25,10 @@
   border: 0;
 }
 
+.bc-calendar--months .bc-calendar__week-wrapper {
+  display: block;
+}
+
 .bc-calendar--months .bc-calendar__week {
   border-top: 1px solid #999;
   display: -webkit-box;
@@ -77,6 +81,18 @@
 .bc-calendar--months .bc-calendar__week:nth-of-type(even) .bc-calendar__day.bc-calendar__day--pad {
   background: transparent;
   border: 0;
+}
+
+.bc-calendar--months .bc-calendar__day-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+      flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
 }
 
 .bc-calendar--months .bc-calendar__day {
