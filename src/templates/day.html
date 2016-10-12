@@ -10,6 +10,7 @@
   data-ng-click="$ctrl.selectDate(day)"
   data-ng-repeat="day in vm.bcCollection track by $index"
   title="day.date"
+  tabindex="{{ day.date ? 1 : -1 }}"
 >
 
   <ng-include src="vm.dayTemplate"></ng-include>
