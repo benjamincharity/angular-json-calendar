@@ -5,6 +5,7 @@ export class bcCalendarService {
         'ngInject';
 
         this.WEEK_LENGTH = 7;
+        this.dayTemplate;
 
     }
 
@@ -278,6 +279,26 @@ export class bcCalendarService {
         }
 
         return days;
+    }
+
+
+    /**
+     * Set the inner day template
+     *
+     * @param {String} template
+     */
+    storeDayTemplate(template) {
+        this.dayTemplate = template;
+    }
+
+
+    /**
+     * Get the inner day template
+     *
+     * @return {String} template
+     */
+    getDayTemplate() {
+        return this.dayTemplate;
     }
 
 
