@@ -6,15 +6,12 @@ export function bcWeekDirective(
 
     const directive = {
         restrict: 'E',
-        //replace: true,
         scope: {},
         bindToController: {
             bcCollection: '=',
         },
         templateUrl: weekTemplate,
-        controller: function() {
-            console.log('in WEEK directive: ', this.bcCollection);
-        },
+        controller: () => {},
         controllerAs: 'vm',
     };
 

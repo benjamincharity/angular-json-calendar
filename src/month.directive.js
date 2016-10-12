@@ -6,16 +6,13 @@ export function bcMonthDirective(
 
     const directive = {
         restrict: 'E',
-        //replace: true,
         scope: {},
         bindToController: {
             bcCollection: '=',
             bcWeekdaysHeader: '=',
         },
         templateUrl: monthTemplate,
-        controller: function() {
-            console.log('in MONTH directive: ', this.bcCollection);
-        },
+        controller: () => {},
         controllerAs: 'vm',
     };
 

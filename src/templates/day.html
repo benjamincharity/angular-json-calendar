@@ -1,13 +1,13 @@
 <span
   class="bc-calendar__day"
-  data-ng-class="{ 'bc-calendar__day--disabled': vm.isBeforeToday(day.date),
-                   'bc-calendar__day--today': vm.isDayToday(day.date),
+  data-ng-class="{ 'bc-calendar__day--disabled': $ctrl.isBeforeToday(day.date),
+                   'bc-calendar__day--today': $ctrl.isDayToday(day.date),
                    'bc-calendar__day--even': $even,
                    'bc-calendar__day--odd': $odd,
                    'bc-calendar__day--pad': !day.date,
                    'bc-calendar__day--valid': day.date,
-                   'bc-calendar__day--selected': day.date === vm.selectedDate.date }"
-  data-ng-click="vm.selectDate(day)"
+                   'bc-calendar__day--selected': day.date === $ctrl.selectedDate.date }"
+  data-ng-click="$ctrl.selectDate(day)"
   data-ng-repeat="day in vm.bcCollection track by $index"
   title="day.date"
 >

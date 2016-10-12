@@ -7,14 +7,16 @@ export function bcDayDirective(
 
     const directive = {
         restrict: 'E',
-        //replace: true,
         scope: {},
         bindToController: {
             bcCollection: '=',
         },
         templateUrl: dayWrapperTemplate,
-        controller: function() {
-            console.log('in DAY directive: ', this.bcCollection);
+        controller: function(bcCalendarService) {
+            'ngInject';
+
+            // Get the inner-day template from the service
+            this.dayTemplate = bcCalendarService.getDayTemplate();
         },
         controllerAs: 'vm',
     };

@@ -6,15 +6,12 @@ export function bcYearDirective(
 
     const directive = {
         restrict: 'E',
-        //replace: true,
         scope: {},
         bindToController: {
             bcCollection: '=',
         },
         templateUrl: yearTemplate,
-        controller: function() {
-            console.log('in YEAR directive: ', this.bcCollection);
-        },
+        controller: () => {},
         controllerAs: 'vm',
     };
 

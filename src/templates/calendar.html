@@ -1,9 +1,9 @@
 <section class="bc-calendar">
 
-  <span class="bc-calendar__weekdays" data-ng-if="vm.showWeekdays && vm.nestingDepth === 'week'">
+  <span class="bc-calendar__weekdays" data-ng-if="$ctrl.showWeekdays && $ctrl.nestingDepth === 'week'">
     <span
       class="bc-calendar__day  bc-calendar__day--weekdays"
-      data-ng-repeat="day in vm.weekdays track by $index"
+      data-ng-repeat="day in $ctrl.weekdays track by $index"
     >
 
       <strong class="bc-calendar__day-title">
@@ -14,13 +14,29 @@
   </span>
 
 
-  <!--<div data-ng-include="vm.getTemplateUrl()"></div>-->
+  <bc-year
+    data-ng-if="$ctrl.nestingDepth === 'year'"
+    class="bc-calendar__year-wrapper"
+    bc-collection="$ctrl.bcCollection"
+  ></bc-year>
 
-  <bc-year bc-collection="vm.bcCollection" data-ng-if="vm.nestingDepth === 'year'"></bc-year>
-  <bc-month bc-collection="vm.bcCollection" data-ng-if="vm.nestingDepth === 'month'"></bc-month>
-  <bc-week bc-collection="vm.bcCollection" data-ng-if="vm.nestingDepth === 'week'"></bc-week>
-  <bc-day bc-collection="vm.bcCollection" data-ng-if="vm.nestingDepth === 'day'"></bc-day>
+  <bc-month
+    data-ng-if="$ctrl.nestingDepth === 'month'"
+    class="bc-calendar__month-wrapper"
+    bc-collection="$ctrl.bcCollection"
+  ></bc-month>
 
+  <bc-week
+    data-ng-if="$ctrl.nestingDepth === 'week'"
+    class="bc-calendar__week-wrapper"
+    bc-collection="$ctrl.bcCollection"
+  ></bc-week>
+
+  <bc-day
+    data-ng-if="$ctrl.nestingDepth === 'day'"
+    class="bc-calendar__day-wrapper"
+    bc-collection="$ctrl.bcCollection"
+  ></bc-day>
 
 </section>
 

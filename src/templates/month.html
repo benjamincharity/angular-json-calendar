@@ -7,16 +7,16 @@
 
   <span
     class="bc-calendar__month-title"
-    data-ng-bind="vm.formatDate(month[0][month[0].length - 1].date, vm.monthTitleFormat)"
-    data-ng-if="vm.showMonthTitles"
+    data-ng-bind="$ctrl.formatDate(month[0][month[0].length - 1].date, $ctrl.monthTitleFormat)"
+    data-ng-if="$ctrl.showMonthTitles"
   ></span>
 
 
   <!-- Unfortunately we can't nest a <header> inside a <time> element -->
-  <span class="bc-calendar__weekdays" data-ng-if="vm.showWeekdays">
+  <span class="bc-calendar__weekdays" data-ng-if="$ctrl.showWeekdays">
     <span
       class="bc-calendar__day  bc-calendar__day--weekdays"
-      data-ng-repeat="day in vm.weekdays track by $index"
+      data-ng-repeat="day in $ctrl.weekdays track by $index"
     >
 
       <strong class="bc-calendar__day-title">
@@ -27,7 +27,7 @@
   </span>
 
 
-  <bc-week bc-collection="month"></bc-week>
+  <bc-week bc-collection="month" class="bc-calendar__week-wrapper"></bc-week>
 
 
 </time>
