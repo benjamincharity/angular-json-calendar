@@ -6,7 +6,7 @@ export function bcYearDirective(
 
     const directive = {
         restrict: 'E',
-        scope: {},
+        scope: true,
         bindToController: {
             bcCollection: '=',
         },

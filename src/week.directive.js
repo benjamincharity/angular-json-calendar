@@ -6,7 +6,7 @@ export function bcWeekDirective(
 
     const directive = {
         restrict: 'E',
-        scope: {},
+        scope: true,
         bindToController: {
             bcCollection: '=',
         },
