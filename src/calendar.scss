@@ -39,6 +39,11 @@ $deep_blue: #246b86;
       }
     }
 
+    // Target the actual directive wrapper
+    .bc-calendar__week-wrapper {
+      display: block;
+    }
+
     // <div> container for week
     .bc-calendar__week {
       border-top: 1px solid $gray;
@@ -97,6 +102,14 @@ $deep_blue: #246b86;
           border: 0;
         }
       }
+    }
+
+    // Target the actual directive wrapper
+    .bc-calendar__day-wrapper {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      width: 100%;
     }
 
     .bc-calendar__day {
