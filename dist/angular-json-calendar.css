@@ -190,17 +190,6 @@
       flex-flow: row nowrap;
 }
 
-.bc-calendar--days .bc-calendar__week {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-flow: row nowrap;
-      flex-flow: row nowrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
 .bc-calendar--days .bc-calendar__week:nth-of-type(odd) .bc-calendar__day:nth-of-type(odd) {
   background-color: rgba(0, 0, 0, 0.05);
 }
@@ -217,11 +206,23 @@
   background-color: transparent;
 }
 
-.bc-calendar--days .bc-calendar__week:nth-of-type(even) .bc-calendar__day:nth-of-type(odd) {
+.bc-calendar--days .bc-calendar__week:nth-of-type(even) .bc-calendar__day:nth-of-type(odd):not(.bc-calendar__day--pad) {
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.bc-calendar--days .bc-calendar__day-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+      flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
 .bc-calendar--days .bc-calendar__day {
+  border: 1px solid transparent;
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
