@@ -9,7 +9,7 @@
                    'bc-calendar__day--selected': day.date === $ctrl.selectedDate.date }"
   data-ng-click="$ctrl.selectDate(day)"
   data-ng-repeat="day in vm.bcCollection track by $index"
-  title="day.date"
+  title="{{ day.date ? day.date : '' }}"
   tabindex="{{ day.date ? 1 : -1 }}"
 >
 
