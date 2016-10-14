@@ -1030,17 +1030,17 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 [source_service]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.service.js
 [source_provider]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.provider.js
 
-[demo_callback]: http://plnkr.co/edit/EIxsl7?p=preview
-[demo_custom_titles]: http://plnkr.co/edit/IZblC1?p=preview
-[demo_custom_template]: http://plnkr.co/edit/rs86Pt?p=preview
-[demo_custom_dates]: http://plnkr.co/edit/PLjpxZ?p=preview
-[demo_simple]: http://plnkr.co/edit/U4eJ9n?p=preview
-[demo_nesting_depth]: http://plnkr.co/edit/sas4yl?p=preview
-[demo_provider_weekday]: http://plnkr.co/edit/kfUK3O?p=preview
-[demo_service]: http://plnkr.co/edit/ILCxI3?p=preview
-[demo_style_sidescroller]: http://plnkr.co/edit/dhZL1y?p=preview
-[demo_style_weeks]: http://plnkr.co/edit/6YQ5u8?p=preview
-[demo_style_months]: http://plnkr.co/edit/q7mzZU?p=preview
+[demo_callback]: http://codepen.io/benjamincharity/pen/JRkQgA?editors=1000
+[demo_custom_titles]: http://codepen.io/benjamincharity/pen/YGvobv?editors=1000
+[demo_custom_template]: http://codepen.io/benjamincharity/pen/RGJzdB?editors=1000
+[demo_custom_dates]: http://codepen.io/benjamincharity/pen/mAKkQj?editors=1000
+[demo_simple]: http://codepen.io/benjamincharity/pen/vXAqkW?editors=1000
+[demo_nesting_depth]: http://codepen.io/benjamincharity/pen/GjBBZG?editors=1000
+[demo_provider_weekday]: http://codepen.io/benjamincharity/pen/XjBxJq?editors=0010
+[demo_service]: https://codepen.io/benjamincharity/pen/ORwByr?editors=0010
+[demo_style_sidescroller]: https://codepen.io/benjamincharity/pen/ORwByr?editors=0100
+[demo_style_weeks]: https://codepen.io/benjamincharity/pen/dpjgNB?editors=1000
+[demo_style_months]: https://codepen.io/benjamincharity/pen/EgpdXO?editors=1000
 
 [coverage_image]: https://coveralls.io/repos/github/benjamincharity/angular-json-calendar/badge.svg
 [coverage_url]: https://coveralls.io/github/benjamincharity/angular-json-calendar
