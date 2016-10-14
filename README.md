@@ -212,8 +212,9 @@ bc-day-title-format="word"
 
 **Optional:** `String`
 
-This customizes the format of the month name. Any valid Angular [date filter format][angular_date]
-can be used. Default is `MMMM` which will output the full month name: `February`.
+This customizes the format of the month name. Any valid Moment.js [date filter
+format][moment_format] can be used. Default is `MMMM` which will output the full month name:
+`February`.
 
 [Custom titles Plunker demo][demo_custom_titles]
 
@@ -296,8 +297,9 @@ the [Angular date filter][angular_date] in your template.
 
 **Optional:** `String`
 
-Pass in a string representing a valid [Angular date filter format][angular_date] to change how the
-default date is output in the default day template.
+Pass in a string representing a valid Moment.js [date filter format][moment_format] to change how
+the default date is output in the default day template. Moment.js [date filter
+format][moment_format]
 
 ```html
 <!-- Default is 'D' -->
@@ -768,7 +770,7 @@ bcCalendarConfigProvider.setDayTemplate(myTemplate);
 #### `dateFormat`
 
 - `{String}`
-    - Any valid Angular [date filter format][angular_date]
+    - Any valid Moment.js [date filter format][moment_format]
     - Default value: `D`
 
 Define the default date format for every day.
@@ -781,7 +783,7 @@ bcCalendarConfigProvider.dateFormat = 'EEE, d';
 #### `monthTitleFormat`
 
 - `{String}`
-    - Any valid Angular [date filter format][angular_date]
+    - Any valid Moment.js [date filter format][moment_format]
     - Default value: `MMMM`
 
 Define the default format for the month titles.
