@@ -33,7 +33,7 @@ var config = {
                     'ng-annotate',
                     'babel?presets[]=es2015'
                 ],
-                exclude: /bower_components/
+                exclude: /(node_modules|bower_components)/
             },
             {
                 test: /\.(html|svg)$/,
