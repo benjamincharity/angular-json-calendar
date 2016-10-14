@@ -1,6 +1,5 @@
 import { CalendarController } from './calendar.controller';
 import calendarTemplate from './templates/calendar.html';
-import yearTemplate from './templates/year.html';
 import monthTemplate from './templates/month.html';
 import weekTemplate from './templates/week.html';
 import dayTemplate from './templates/day.html';
@@ -11,7 +10,6 @@ export function bcCalendarDirective(
 
     // Define possible templates
     const templates = {
-        year: yearTemplate,
         month: monthTemplate,
         week: weekTemplate,
         day: dayTemplate,

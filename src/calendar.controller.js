@@ -183,7 +183,6 @@ export class CalendarController {
             this.bcCollection = days;
 
         }
-
     }
 
 

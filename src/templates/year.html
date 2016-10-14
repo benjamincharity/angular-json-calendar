@@ -1,4 +1,7 @@
-<div class="bc-calendar__year" data-ng-repeat="year in vm.bcCollection track by $index">
+<div
+  class="bc-calendar__year"
+  data-ng-repeat="year in vm.bcCollection track by $index"
+>
 
   <bc-month bc-collection="year" bc-weeks-header="$ctrl.weekdaysHeader" class="bc-calendar__month-wrapper"></bc-month>
 
