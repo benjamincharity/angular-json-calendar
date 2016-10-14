@@ -20,13 +20,7 @@ free of styles. Or allow me to generate the calendar in pure JSON to build out h
 
 <hr style="clear:both">
 
-A few examples:
-
-- [Simple demo][demo_simple]
-- [Custom start and end dates][demo_custom_dates]
-- [Custom nesting depth][demo_nesting_depth]
-- [Using the service][demo_service]
-- [Side-scrolling theme][demo_style_sidescroller]
+> [:tv: **Demos and Examples**][demo_collection]
 
 ---
 
@@ -1045,6 +1039,7 @@ help developers adapt for this change in existing applications.
 [source_service]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.service.js
 [source_provider]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.provider.js
 
+[demo_collection]: https://codepen.io/collection/nNzJmy/
 [demo_callback]: http://codepen.io/benjamincharity/pen/JRkQgA?editors=1000
 [demo_custom_titles]: http://codepen.io/benjamincharity/pen/YGvobv?editors=1000
 [demo_custom_template]: http://codepen.io/benjamincharity/pen/RGJzdB?editors=1000
