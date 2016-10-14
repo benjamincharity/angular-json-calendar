@@ -942,9 +942,16 @@ A side-scrolling calendar of days.
 The easiest way to get acquainted with the classes is to check out [one][demo_style_sidescroller] of
 the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
+> Note: Due to a breaking change with AngularJS v1.5.0 relating to using `replace: true` with
+directives, the directive element is now output into the DOM. Wrapper classes are added to each to
+help developers adapt for this change in existing applications.
+
 ```scss
 // <section> Primary container for the calendar
 .bc-calendar {}
+
+// <bc-month> Directive wrapper
+.bc-calendar__month-wrapper {}
 
 // <time> The container for a month
 .bc-calendar__month {}
@@ -955,6 +962,15 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 // <span> Container for the weekday titles 'S M T W T F S'
 .bc-calendar__weekdays {}
 
+// <bc-week> Directive wrapper
+.bc-calendar__week-wrapper {}
+
+// <time> The container for a week
+.bc-calendar__week {}
+
+// <bc-day> Directive wrapper
+.bc-calendar__day-wrapper {}
+
 // <section> The container for an individual day
 .bc-calendar__day {}
 
@@ -963,9 +979,6 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
 // <strong> Wrapper for the text inside a day within the weekdays header
 .bc-calendar__day-title {}
-
-// <time> The container for a week
-.bc-calendar__week {}
 
 // Class added to a day if it is before today's date
 .bc-calendar__day--disabled {}
