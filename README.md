@@ -2,7 +2,7 @@
 
 <img src="https://cloud.githubusercontent.com/assets/270193/17381800/d28f0a98-599b-11e6-8ac5-b6307cefe388.png" align="right" alt="angular-json-calendar">
 
-[![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url] [![NPM version][npm_version_image]][npm_url]
+[![MIT License][license_image]][license_url] [![Coverage Status][coverage_image]][coverage_url] [![NPM version][npm_version_image]][npm_url] [![CircleCI][circle_badge]][circle_link]
 
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
@@ -1059,4 +1059,6 @@ help developers adapt for this change in existing applications.
 [license_url]: LICENSE
 [npm_url]: https://npmjs.org/package/angular-json-calendar
 [npm_version_image]: http://img.shields.io/npm/v/angular-json-calendar.svg
+[circle_badge]: https://circleci.com/gh/benjamincharity/angular-json-calendar/tree/master.svg?style=svg
+[circle_link]: https://circleci.com/gh/benjamincharity/json-calendar/tree/master
 
