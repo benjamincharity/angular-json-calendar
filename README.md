@@ -7,12 +7,12 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
-Over the span of a year and a half, three separate projects I was on needed a calendar. Each time I
-searched through the popular calendar and date modules (and there are a _lot_) hoping to find
-something. I mean, who really wants to deal with date and time? Unfortunately, on each occasion,
-due to design or functional constraints each calendar was knocked off the list of possibilities. Any
-time a calendar module supported advanced functionality it almost always came with explicit
-constraints on the markup and/or layout of the calendar.
+Over the span of a year and a half, I was part of three separate projects that needed a calendar
+component. Each time I searched through the popular calendar and date modules (and there are a
+_lot_) hoping to find something. I mean, who really wants to deal with date and time? Unfortunately,
+on each occasion, due to design or functional constraints each calendar module was knocked off the
+list of possibilities. Any time a calendar module supported advanced functionality it almost always
+came with explicit constraints on the markup and/or layout of the calendar.
 
 Once the third time rolled around I decided to write something to scratch my own itch. I wanted
 to build something that would accept a few parameters and simply generate the calendar markup for me
@@ -997,7 +997,7 @@ help developers adapt for this change in existing applications.
 // Class added to a day when it is the currently selected day
 .bc-calendar__day--selected {}
 
-// <span> The inner wrapper for the date in the default day template
+// <time> The inner wrapper for the date in the default day template
 .bc-calendar__day-time {}
 
 ```
@@ -1005,6 +1005,7 @@ help developers adapt for this change in existing applications.
 
 ## Demos
 
+- [Demo collection][demo_collection]
 - [Simple demo][demo_simple]
 - [Custom start and end dates][demo_custom_dates]
 - [Custom nesting depth][demo_nesting_depth]
