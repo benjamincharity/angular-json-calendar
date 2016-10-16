@@ -1,6 +1,6 @@
 {
   "name": "angular-json-calendar",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "An Angular service that generates calendar data as a json object.",
   "keywords": [
     "angular",
