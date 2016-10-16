@@ -7,12 +7,12 @@
 A calendar module that focuses on providing the data needed to construct a calendar without
 being constrained to specific styles and layouts.
 
-Over the span of a year and a half, three separate projects I was on needed a calendar. Each time I
-searched through the popular calendar and date modules (and there are a _lot_) hoping to find
-something. I mean, who really wants to deal with date and time? Unfortunately, on each occasion,
-due to design or functional constraints each calendar was knocked off the list of possibilities. Any
-time a calendar module supported advanced functionality it almost always came with explicit
-constraints on the markup and/or layout of the calendar.
+Over the span of a year and a half, I was part of three separate projects that needed a calendar
+component. Each time I searched through the popular calendar and date modules (and there are a
+_lot_) hoping to find something. I mean, who really wants to deal with date and time? Unfortunately,
+on each occasion, due to design or functional constraints each calendar module was knocked off the
+list of possibilities. Any time a calendar module supported advanced functionality it almost always
+came with explicit constraints on the markup and/or layout of the calendar.
 
 Once the third time rolled around I decided to write something to scratch my own itch. I wanted
 to build something that would accept a few parameters and simply generate the calendar markup for me
@@ -20,13 +20,7 @@ free of styles. Or allow me to generate the calendar in pure JSON to build out h
 
 <hr style="clear:both">
 
-A few examples:
-
-- [Simple demo][demo_simple]
-- [Custom start and end dates][demo_custom_dates]
-- [Custom nesting depth][demo_nesting_depth]
-- [Using the service][demo_service]
-- [Side-scrolling theme][demo_style_sidescroller]
+> [:tv: **Demos and Examples**][demo_collection]
 
 ---
 
@@ -212,8 +206,9 @@ bc-day-title-format="word"
 
 **Optional:** `String`
 
-This customizes the format of the month name. Any valid Angular [date filter format][angular_date]
-can be used. Default is `MMMM` which will output the full month name: `February`.
+This customizes the format of the month name. Any valid Moment.js [date filter
+format][moment_format] can be used. Default is `MMMM` which will output the full month name:
+`February`.
 
 [Custom titles Plunker demo][demo_custom_titles]
 
@@ -296,8 +291,9 @@ the [Angular date filter][angular_date] in your template.
 
 **Optional:** `String`
 
-Pass in a string representing a valid [Angular date filter format][angular_date] to change how the
-default date is output in the default day template.
+Pass in a string representing a valid Moment.js [date filter format][moment_format] to change how
+the default date is output in the default day template. Moment.js [date filter
+format][moment_format]
 
 ```html
 <!-- Default is 'D' -->
@@ -768,7 +764,7 @@ bcCalendarConfigProvider.setDayTemplate(myTemplate);
 #### `dateFormat`
 
 - `{String}`
-    - Any valid Angular [date filter format][angular_date]
+    - Any valid Moment.js [date filter format][moment_format]
     - Default value: `D`
 
 Define the default date format for every day.
@@ -781,7 +777,7 @@ bcCalendarConfigProvider.dateFormat = 'EEE, d';
 #### `monthTitleFormat`
 
 - `{String}`
-    - Any valid Angular [date filter format][angular_date]
+    - Any valid Moment.js [date filter format][moment_format]
     - Default value: `MMMM`
 
 Define the default format for the month titles.
@@ -942,9 +938,16 @@ A side-scrolling calendar of days.
 The easiest way to get acquainted with the classes is to check out [one][demo_style_sidescroller] of
 the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
+> Note: Due to a breaking change with AngularJS v1.5.0 relating to using `replace: true` with
+directives, the directive element is now output into the DOM. Wrapper classes are added to each to
+help developers adapt for this change in existing applications.
+
 ```scss
 // <section> Primary container for the calendar
 .bc-calendar {}
+
+// <bc-month> Directive wrapper
+.bc-calendar__month-wrapper {}
 
 // <time> The container for a month
 .bc-calendar__month {}
@@ -955,6 +958,15 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 // <span> Container for the weekday titles 'S M T W T F S'
 .bc-calendar__weekdays {}
 
+// <bc-week> Directive wrapper
+.bc-calendar__week-wrapper {}
+
+// <time> The container for a week
+.bc-calendar__week {}
+
+// <bc-day> Directive wrapper
+.bc-calendar__day-wrapper {}
+
 // <section> The container for an individual day
 .bc-calendar__day {}
 
@@ -963,9 +975,6 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
 // <strong> Wrapper for the text inside a day within the weekdays header
 .bc-calendar__day-title {}
-
-// <time> The container for a week
-.bc-calendar__week {}
 
 // Class added to a day if it is before today's date
 .bc-calendar__day--disabled {}
@@ -988,7 +997,7 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 // Class added to a day when it is the currently selected day
 .bc-calendar__day--selected {}
 
-// <span> The inner wrapper for the date in the default day template
+// <time> The inner wrapper for the date in the default day template
 .bc-calendar__day-time {}
 
 ```
@@ -996,6 +1005,7 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 
 ## Demos
 
+- [Demo collection][demo_collection]
 - [Simple demo][demo_simple]
 - [Custom start and end dates][demo_custom_dates]
 - [Custom nesting depth][demo_nesting_depth]
@@ -1030,17 +1040,18 @@ the [many][demo_style_weeks], [demos][demo_style_months] and inspect the DOM!
 [source_service]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.service.js
 [source_provider]: https://github.com/benjamincharity/angular-json-calendar/blob/master/src/calendar.provider.js
 
-[demo_callback]: http://plnkr.co/edit/EIxsl7?p=preview
-[demo_custom_titles]: http://plnkr.co/edit/IZblC1?p=preview
-[demo_custom_template]: http://plnkr.co/edit/rs86Pt?p=preview
-[demo_custom_dates]: http://plnkr.co/edit/PLjpxZ?p=preview
-[demo_simple]: http://plnkr.co/edit/U4eJ9n?p=preview
-[demo_nesting_depth]: http://plnkr.co/edit/sas4yl?p=preview
-[demo_provider_weekday]: http://plnkr.co/edit/kfUK3O?p=preview
-[demo_service]: http://plnkr.co/edit/ILCxI3?p=preview
-[demo_style_sidescroller]: http://plnkr.co/edit/dhZL1y?p=preview
-[demo_style_weeks]: http://plnkr.co/edit/6YQ5u8?p=preview
-[demo_style_months]: http://plnkr.co/edit/q7mzZU?p=preview
+[demo_collection]: https://codepen.io/collection/nNzJmy/
+[demo_callback]: http://codepen.io/benjamincharity/pen/JRkQgA?editors=1000
+[demo_custom_titles]: http://codepen.io/benjamincharity/pen/YGvobv?editors=1000
+[demo_custom_template]: http://codepen.io/benjamincharity/pen/RGJzdB?editors=1000
+[demo_custom_dates]: http://codepen.io/benjamincharity/pen/mAKkQj?editors=1000
+[demo_simple]: http://codepen.io/benjamincharity/pen/vXAqkW?editors=1000
+[demo_nesting_depth]: http://codepen.io/benjamincharity/pen/GjBBZG?editors=1000
+[demo_provider_weekday]: http://codepen.io/benjamincharity/pen/XjBxJq?editors=0010
+[demo_service]: https://codepen.io/benjamincharity/pen/ORwByr?editors=0010
+[demo_style_sidescroller]: https://codepen.io/benjamincharity/pen/ORwByr?editors=0100
+[demo_style_weeks]: https://codepen.io/benjamincharity/pen/dpjgNB?editors=1000
+[demo_style_months]: https://codepen.io/benjamincharity/pen/EgpdXO?editors=1000
 
 [coverage_image]: https://coveralls.io/repos/github/benjamincharity/angular-json-calendar/badge.svg
 [coverage_url]: https://coveralls.io/github/benjamincharity/angular-json-calendar

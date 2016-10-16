@@ -39,6 +39,11 @@ $deep_blue: #246b86;
       }
     }
 
+    // Target the actual directive wrapper
+    .bc-calendar__week-wrapper {
+      display: block;
+    }
+
     // <div> container for week
     .bc-calendar__week {
       border-top: 1px solid $gray;
@@ -55,7 +60,7 @@ $deep_blue: #246b86;
         }
 
         .bc-calendar__day--pad {
-          border-top: 0;
+          border-top-color: transparent;
 
           &:last-child {
             border-right: 1px solid $gray;
@@ -94,9 +99,17 @@ $deep_blue: #246b86;
 
         .bc-calendar__day.bc-calendar__day--pad {
           background: transparent;
-          border: 0;
+          border-color: transparent;
         }
       }
+    }
+
+    // Target the actual directive wrapper
+    .bc-calendar__day-wrapper {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      width: 100%;
     }
 
     .bc-calendar__day {
@@ -197,10 +210,6 @@ $deep_blue: #246b86;
 
     // <div> container for week
     .bc-calendar__week {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-
       &:nth-of-type(odd) {
         .bc-calendar__day:nth-of-type(odd) {
           background-color: rgba($black, .05);
@@ -220,13 +229,21 @@ $deep_blue: #246b86;
           background-color: transparent;
         }
 
-        .bc-calendar__day:nth-of-type(odd) {
+        .bc-calendar__day:nth-of-type(odd):not(.bc-calendar__day--pad) {
           border: 1px solid rgba($black, .05);
         }
       }
     }
 
+    // Target the actual directive wrapper
+    .bc-calendar__day-wrapper {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+    }
+
     .bc-calendar__day {
+      border: 1px solid transparent;
       flex: 1 1 auto;
       position: relative;
       text-align: center;

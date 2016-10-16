@@ -4,6 +4,6 @@
   title="{{ day.date }}"
   data-ng-if="day.date"
 >
-  <span data-ng-bind="vm.formatDate(day.date, vm.dateFormat)"></span>
+  <span data-ng-bind="$ctrl.formatDate(day.date, $ctrl.dateFormat)"></span>
 </time>
 
