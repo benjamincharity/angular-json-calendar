@@ -1,5 +1,4 @@
 // Karma configuration
-// Generated on Sat Jul 23 2016 15:49:07 GMT-0400 (EDT)
 var WebpackConf = require('./webpack.config.js');
 WebpackConf.entry = {};
 WebpackConf.devtool = 'inline-source-map';
@@ -20,7 +19,7 @@ module.exports = function(config) {
     files: [
         'node_modules/angular/angular.js',
         'node_modules/angular-mocks/angular-mocks.js',
-        'bower_components/moment/moment.js',
+        'node_modules/moment/moment.js',
         'src/index.js',
         'src/*.spec.js'
     ],
