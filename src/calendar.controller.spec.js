@@ -27,7 +27,7 @@ describe('CalendarController', () => {
             );
             element = $compile(element)($scope);
             $scope.$apply();
-            vm = element.isolateScope().vm;
+            vm = element.isolateScope().$ctrl;
         });
 
         it('should be set to create three days', () => {
@@ -53,7 +53,7 @@ describe('CalendarController', () => {
             );
             element = $compile(element)($scope);
             $scope.$apply();
-            vm = element.isolateScope().vm;
+            vm = element.isolateScope().$ctrl;
         });
 
         afterEach(() => {
@@ -87,7 +87,7 @@ describe('CalendarController', () => {
             );
             element = $compile(element)($scope);
             $scope.$apply();
-            vm = element.isolateScope().vm;
+            vm = element.isolateScope().$ctrl;
 
             date = '2016-05-01T00:00:00.027Z';
         });
@@ -112,7 +112,7 @@ describe('CalendarController', () => {
             );
             element = $compile(element)($scope);
             $scope.$apply();
-            vm = element.isolateScope().vm;
+            vm = element.isolateScope().$ctrl;
         });
 
         it('should have created a collection', () => {

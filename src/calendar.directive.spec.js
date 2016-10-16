@@ -43,9 +43,7 @@ describe('bcCalendarDirective', () => {
             $scope.$apply();
 
             // Save reference to vm
-            vm = element.isolateScope().vm;
-
-            //console.log('VM: ', vm);
+            vm = element.isolateScope().$ctrl;
 
         }));
 
