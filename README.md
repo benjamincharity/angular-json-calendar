@@ -112,7 +112,7 @@ This will generate a basic calendar using the [default settings](#provider).
 <bc-calendar></bc-calendar>
 ```
 
-[Plunker Demo][demo_simple]
+> [:tv: Simple demo][demo_simple]
 
 
 #### `bc-start-date`
@@ -122,7 +122,7 @@ This will generate a basic calendar using the [default settings](#provider).
 This allows you to define a custom starting date for this calendar instance. Defaults to the current
 day.
 
-[Custom dates Plunker demo][demo_custom_dates]
+> [:tv: Custom dates demo][demo_custom_dates]
 
 ```html
 <bc-calendar bc-start-date="2016-04-24T00:00:00.027Z"></bc-calendar>
@@ -136,7 +136,7 @@ day.
 This allows you to define a custom end date for this calendar instance. This end-date will define
 the length of the calendar and **override** `bc-days` if it is also set.
 
-[Custom dates Plunker demo][demo_custom_dates]
+> [:tv: Custom dates demo][demo_custom_dates]
 
 ```html
 <!-- Not set by default -->
@@ -156,7 +156,7 @@ weeks and each of those in turn filled with days.
 
 Try changing the nesting depth and inspecting the DOM!
 
-[Nesting depth Plunker demo][demo_nesting_depth]
+> [:tv: Nesting depth demo][demo_nesting_depth]
 
 ```html
 <!-- Default is 'month' -->
@@ -194,7 +194,7 @@ bc-day-title-format="word"
 // output: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
 ```
 
-[Plunker Demo][demo_custom_titles]
+> [:tv: Custom titles demo][demo_custom_titles]
 
 ```html
 <!-- Default is 'abbreviation' -->
@@ -210,7 +210,7 @@ This customizes the format of the month name. Any valid Moment.js [date filter
 format][moment_format] can be used. Default is `MMMM` which will output the full month name:
 `February`.
 
-[Custom titles Plunker demo][demo_custom_titles]
+> [:tv: Custom titles demo][demo_custom_titles]
 
 ```html
 <!-- Default is 'MMMM' -->
@@ -225,7 +225,7 @@ format][moment_format] can be used. Default is `MMMM` which will output the full
 Pass in a method which will be called when a date is selected (by a user clicking on a day). This
 method only passes in one parameter `date`. This will be the selected date in ISO string format.
 
-[Date selected Plunker demo][demo_callback]
+> [:tv: Date selected demo][demo_callback]
 
 ```javascript
 // In your controller:
@@ -340,7 +340,7 @@ angular.module('myModule', ['bc.JsonCalendar'])
 ;
 ```
 
-[Service example Plunker demo][demo_service]
+> [:tv: Service example demo][demo_service]
 
 
 #### `dateIsBeforeToday()`
@@ -642,7 +642,7 @@ function myConfig(bcCalendarConfigProvider) {
 }
 ```
 
-[Using the provider Plunker demo][demo_provider_weekday]
+> [:tv: Provider demo][demo_provider_weekday]
 
 
 #### `startDate`
@@ -836,7 +836,7 @@ A classic month by month calendar.
 - Nesting depth should be set to `month`
 - Custom day template should be used
 
-[Months theme Plunker demo][demo_style_months]
+> [:tv: Months theme demo][demo_style_months]
 
 ```html
 <bc-calendar
@@ -875,7 +875,7 @@ A modern vertical calendar comprised of weeks.
 - Nesting depth should be set to `week`
 - Custom day template should be used
 
-[Days theme Plunker demo][demo_style_weeks]
+> [:tv: Days theme demo][demo_style_weeks]
 
 ```html
 <bc-calendar
@@ -907,7 +907,7 @@ A side-scrolling calendar of days.
 - Nesting depth should be set to `day`
 - Custom day template should be used
 
-[Side-scroll theme Plunker demo][demo_style_sidescroller]
+> [:tv: Side-scroll theme demo][demo_style_sidescroller]
 
 ```html
 <bc-calendar
