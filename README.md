@@ -1060,5 +1060,5 @@ help developers adapt for this change in existing applications.
 [npm_url]: https://npmjs.org/package/angular-json-calendar
 [npm_version_image]: http://img.shields.io/npm/v/angular-json-calendar.svg
 [circle_badge]: https://circleci.com/gh/benjamincharity/angular-json-calendar/tree/master.svg?style=svg
-[circle_link]: https://circleci.com/gh/benjamincharity/json-calendar/tree/master
+[circle_link]: https://circleci.com/gh/benjamincharity/angular-json-calendar/tree/master
 
